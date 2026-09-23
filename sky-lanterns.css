@@ -52,22 +52,19 @@
 /* Lớp Xa: Nhỏ, mờ ảo, bay rất chậm */
 .sky-lantern.tier-far {
   z-index: 4;
-  opacity: 0.42;
-  filter: blur(1px) drop-shadow(0 0 8px rgba(255, 183, 3, 0.5));
+  filter: blur(0.5px) drop-shadow(0 0 8px rgba(255, 183, 3, 0.6));
 }
 
 /* Lớp Trung: Rõ vừa, lơ lửng quanh cung đường trăng */
 .sky-lantern.tier-mid {
   z-index: 12;
-  opacity: 0.78;
-  filter: drop-shadow(0 0 14px rgba(255, 183, 3, 0.75));
+  filter: drop-shadow(0 0 12px rgba(255, 170, 0, 0.75)) drop-shadow(0 0 24px rgba(247, 92, 3, 0.35));
 }
 
 /* Lớp Gần: Sắc nét, rực rỡ, chi tiết tim lửa và vành nan tre */
 .sky-lantern.tier-near {
   z-index: 24;
-  opacity: 0.95;
-  filter: drop-shadow(0 0 20px rgba(255, 183, 3, 0.85)) drop-shadow(0 0 35px rgba(247, 127, 0, 0.45));
+  filter: drop-shadow(0 0 18px rgba(255, 200, 30, 0.85)) drop-shadow(0 0 35px rgba(251, 133, 0, 0.5));
 }
 
 /* 4. FLAME FLICKER & WIND SWAY ANIMATIONS */
@@ -86,8 +83,7 @@
 /* 5. USER'S GOLDEN WISH LANTERN (ĐÈN ƯỚC NGUYỆN HOÀNG KIM) */
 .sky-lantern--user {
   z-index: 26 !important;
-  opacity: 1 !important;
-  filter: drop-shadow(0 0 28px #ffcf24) drop-shadow(0 0 55px #f77f00) drop-shadow(0 0 85px rgba(255, 207, 36, 0.8)) !important;
+  filter: drop-shadow(0 0 25px #ffcf24) drop-shadow(0 0 50px #ff8800) drop-shadow(0 0 80px rgba(255, 207, 36, 0.75)) !important;
   animation: userLanternPulse 2s ease-in-out infinite alternate;
 }
 
