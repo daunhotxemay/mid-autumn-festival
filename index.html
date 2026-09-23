@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Đêm Hội Trăng Rằm - Vui Tết Trung Thu | Yamaha Town Nam Tiến</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Floating Control Bar -->
+  <header class="top-controls">
+    <div class="control-group">
+
+
+      <button id="btnMusic" class="ctrl-btn" title="Bật/Tắt âm thanh Trung Thu">
+        <svg class="ctrl-icon" id="iconMusic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 18V5l12-2v13"/>
+          <circle cx="6" cy="18" r="3"/>
+          <circle cx="18" cy="16" r="3"/>
+        </svg>
+        <span id="musicText" class="btn-text">Nhạc: Tắt</span>
+      </button>
+    </div>
+
+    <div class="brand-badge-pill">
+      <span class="pulse-dot"></span>
+      <span>Đêm Hội Trăng Rằm • Yamaha Town Nam Tiến</span>
+    </div>
+  </header>
+
+  <!-- Main Showcase Container -->
+  <main class="page-container">
+
+    <!-- Canvas for Floating Star Dust Particles -->
+    <canvas id="particleCanvas" class="ambient-particles"></canvas>
+
+    <!-- =======================================================
+         THE FESTIVAL HERO STAGE (ACCURATE TO FLYER-MATTRUOC.PDF)
+         ======================================================= -->
+    <div class="festival-stage" id="festivalStage">
+
+      <!-- Layer 1: Background Universe Texture (Phase 1: 0.0s) -->
+      <div class="layer-item layer-nen anim-phase-1" data-order="1">
+        <img src="element/image-idea/nen.avif" alt="Bầu trời đêm Trung Thu" class="layer-img full-fit">
+      </div>
+
+      <!-- Twinkle Sparkle Stars (Phase 1) -->
+      <div class="layer-item star-sparkle star-1 anim-phase-1" style="left: 12%; top: 14%;">
+        <img src="element/image-idea/ngoi%20sao.avif" alt="Ngôi sao" class="sparkle-img">
+      </div>
+      <div class="layer-item star-sparkle star-2 anim-phase-1" style="left: 88%; top: 10%;">
+        <img src="element/image-idea/ngoi%20sao.avif" alt="Ngôi sao" class="sparkle-img">
+      </div>
+      <div class="layer-item star-sparkle star-3 anim-phase-1" style="left: 72%; top: 60%;">
+        <img src="element/image-idea/ngoi%20sao.avif" alt="Ngôi sao" class="sparkle-img">
+      </div>
+      <div class="layer-item star-sparkle star-4 anim-phase-1" style="left: 20%; top: 48%;">
+        <img src="element/image-idea/ngoi%20sao.avif" alt="Ngôi sao" class="sparkle-img">
+      </div>
+
+      <!-- Layer 2: 3D Geometry Backdrop Frames (Phase 2: 0.25s) -->
+      <div class="layer-item layer-khung-dai anim-phase-2" data-order="2">
+        <img src="element/image-idea/khung%20hinh%20dai.avif" alt="Khung hình không gian" class="layer-img full-fit">
+      </div>
+
+      <div class="layer-item layer-khung-giua anim-phase-2" data-order="3">
+        <img src="element/image-idea/khung%20hinh%20giua.avif" alt="Khung chấm bi neon" class="layer-img full-fit">
+      </div>
+
+      <!-- Neon Laser Light Beam Streak (Phase 2) -->
+      <div class="layer-item layer-anh-sang anim-phase-2" data-order="4">
+        <img src="element/image-idea/anh%20sang.avif" alt="Tia sáng neon" class="layer-img">
+      </div>
+
+      <!-- Layer 3: The Golden Full Moon (Phase 3: 0.55s) -->
+      <div class="layer-item layer-trang anim-phase-3" data-order="5" id="moonElement">
+        <img src="element/image-idea/trang.avif" alt="Mặt trăng rằm tháng 8" class="layer-img moon-spin-glow">
+        <div class="moon-aura"></div>
+      </div>
+
+      <!-- Layer 4: Top Branding Header (Phase 4: 0.85s) -->
+      <div class="layer-item layer-logo anim-phase-4" data-order="6">
+        <img src="element/image-idea/LOGO%20yamaha%20town%20NT.avif" alt="Logo Yamaha Town Nam Tiến" class="layer-img">
+      </div>
+
+      <div class="layer-item layer-brand-title anim-phase-4" data-order="7">
+        <img src="element/image-idea/yamaha%20town%20NT.avif" alt="YAMAHA TOWN NAM TIẾN" class="layer-img">
+      </div>
+
+      <!-- Layer 5: "THƯ MỜI THAM GIA" (Phase 5: 1.15s) -->
+      <div class="layer-item layer-thu-moi anim-phase-5" data-order="8">
+        <img src="element/image-idea/thu%20moi%20tham%20gia.avif" alt="Thư mời tham gia" class="layer-img">
+      </div>
+
+      <!-- Layer 6: Grand 3D Festival Title "ĐÊM HỘI TRĂNG RẰM" (Phase 6: 1.45s) -->
+      <div class="layer-item layer-dem-hoi anim-phase-6" data-order="9" id="titleDemHoi">
+        <img src="element/image-idea/dem%20hoi%20trang%20ram.avif" alt="Đêm Hội Trăng Rằm" class="layer-img title-floating">
+      </div>
+
+      <!-- Layer 7: Tagline Ribbon Banner (Phase 7: 1.85s) -->
+      <div class="layer-item layer-ribbon-tagline anim-phase-7" data-order="10">
+        <img src="element/image-idea/vui%20tet%20trung%20thu%20vui%20vung%20nam%20tien.avif" alt="Vui tết Trung Thu - Vui cùng Nam Tiến" class="layer-img">
+      </div>
+
+      <!-- Layer 8: The Celestial Starlit Pathway (Phase 8: 2.15s) -->
+      <div class="layer-item layer-cung-duong anim-phase-8" data-order="11">
+        <img src="element/image-idea/cung%20duong.avif" alt="Cung đường ngân hà" class="layer-img road-shimmer">
+      </div>
+
+      <!-- Atmospheric Fluffy Background Clouds (Phase 8) -->
+      <div class="layer-item cloud-layer cloud-m1 anim-phase-8">
+        <img src="element/image-idea/may1.avif" alt="Mây" class="layer-img">
+      </div>
+      <div class="layer-item cloud-layer cloud-m5 anim-phase-8">
+        <img src="element/image-idea/may5.avif" alt="Mây" class="layer-img">
+      </div>
+      <div class="layer-item cloud-layer cloud-m6 anim-phase-8">
+        <img src="element/image-idea/may6.avif" alt="Mây" class="layer-img">
+      </div>
+
+      <!-- Layer 9: THE CENTRAL INVITATION CARD (VUI TẾT THIẾU NHI) (Phase 9: 2.45s) -->
+      <section class="layer-item layer-invitation-card anim-phase-9" data-order="12" id="invitationCard" title="Bấm vào thiệp để cuộn xuống đăng ký nhận quà!">
+        <div class="invitation-card-inner card-clickable" id="btnOpenRegister">
+          <img src="element/image-idea/the-card-bg-pill.png" alt="Khung thiệp mời" class="invitation-bg-img">
+          <picture class="invitation-text-picture">
+            <source srcset="element/image-idea/vui%20tet%20trung%20thu%20nguoi%20lon%20cung%20co%20qua.avif" type="image/avif">
+            <img src="element/image-idea/vui%20tet%20trung%20thu%20nguoi%20lon%20cung%20co%20qua.png" 
+                 alt="Vui Tết Thiếu Nhi - Người Lớn Cũng Có Quà" 
+                 class="invitation-text-img">
+          </picture>
+        </div>
+      </section>
+
+      <!-- Layer 10: Chị Hằng giáng trần (Left Cloud) (Phase 10: 2.85s) -->
+      <div class="layer-item layer-chi-hang anim-phase-10" data-order="13" id="charChiHang" title="Chị Hằng chúc mừng Tết Trung Thu">
+        <img src="element/image-idea/chi%20hang.avif" alt="Chị Hằng" class="layer-img char-hover">
+        <div class="char-bubble char-bubble-left">
+          <span>✨ Chị Hằng chúc bạn Trung Thu đầm ấm, ngập tràn lộc may!</span>
+        </div>
+      </div>
+
+      <!-- Layer 10: Chú Cuội đón hội (Right Cloud) (Phase 10: 2.85s) -->
+      <div class="layer-item layer-chu-cuoi anim-phase-10" data-order="14" id="charChuCuoi" title="Chú Cuội rước đèn Trung Thu">
+        <img src="element/image-idea/chu%20cuoi.avif" alt="Chú Cuội" class="layer-img char-hover">
+        <div class="char-bubble char-bubble-right">
+          <span>🏮 Chú Cuội rủ bạn ghé Yamaha Nam Tiến nhận quà nha!</span>
+        </div>
+      </div>
+
+      <!-- Layer 11: The Festive Mooncakes along the Celestial Road (Phase 11: 3.25s) -->
+      <!-- Mooncake 3 (Small piece - Upper curve of the road) -->
+      <div class="layer-item layer-cake cake-3 anim-phase-11" data-order="15" id="cake3" title="Click nhận quà bất ngờ!">
+        <img src="element/image-idea/banh%203.avif" alt="Bánh trung thu 3" class="layer-img cake-hover">
+        <span class="cake-hint">Bấm mở quà</span>
+      </div>
+
+      <!-- Mooncake 2 (Round whole cake - Mid road) -->
+      <div class="layer-item layer-cake cake-2 anim-phase-11" data-order="16" id="cake2" title="Click nhận quà bất ngờ!">
+        <img src="element/image-idea/banh%202.avif" alt="Bánh trung thu 2" class="layer-img cake-hover">
+        <span class="cake-hint">Bấm mở quà</span>
+      </div>
+
+      <!-- Mooncake 1 (Large sliced cake with filling - Foreground) -->
+      <div class="layer-item layer-cake cake-1 anim-phase-11" data-order="17" id="cake1" title="Click nhận quà đặc biệt!">
+        <img src="element/image-idea/banh%201.avif" alt="Bánh trung thu 1" class="layer-img cake-hover">
+        <span class="cake-hint">Bánh Trăng Vàng</span>
+      </div>
+
+      <!-- Layer 12: Adorable Jade Rabbit (Thỏ Ngọc) (Phase 12: 3.85s) -->
+      <div class="layer-item layer-tho-ngoc anim-phase-12" data-order="18" id="thoNgoc" title="Bấm vào Thỏ Ngọc để chào hỏi!">
+        <img src="element/image-idea/tho%20ngoc.avif" alt="Thỏ Ngọc cung trăng" class="layer-img rabbit-bobbing">
+        <div class="rabbit-dialogue" id="rabbitDialogue">
+          <span>Thỏ Ngọc chào bạn! Chúc vạn sự như ý!</span>
+        </div>
+      </div>
+
+      <!-- Layer 13: Golden Clouds wrapping under characters & Foreground (Phase 13: 4.15s) -->
+      <div class="layer-item stage-cloud-glow anim-phase-13"></div>
+      <div class="layer-item cloud-layer cloud-m2 anim-phase-13">
+        <img src="element/image-idea/may2.avif" alt="Mây vàng" class="layer-img">
+      </div>
+      <div class="layer-item cloud-layer cloud-m4 anim-phase-13">
+        <img src="element/image-idea/may4.avif" alt="Mây vàng rực rỡ" class="layer-img">
+      </div>
+      <div class="layer-item cloud-layer cloud-m3 anim-phase-13">
+        <img src="element/image-idea/may%203.avif" alt="Mây cuộn" class="layer-img">
+      </div>
+      <div class="layer-item cloud-layer cloud-m4-base anim-phase-13">
+        <img src="element/image-idea/may4.avif" alt="Mây vàng chân đế" class="layer-img">
+      </div>
+
+      <!-- Dreamy Cloud Horizon Blur ("blur ảo ảo") -->
+      <div class="layer-item cloud-dream-blur anim-phase-13"></div>
+
+      <!-- Layer 13: Bottom Ambient Strip & Contact Hotline Bar (Phase 13: 4.2s) -->
+      <div class="layer-item layer-frame-strip anim-phase-13">
+        <img src="element/image-idea/frame.avif" alt="Chân viền" class="layer-img full-fit">
+      </div>
+
+      <footer class="layer-item layer-dia-chi anim-phase-13" data-order="19">
+        <a href="tel:0989704370" class="hotline-link" title="Gọi Hotline Yamaha Nam Tiến">
+          <img src="element/image-idea/dia%20chi%20hoteline.avif" alt="Địa chỉ: 463B Nguyễn Thị Tú, P. Bình Hưng Hòa, TP.HCM / HOTLINE: 0989.704.370" class="layer-img">
+        </a>
+      </footer>
+
+    </div>
+    <!-- /festival-stage -->
+
+  </main>
+
+  <!-- =======================================================
+       REGISTRATION SECTION (INLINE SCROLL-DOWN FORM)
+       ======================================================= -->
+  <section class="section-register" id="sectionRegister">
+    <div class="register-container">
+      
+      <!-- Section Decorative Header -->
+      <div class="section-header">
+        <div class="header-pill">
+          <span class="pill-sparkle"></span>
+          <span>ĐĂNG KÝ THAM DỰ & NHẬN QUÀ</span>
+          <span class="pill-sparkle"></span>
+        </div>
+        <h2 class="section-title">VUI TẾT TRUNG THU CÙNG NAM TIẾN</h2>
+        <p class="section-desc">Đến tham gia "Đêm Hội Trăng Rằm" để rước đèn, phá cỗ và nhận ngay quà tặng đặc biệt!</p>
+      </div>
+
+      <!-- Registration Form Box -->
+      <div class="form-wrapper frosted-glass-deep" id="formWrapperCard">
+        <div class="form-card-header">
+          <div class="rabbit-avatar"></div>
+          <h3>ĐĂNG KÝ CHECK-IN NHẬN QUÀ</h3>
+          <p>Điền thông tin bên dưới để nhận mã quà tặng ưu tiên tại quầy đón khách</p>
+        </div>
+
+        <form class="register-form" id="registerForm" onsubmit="event.preventDefault(); submitForm();">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="txtName">Họ và tên của bạn *</label>
+              <input type="text" id="txtName" placeholder="Ví dụ: Nguyễn Văn A" required autocomplete="name">
+            </div>
+
+            <div class="form-group">
+              <label for="txtPhone">Số điện thoại nhận mã quà *</label>
+              <input type="tel" id="txtPhone" placeholder="Ví dụ: 0989 704 370" required pattern="[0-9]{10,11}" autocomplete="tel">
+            </div>
+          </div>
+
+          <button type="submit" class="submit-btn shimmer-fx">
+            <span>XÁC NHẬN ĐĂNG KÝ NHẬN QUÀ NGAY</span>
+          </button>
+        </form>
+
+        <div class="form-success-message" id="successBox" style="display: none;">
+          <div class="success-icon"></div>
+          <h4>ĐĂNG KÝ THÀNH CÔNG!</h4>
+          <p>Mã nhận quà của bạn:</p>
+          <div class="gift-code-badge">
+            <span class="gift-code">YAMAHA-TRUNGTHU-888</span>
+          </div>
+          <p class="success-note">Vui lòng chụp lại màn hình hoặc lưu mã để check-in tại showroom Yamaha Nam Tiến vào ngày 24/09 để nhận quà bạn nhé!</p>
+          <button type="button" class="btn-scroll-top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
+            ↑ Quay lại đầu trang
+          </button>
+        </div>
+
+        <!-- 2 Side-by-Side Action Buttons: Google Maps & Facebook Fanpage -->
+        <div class="form-quick-actions">
+          <a href="https://maps.app.goo.gl/VFrR3ZFQc4GeNnWLA" target="_blank" rel="noopener noreferrer" class="action-btn btn-map" title="Xem chỉ đường trên Google Maps">
+            <span class="btn-icon">
+              <svg class="map-svg-icon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+              </svg>
+            </span>
+            <div class="action-btn-text">
+              <span class="btn-subtitle">Chỉ đường tới showroom</span>
+              <strong class="btn-title">Google Maps</strong>
+            </div>
+          </a>
+          <button type="button" class="action-btn btn-fanpage" id="btnOpenFanpageModal" title="Xem các Fanpage chính thức">
+            <span class="btn-icon">
+              <svg class="fb-svg-icon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+              </svg>
+            </span>
+            <div class="action-btn-text">
+              <span class="btn-subtitle">Theo dõi sự kiện</span>
+              <strong class="btn-title">Fanpage chính thức</strong>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Bottom Brand Signature -->
+      <div class="register-footer">
+        <p class="copyright-text">© 2024 YAMAHA TOWN NAM TIẾN • ĐÊM HỘI TRĂNG RẰM</p>
+        <p class="slogan-text">Vui Tết Trung Thu - Người Lớn Cũng Có Quà</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Lucky Gift Popup when clicking mooncakes -->
+  <div class="gift-toast" id="giftToast">
+    <div class="gift-toast-icon"></div>
+    <div class="gift-toast-content">
+      <strong id="toastTitle">Bạn nhận được quà bí mật!</strong>
+      <p id="toastDesc">Hộp bánh Kinh Đô Trăng Vàng cao cấp đang chờ bạn tại quầy check-in!</p>
+    </div>
+  </div>
+
+  <!-- Modal Fanpage Chính Thức (Chọn Yamaha Nam Tiến hoặc Nam Tiến Motor) -->
+  <div class="fanpage-modal-overlay" id="fanpageModal" role="dialog" aria-modal="true" aria-labelledby="fanpageModalTitle" hidden>
+    <div class="fanpage-modal-backdrop" id="fanpageModalBackdrop"></div>
+    <div class="fanpage-modal-card frosted-glass-deep">
+      <button type="button" class="fanpage-modal-close" id="btnCloseFanpageModal" aria-label="Đóng bảng chọn Fanpage">
+        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <div class="fanpage-modal-header">
+        <div class="fanpage-modal-badge">
+          <svg class="fb-badge-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+          </svg>
+          <span>HỆ THỐNG TRUYỀN THÔNG</span>
+        </div>
+        <h3 class="fanpage-modal-title" id="fanpageModalTitle">FANPAGE CHÍNH THỨC</h3>
+        <p class="fanpage-modal-desc">Kết nối với hệ thống Nam Tiến trên Facebook để nhận thông tin ưu đãi & quà tặng nhanh nhất:</p>
+      </div>
+
+      <div class="fanpage-modal-list">
+        <!-- Fanpage 1: Yamaha Town Nam Tiến -->
+        <a href="https://www.facebook.com/yamahatownnamtien.official?locale=vi_VN" target="_blank" rel="noopener noreferrer" class="fanpage-option-card opt-yamaha" title="Truy cập Fanpage Yamaha Town Nam Tiến">
+          <div class="option-icon-box">
+            <svg class="option-fb-icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+            </svg>
+          </div>
+          <div class="option-info">
+            <span class="option-tag tag-yamaha">Đại lý Yamaha 3S chính hãng</span>
+            <h4 class="option-name">Yamaha Town Nam Tiến</h4>
+            <p class="option-detail">Sự kiện Đêm Hội Trăng Rằm & bốc thăm trúng thưởng xe máy</p>
+          </div>
+          <div class="option-arrow">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="7" y1="17" x2="17" y2="7"></line>
+              <polyline points="7 7 17 7 17 17"></polyline>
+            </svg>
+          </div>
+        </a>
+
+        <!-- Fanpage 2: Nam Tiến Motor -->
+        <a href="https://www.facebook.com/namtienmotor/" target="_blank" rel="noopener noreferrer" class="fanpage-option-card opt-namtien" title="Truy cập Fanpage Nam Tiến Motor">
+          <div class="option-icon-box">
+            <svg class="option-fb-icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+            </svg>
+          </div>
+          <div class="option-info">
+            <span class="option-tag tag-motor">Hệ thống Xe Máy Nam Tiến</span>
+            <h4 class="option-name">Nam Tiến Motor</h4>
+            <p class="option-detail">Bảng giá xe mới nhất, trả góp 0% & ưu đãi toàn hệ thống</p>
+          </div>
+          <div class="option-arrow">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="7" y1="17" x2="17" y2="7"></line>
+              <polyline points="7 7 17 7 17 17"></polyline>
+            </svg>
+          </div>
+        </a>
+      </div>
+
+      <div class="fanpage-modal-footer">
+        <p>✨ Bấm theo dõi Fanpage để nhận thông báo trúng thưởng mới nhất!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- GSAP 3 & ScrollTrigger for 60fps Smooth Scroll Choreography -->
+  <script src="vendor/gsap.min.js"></script>
+  <script src="vendor/ScrollTrigger.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

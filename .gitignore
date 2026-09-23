@@ -1,0 +1,9 @@
+# OS & IDE files
+.DS_Store
+Thumbs.db
+*.log
+
+# Temporary / reference archives
+*.zip
+hinh-anh-thuc-te-*.jpg
+mẫu-cần-thực-hiện-theo.*

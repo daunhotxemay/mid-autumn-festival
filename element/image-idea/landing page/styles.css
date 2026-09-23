@@ -1,0 +1,2122 @@
+/* ==========================================================================
+   TẾT TRUNG THU - YAMAHA TOWN NAM TIẾN LANDING PAGE STYLES
+   Pixel-Accurate to flyer-mattruoc.pdf
+   Mobile Fullscreen Edge-to-Edge Experience
+   Silky Smooth Stretched-Out Gentle Animations
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   CSS VARIABLES & DESIGN TOKENS
+   -------------------------------------------------------------------------- */
+:root {
+  /* Brand & Festival Palette */
+  --primary-gold: #ffcf24;
+  --secondary-gold: #ffa800;
+  --deep-purple: #130a2a;
+  --mid-purple: #23124d;
+  --bright-neon: #a855f7;
+  --cyan-beam: #38bdf8;
+  --hotline-red: #e11d48;
+  --white: #ffffff;
+
+  /* Glassmorphism */
+  --glass-bg: rgba(255, 255, 255, 0.12);
+  --glass-border: rgba(255, 255, 255, 0.4);
+  --glass-glow: 0 8px 32px 0 rgba(112, 0, 255, 0.35);
+
+  /* Silky Gentle Easing Curves */
+  --ease-gentle: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --ease-float: cubic-bezier(0.45, 0.05, 0.55, 0.95);
+}
+
+/* --------------------------------------------------------------------------
+   RESET & FOUNDATIONS
+   -------------------------------------------------------------------------- */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  background: #09031c;
+  color: var(--white);
+  overflow-x: hidden;
+  overflow-y: auto;
+  min-height: 100dvh;
+}
+
+/* --------------------------------------------------------------------------
+   FLOATING TOP CONTROL BAR
+   -------------------------------------------------------------------------- */
+.top-controls {
+  position: fixed;
+  top: 14px;
+  right: 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 1000;
+  pointer-events: auto;
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ctrl-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(26, 12, 58, 0.82);
+  color: #fff;
+  border: 1px solid rgba(255, 207, 36, 0.45);
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
+  transition: all 0.25s var(--ease-gentle);
+  user-select: none;
+}
+
+.ctrl-btn:hover {
+  background: rgba(43, 19, 96, 0.95);
+  border-color: var(--primary-gold);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 22px rgba(255, 207, 36, 0.35);
+}
+
+.ctrl-btn:active {
+  transform: translateY(0) scale(0.97);
+}
+
+.ctrl-icon {
+  width: 16px;
+  height: 16px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.brand-badge-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 207, 36, 0.15);
+  border: 1px solid rgba(255, 207, 36, 0.3);
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--primary-gold);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 10px #10b981;
+  animation: pulseDot 2s infinite ease-in-out;
+}
+
+@keyframes pulseDot {
+  0%, 100% { transform: scale(0.9); opacity: 0.8; }
+  50% { transform: scale(1.3); opacity: 1; }
+}
+
+/* --------------------------------------------------------------------------
+   STAGE WRAPPER & PARTICLES
+   -------------------------------------------------------------------------- */
+.page-container {
+  position: relative;
+  width: 100%;
+  min-height: 100dvh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 16px;
+}
+
+.ambient-particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* --------------------------------------------------------------------------
+   THE 1748x2480 FESTIVAL HERO STAGE
+   Ratio: 1748 / 2480 = 0.7048387
+   -------------------------------------------------------------------------- */
+.festival-stage {
+  position: relative;
+  width: min(100vw - 32px, 740px, calc((100dvh - 50px) * 0.7048));
+  aspect-ratio: 1748 / 2480;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 
+    0 30px 80px -15px rgba(0, 0, 0, 0.95),
+    0 0 70px rgba(106, 38, 219, 0.4),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+  background: #0d0728;
+  isolation: isolate;
+  contain: layout style;
+}
+
+/* Common Layer Element */
+.layer-item {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+  will-change: transform, opacity;
+}
+
+.layer-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.layer-img.full-fit {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* --------------------------------------------------------------------------
+   INDIVIDUAL STAGE LAYERS (COORDINATES MATCHING FLYER)
+   -------------------------------------------------------------------------- */
+
+/* Layer 1: Background Universe (0.0s) */
+.layer-nen {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+/* Twinkle Stars */
+.star-sparkle {
+  position: absolute;
+  width: 5.5%;
+  z-index: 4;
+}
+
+.sparkle-img {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 0 12px #fff) drop-shadow(0 0 20px #ffea79);
+  animation: starTwinkle 3s ease-in-out infinite alternate;
+}
+
+.star-1 .sparkle-img { animation-delay: 0.2s; }
+.star-2 .sparkle-img { animation-delay: 1.1s; }
+.star-3 .sparkle-img { animation-delay: 2.0s; }
+.star-4 .sparkle-img { animation-delay: 1.6s; }
+
+@keyframes starTwinkle {
+  0% { transform: scale(0.7) rotate(0deg); opacity: 0.35; }
+  50% { transform: scale(1.15) rotate(45deg); opacity: 1; }
+  100% { transform: scale(0.8) rotate(90deg); opacity: 0.4; }
+}
+
+/* Layer 2: 3D Frames & Light Beam */
+.layer-khung-dai {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  opacity: 0.95;
+}
+
+.layer-khung-giua {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  opacity: 0.85;
+}
+
+.layer-anh-sang {
+  top: 14.5%;
+  left: 0;
+  width: 100%;
+  z-index: 4;
+}
+
+/* Layer 3: Golden Full Moon */
+.layer-trang {
+  top: 3.5%;
+  right: 2%;
+  width: 35%;
+  z-index: 5;
+}
+
+.moon-spin-glow {
+  filter: drop-shadow(0 0 35px rgba(255, 215, 0, 0.75)) drop-shadow(0 0 70px rgba(255, 170, 0, 0.4));
+  animation: moonGentlePulse 6s ease-in-out infinite alternate;
+}
+
+@keyframes moonGentlePulse {
+  0% { transform: scale(1) translateY(0); filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.65)); }
+  100% { transform: scale(1.03) translateY(-4px); filter: drop-shadow(0 0 50px rgba(255, 225, 50, 0.85)); }
+}
+
+/* Layer 4: Brand Header */
+.layer-logo {
+  top: 2.2%;
+  left: 4.5%;
+  width: 12.5%;
+  z-index: 6;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
+}
+
+.layer-brand-title {
+  top: 3.2%;
+  left: 19.5%;
+  width: 62.0%;
+  z-index: 6;
+  filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.5));
+}
+
+/* Layer 5: "THƯ MỜI THAM GIA" */
+.layer-thu-moi {
+  top: 6.8%;
+  left: 14%;
+  width: 32%;
+  z-index: 8;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
+}
+
+/* Layer 6: Grand 3D Festival Title "ĐÊM HỘI TRĂNG RẰM" */
+.layer-dem-hoi {
+  top: 8.2%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  z-index: 9;
+}
+
+.title-floating {
+  filter: drop-shadow(0 12px 25px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 30px rgba(255, 207, 36, 0.65));
+  animation: titleGentleFloat 5s ease-in-out infinite alternate;
+}
+
+@keyframes titleGentleFloat {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-5px); }
+}
+
+/* Layer 7: Tagline Ribbon */
+.layer-ribbon-tagline {
+  top: 29.2%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 78%;
+  z-index: 10;
+  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.5));
+}
+
+/* Layer 8: Celestial Road */
+.layer-cung-duong {
+  top: 35.0%;
+  left: -22%;
+  width: 210%;
+  height: auto;
+  z-index: 11;
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 0) 94%);
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 0) 94%);
+}
+
+.road-shimmer {
+  animation: roadGlow 4s ease-in-out infinite alternate;
+}
+
+@keyframes roadGlow {
+  0% { filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2)); }
+  100% { filter: drop-shadow(0 0 25px rgba(168, 85, 247, 0.55)); }
+}
+
+/* Atmospheric Fluffy Clouds - Hidden to preserve clean backdrop matching flyer */
+.cloud-m1,
+.cloud-m5,
+.cloud-m6 {
+  display: none;
+}
+
+/* Layer 9: THE CENTRAL INVITATION CARD (KÍNH MỜI) */
+.layer-invitation-card {
+  top: 36.8%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 48%;
+  z-index: 26;
+  pointer-events: auto;
+}
+
+.invitation-card-inner {
+  position: relative;
+  width: 100%;
+  cursor: pointer;
+  transition: transform 0.35s var(--ease-spring), filter 0.35s var(--ease-gentle);
+}
+
+.invitation-card-inner:hover {
+  transform: scale(1.035) translateY(-4px);
+  filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 25px rgba(255, 215, 0, 0.5));
+}
+
+.invitation-bg-img,
+.invitation-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.45));
+}
+
+.invitation-text-picture {
+  position: absolute;
+  top: 17.4%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 85.6%;
+  display: block;
+  pointer-events: none;
+}
+
+.invitation-text-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Layer 10: CHỊ HẰNG & CHÚ CUỘI */
+.layer-chi-hang {
+  top: 46.5%;
+  left: -18%;
+  width: 54%;
+  z-index: 30;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.layer-chu-cuoi {
+  top: 49.0%;
+  right: -10%;
+  width: 51%;
+  z-index: 30;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.char-hover {
+  filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 20px rgba(255, 215, 0, 0.35));
+  transition: transform 0.4s var(--ease-spring);
+}
+
+.layer-chi-hang:hover .char-hover {
+  transform: scale(1.03) translateY(-4px);
+}
+
+.layer-chu-cuoi:hover .char-hover {
+  transform: scale(1.03) translateY(-4px);
+}
+
+/* Idle Hover Animations for Characters */
+.layer-chi-hang .char-hover {
+  animation: chiHangGentleSway 5.5s ease-in-out infinite alternate;
+}
+
+.layer-chu-cuoi .char-hover {
+  animation: chuCuoiGentleSway 4.8s ease-in-out infinite alternate;
+}
+
+@keyframes chiHangGentleSway {
+  0% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-5px) rotate(0.8deg); }
+  100% { transform: translateY(-9px) rotate(-0.5deg); }
+}
+
+@keyframes chuCuoiGentleSway {
+  0% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-6px) rotate(-1deg); }
+  100% { transform: translateY(-10px) rotate(1deg); }
+}
+
+/* Character Speech Bubbles */
+.char-bubble {
+  position: absolute;
+  top: -24px;
+  background: rgba(255, 255, 255, 0.96);
+  color: #2b1055;
+  padding: 8px 14px;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  font-size: 11.5px;
+  font-weight: 700;
+  line-height: 1.35;
+  width: 170px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s, transform 0.3s var(--ease-spring);
+  z-index: 50;
+}
+
+.char-bubble-left {
+  left: 20%;
+  transform: translateY(10px);
+}
+
+.char-bubble-right {
+  right: 15%;
+  transform: translateY(10px);
+}
+
+.layer-chi-hang:hover .char-bubble,
+.layer-chu-cuoi:hover .char-bubble {
+  opacity: 1;
+  transform: translateY(-8px);
+}
+
+/* Layer 11: Mooncakes */
+.layer-cake {
+  pointer-events: auto;
+  cursor: pointer;
+  z-index: 34;
+}
+
+.cake-hover {
+  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 15px rgba(255, 207, 36, 0.4));
+  transition: transform 0.3s var(--ease-spring);
+}
+
+.layer-cake:hover .cake-hover {
+  transform: scale(1.15) translateY(-5px);
+  filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 25px rgba(255, 207, 36, 0.8));
+}
+
+.cake-hint {
+  position: absolute;
+  top: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(26, 12, 58, 0.92);
+  color: var(--primary-gold);
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 9.5px;
+  font-weight: 800;
+  white-space: nowrap;
+  border: 1px solid rgba(255, 207, 36, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s, transform 0.25s;
+}
+
+.layer-cake:hover .cake-hint {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-4px);
+}
+
+/* Individual Mooncake Coordinates */
+.cake-3 {
+  top: 73.5%;
+  left: 34.3%;
+  width: 10.3%;
+  z-index: 33;
+}
+
+.cake-2 {
+  top: 65%;
+  left: 48.7%;
+  width: 16.1%;
+  z-index: 33;
+}
+
+.cake-1 {
+  top: 82.8%;
+  left: 49.2%;
+  width: 25.1%;
+  z-index: 39;
+}
+
+/* Layer 12: Thỏ Ngọc */
+.layer-tho-ngoc {
+  top: 80.8%;
+  left: 17.2%;
+  width: 26%;
+  z-index: 40;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.rabbit-bobbing {
+  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.4)) drop-shadow(0 0 15px rgba(255, 255, 255, 0.6));
+  animation: rabbitHop 3.2s ease-in-out infinite alternate;
+  transition: transform 0.3s var(--ease-spring);
+}
+
+.layer-tho-ngoc:hover .rabbit-bobbing {
+  transform: scale(1.12) translateY(-4px);
+}
+
+@keyframes rabbitHop {
+  0% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-4px) scale(1.02); }
+  100% { transform: translateY(-7px) scale(1.01); }
+}
+
+.rabbit-dialogue {
+  position: absolute;
+  top: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.95);
+  color: #2b1055;
+  padding: 5px 10px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 800;
+  white-space: nowrap;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s;
+}
+
+.layer-tho-ngoc:hover .rabbit-dialogue {
+  opacity: 1;
+}
+
+/* Layer 13: Golden Foreground Clouds & Hotline */
+.cloud-layer {
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 60%, rgba(0, 0, 0, 0.75) 75%, transparent 95%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 60%, rgba(0, 0, 0, 0.75) 75%, transparent 95%);
+}
+
+.stage-cloud-glow {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 38%;
+  background: radial-gradient(ellipse 95% 75% at 50% 100%, rgba(245, 165, 25, 0.95) 0%, rgba(230, 140, 20, 0.8) 45%, rgba(210, 110, 15, 0) 100%);
+  z-index: 32;
+  pointer-events: none;
+  filter: blur(12px);
+}
+
+.cloud-m2 {
+  bottom: 4%;
+  left: -28%;
+  width: 175%;
+  z-index: 34;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 55%, rgba(0, 0, 0, 0.5) 75%, transparent 92%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 55%, rgba(0, 0, 0, 0.5) 75%, transparent 92%);
+}
+
+.cloud-m4 {
+  bottom: 2%;
+  right: -18%;
+  width: 185%;
+  z-index: 35;
+  filter: drop-shadow(0 0 25px rgba(255, 200, 30, 0.45));
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 60%, rgba(0, 0, 0, 0.5) 80%, transparent 95%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 60%, rgba(0, 0, 0, 0.5) 80%, transparent 95%);
+}
+
+.cloud-m3 {
+  bottom: 0%;
+  left: -35%;
+  width: 170%;
+  z-index: 36;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 50%, rgba(0, 0, 0, 0.4) 75%, transparent 92%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 50%, rgba(0, 0, 0, 0.4) 75%, transparent 92%);
+}
+
+.cloud-m4-base {
+  bottom: -4%;
+  left: -15%;
+  width: 175%;
+  z-index: 37;
+  filter: drop-shadow(0 0 20px rgba(255, 200, 30, 0.4));
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 70%, transparent 98%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 70%, transparent 98%);
+}
+
+.cloud-dream-blur {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 24%;
+  background: radial-gradient(
+    ellipse 100% 80% at 50% 100%, 
+    rgba(255, 190, 35, 0.8) 0%, 
+    rgba(240, 145, 20, 0.5) 40%, 
+    rgba(220, 100, 15, 0.18) 70%, 
+    transparent 100%
+  );
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  -webkit-mask-image: linear-gradient(to top, #000 35%, rgba(0, 0, 0, 0.65) 70%, transparent 100%);
+  mask-image: linear-gradient(to top, #000 35%, rgba(0, 0, 0, 0.65) 70%, transparent 100%);
+  z-index: 38;
+  pointer-events: none;
+}
+
+.layer-frame-strip {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 20;
+  -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 60%, rgba(0, 0, 0, 0) 100%);
+  mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 60%, rgba(0, 0, 0, 0) 100%);
+}
+
+.layer-dia-chi {
+  bottom: 8px;
+  left: 0;
+  width: 100%;
+  z-index: 42;
+  pointer-events: auto;
+}
+
+.hotline-link {
+  display: block;
+  width: 100%;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.hotline-link:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1) drop-shadow(0 0 15px rgba(255, 207, 36, 0.6));
+}
+
+/* ==========================================================================
+   ENERGIZED & ELEGANT SEQUENTIAL ENTRANCE ANIMATIONS (~4.8 SECONDS)
+   Smooth, professional succession where each element unfolds seamlessly
+   ========================================================================== */
+
+/* Phase 1: Sky & Stars (0.0s) */
+.anim-phase-1 {
+  animation: entranceFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.0s both;
+}
+
+/* Phase 2: 3D Perspective Geometry Frames & Laser Streak (0.25s) */
+.anim-phase-2 {
+  animation: entranceScaleIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both;
+}
+
+/* Phase 3: Golden Full Moon Rise (0.55s) */
+.anim-phase-3 {
+  animation: entranceMoonRise 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.55s both;
+}
+
+/* Phase 4: Yamaha Logo & Nam Tiến Brand Title (0.85s) */
+.anim-phase-4 {
+  animation: entranceSlideDown 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.85s both;
+}
+
+/* Phase 5: "THƯ MỜI THAM GIA" Cursive Drop (1.15s) */
+.anim-phase-5 {
+  animation: entranceTiltIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1.15s both;
+}
+
+/* Phase 6: Grand 3D "ĐÊM HỘI TRĂNG RẰM" Title (1.45s) */
+.anim-phase-6 {
+  animation: entrancePopTitle 0.75s cubic-bezier(0.16, 1, 0.3, 1) 1.45s both;
+}
+
+/* Phase 7: Tagline Ribbon Banner (1.85s) */
+.anim-phase-7 {
+  animation: entranceRibbon 0.65s cubic-bezier(0.16, 1, 0.3, 1) 1.85s both;
+}
+
+/* Phase 8: Celestial Pathway & Ambient Clouds (2.15s) */
+.anim-phase-8 {
+  animation: entranceRoadUnroll 0.75s cubic-bezier(0.16, 1, 0.3, 1) 2.15s both;
+}
+
+/* Phase 9: Central "KÍNH MỜI" Invitation Card (2.45s) */
+.anim-phase-9 {
+  animation: entranceCardFloat 0.75s cubic-bezier(0.16, 1, 0.3, 1) 2.45s both;
+}
+
+/* Phase 10: Chị Hằng & Chú Cuội Gentle Arrival (2.85s) */
+.layer-chi-hang.anim-phase-10 {
+  animation: entranceChiHang 0.8s cubic-bezier(0.16, 1, 0.3, 1) 2.85s both;
+}
+
+.layer-chu-cuoi.anim-phase-10 {
+  animation: entranceChuCuoi 0.8s cubic-bezier(0.16, 1, 0.3, 1) 2.85s both;
+}
+
+/* Phase 11: The Festive Mooncakes (3.25s) */
+.cake-3.anim-phase-11 {
+  animation: entranceCakeDrop 0.55s cubic-bezier(0.16, 1, 0.3, 1) 3.25s both;
+}
+.cake-2.anim-phase-11 {
+  animation: entranceCakeDrop 0.55s cubic-bezier(0.16, 1, 0.3, 1) 3.45s both;
+}
+.cake-1.anim-phase-11 {
+  animation: entranceCakeDrop 0.6s cubic-bezier(0.16, 1, 0.3, 1) 3.65s both;
+}
+
+/* Phase 12: Adorable Jade Rabbit Thỏ Ngọc (3.85s) */
+.anim-phase-12 {
+  animation: entranceRabbitJump 0.65s cubic-bezier(0.16, 1, 0.3, 1) 3.85s both;
+}
+
+/* Phase 13: Golden Clouds, Dream Blur & Bottom Hotline Bar (4.15s) */
+.anim-phase-13 {
+  animation: entranceSlideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 4.15s both;
+}
+
+/* --------------------------------------------------------------------------
+   KEYFRAMES FOR GENTLE ENTRANCES
+   -------------------------------------------------------------------------- */
+@keyframes entranceFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes entranceScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes entranceMoonRise {
+  from {
+    opacity: 0;
+    transform: translate3d(40px, -40px, 0) scale(0.75);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes entranceSlideDown {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -30px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes entranceTiltIn {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -25px, 0) rotate(-4deg);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+}
+
+@keyframes entrancePopTitle {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.8) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) scale(1) translateY(0);
+  }
+}
+
+@keyframes entranceRibbon {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) scaleX(0.85) translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) scaleX(1) translateY(0);
+  }
+}
+
+@keyframes entranceRoadUnroll {
+  from {
+    opacity: 0;
+    transform: scale(0.92) translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes entranceCardFloat {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(35px) scale(0.88);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+}
+
+@keyframes entranceChiHang {
+  from {
+    opacity: 0;
+    transform: translate3d(-60px, 15px, 0) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes entranceChuCuoi {
+  from {
+    opacity: 0;
+    transform: translate3d(60px, 15px, 0) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes entranceCakeDrop {
+  from {
+    opacity: 0;
+    transform: translateY(-25px) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes entranceRabbitJump {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.75);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes entranceSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+
+/* --------------------------------------------------------------------------
+   SECTION 2: INLINE REGISTRATION FORM & FESTIVAL DETAILS (SCROLL-DOWN)
+   -------------------------------------------------------------------------- */
+.section-register {
+  position: relative;
+  width: 100%;
+  background: radial-gradient(ellipse at 50% 0%, #29115b 0%, #150933 45%, #09031c 100%);
+  border-top: 1.5px solid rgba(255, 207, 36, 0.4);
+  box-shadow: 0 -15px 45px rgba(168, 85, 247, 0.25);
+  padding: 70px 20px 80px;
+  z-index: 50;
+}
+
+.register-container {
+  max-width: 680px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* Section Decorative Header */
+.section-header {
+  text-align: center;
+}
+
+.header-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 207, 36, 0.15);
+  border: 1px solid rgba(255, 207, 36, 0.4);
+  color: var(--primary-gold);
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 15px rgba(255, 207, 36, 0.2);
+}
+
+.section-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(22px, 5vw, 32px);
+  font-weight: 900;
+  background: linear-gradient(135deg, #ffffff 0%, #ffcf24 50%, #ffa800 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.25;
+  margin-bottom: 8px;
+}
+
+.section-desc {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.5;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+/* Quick Event Highlights Grid */
+.event-info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.info-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 207, 36, 0.25);
+  border-radius: 16px;
+  padding: 14px 16px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 0.25s var(--ease-gentle);
+}
+
+.info-card:hover {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: var(--primary-gold);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 207, 36, 0.2);
+}
+
+.info-icon {
+  font-size: 26px;
+  flex-shrink: 0;
+}
+
+.info-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.info-label {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.65);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.info-val {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.3;
+}
+
+.hotline-highlight {
+  color: var(--primary-gold);
+  text-decoration: none;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+}
+
+.hotline-highlight:hover {
+  text-decoration: underline;
+}
+
+/* Form Box */
+.form-wrapper {
+  max-width: 680px;
+  width: 100%;
+  margin: 0 auto;
+  background: rgba(30, 14, 68, 0.88);
+  border: 1.5px solid rgba(255, 207, 36, 0.4);
+  border-radius: 24px;
+  padding: 30px 26px;
+  box-shadow: 
+    0 25px 60px rgba(0, 0, 0, 0.75),
+    0 0 50px rgba(168, 85, 247, 0.25),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  position: relative;
+  z-index: 51;
+  will-change: transform, opacity;
+}
+
+.form-card-header {
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+.rabbit-avatar {
+  font-size: 34px;
+  margin-bottom: 8px;
+}
+
+.form-card-header h3 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 19px;
+  font-weight: 900;
+  color: var(--primary-gold);
+  letter-spacing: 0.5px;
+}
+
+.form-card-header p {
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.75);
+  margin-top: 4px;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-row {
+  display: flex;
+  gap: 14px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  background: rgba(14, 6, 34, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 12px;
+  padding: 12px 14px;
+  color: #fff;
+  font-size: 13.5px;
+  font-family: inherit;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: var(--primary-gold);
+  background: rgba(20, 8, 48, 0.95);
+  box-shadow: 0 0 14px rgba(255, 207, 36, 0.35);
+}
+
+.gift-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.radio-chip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 11px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: all 0.2s var(--ease-gentle);
+}
+
+.radio-chip:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 207, 36, 0.5);
+}
+
+.radio-chip input[type="radio"] {
+  display: none;
+}
+
+.radio-custom {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+
+.radio-chip input[type="radio"]:checked + .radio-custom {
+  border-color: var(--primary-gold);
+  background: var(--primary-gold);
+  box-shadow: 0 0 10px rgba(255, 207, 36, 0.6);
+}
+
+.radio-text {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.88);
+  transition: color 0.2s;
+}
+
+.radio-chip input[type="radio"]:checked ~ .radio-text {
+  color: var(--primary-gold);
+  font-weight: 800;
+}
+
+.submit-btn {
+  background: linear-gradient(135deg, #ffcf24 0%, #ff9500 100%);
+  color: #180632;
+  border: none;
+  border-radius: 14px;
+  padding: 15px 20px;
+  font-size: 15px;
+  font-weight: 900;
+  cursor: pointer;
+  margin-top: 8px;
+  box-shadow: 
+    0 8px 25px rgba(255, 149, 0, 0.45),
+    0 0 30px rgba(255, 207, 36, 0.3);
+  transition: all 0.25s var(--ease-spring);
+  text-align: center;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 12px 30px rgba(255, 149, 0, 0.6),
+    0 0 40px rgba(255, 207, 36, 0.5);
+}
+
+.submit-btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Success State */
+.form-success-message {
+  text-align: center;
+  padding: 20px 10px;
+}
+
+.success-icon {
+  font-size: 42px;
+  margin-bottom: 12px;
+}
+
+.form-success-message h4 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--primary-gold);
+  margin-bottom: 6px;
+}
+
+.gift-code-badge {
+  margin: 14px 0;
+}
+
+.gift-code {
+  display: inline-block;
+  background: rgba(255, 207, 36, 0.18);
+  color: var(--primary-gold);
+  padding: 8px 20px;
+  border-radius: 10px;
+  border: 1.5px dashed var(--primary-gold);
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  box-shadow: 0 0 15px rgba(255, 207, 36, 0.3);
+}
+
+.success-note {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.5;
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+.btn-scroll-top {
+  display: inline-block;
+  margin-top: 18px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 207, 36, 0.4);
+  color: var(--primary-gold);
+  padding: 9px 20px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-scroll-top:hover {
+  background: rgba(255, 207, 36, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Quick External Action Buttons: Google Maps & Facebook Fanpage */
+.form-quick-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 22px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 207, 36, 0.25);
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  text-decoration: none;
+  font-family: 'Montserrat', sans-serif;
+  transition: all 0.25s var(--ease-gentle);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  cursor: pointer;
+  border: none;
+  background: none;
+  box-sizing: border-box;
+}
+
+button.action-btn {
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  font-family: inherit;
+  text-align: left;
+}
+
+.btn-map {
+  background: linear-gradient(135deg, rgba(234, 67, 53, 0.18), rgba(251, 188, 4, 0.15));
+  border: 1.5px solid rgba(251, 188, 4, 0.55);
+  color: #fff;
+}
+
+.btn-map:hover {
+  background: linear-gradient(135deg, rgba(234, 67, 53, 0.35), rgba(251, 188, 4, 0.3));
+  border-color: #fbbc04;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(251, 188, 4, 0.35);
+}
+
+.btn-fanpage {
+  background: linear-gradient(135deg, rgba(24, 119, 242, 0.2), rgba(168, 85, 247, 0.18));
+  border: 1.5px solid rgba(24, 119, 242, 0.6);
+  color: #fff;
+}
+
+.btn-fanpage:hover {
+  background: linear-gradient(135deg, rgba(24, 119, 242, 0.38), rgba(168, 85, 247, 0.3));
+  border-color: #1877f2;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(24, 119, 242, 0.35);
+}
+
+.action-btn .btn-icon {
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.action-btn .fb-svg-icon {
+  fill: #1877f2;
+  filter: drop-shadow(0 0 8px rgba(24, 119, 242, 0.8));
+}
+
+.action-btn .map-svg-icon {
+  fill: #ea4335;
+  filter: drop-shadow(0 0 8px rgba(234, 67, 53, 0.8));
+}
+
+.action-btn-text {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.action-btn-text .btn-subtitle {
+  font-size: 9.5px;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.action-btn-text .btn-title {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.25;
+}
+
+/* Footer Signature */
+.register-footer {
+  text-align: center;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.copyright-text {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--primary-gold);
+  letter-spacing: 0.5px;
+}
+
+.slogan-text {
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   GIFT TOAST NOTIFICATION
+   -------------------------------------------------------------------------- */
+.gift-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: rgba(26, 10, 60, 0.95);
+  border: 1.5px solid var(--primary-gold);
+  border-radius: 18px;
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.7), 0 0 25px rgba(255, 207, 36, 0.4);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  z-index: 3000;
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.4s var(--ease-spring), opacity 0.4s;
+  max-width: 90vw;
+  width: 360px;
+}
+
+.gift-toast.active {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.gift-toast-icon {
+  font-size: 26px;
+}
+
+.gift-toast-content strong {
+  font-size: 13px;
+  color: var(--primary-gold);
+  display: block;
+}
+
+.gift-toast-content p {
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.85);
+  margin-top: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   FANPAGE CHOOSER POPUP MODAL
+   -------------------------------------------------------------------------- */
+.fanpage-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 3500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.fanpage-modal-overlay.is-active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.fanpage-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(12, 5, 28, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  cursor: pointer;
+}
+
+.fanpage-modal-card {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  background: linear-gradient(150deg, rgba(32, 14, 66, 0.96) 0%, rgba(18, 7, 40, 0.98) 100%);
+  border: 1.5px solid rgba(255, 207, 36, 0.45);
+  border-radius: 24px;
+  box-shadow: 0 24px 65px rgba(0, 0, 0, 0.7), 0 0 35px rgba(255, 207, 36, 0.2);
+  padding: 28px 24px 22px;
+  color: #fff;
+  z-index: 2;
+  overflow: hidden;
+  transform: translateY(20px) scale(0.95);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+}
+
+.fanpage-modal-overlay.is-active .fanpage-modal-card {
+  transform: translateY(0) scale(1);
+}
+
+.fanpage-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  z-index: 5;
+  outline: none;
+}
+
+.fanpage-modal-close:hover {
+  background: rgba(234, 67, 53, 0.9);
+  border-color: #ea4335;
+  color: #fff;
+  transform: rotate(90deg) scale(1.05);
+}
+
+.fanpage-modal-header {
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+.fanpage-modal-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(24, 119, 242, 0.18);
+  border: 1px solid rgba(24, 119, 242, 0.45);
+  padding: 5px 14px;
+  border-radius: 30px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #60a5fa;
+  letter-spacing: 0.6px;
+  margin-bottom: 12px;
+}
+
+.fanpage-modal-badge .fb-badge-icon {
+  fill: #1877f2;
+}
+
+.fanpage-modal-title {
+  font-size: 21px;
+  font-weight: 800;
+  color: var(--primary-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin: 0 0 8px 0;
+  text-shadow: 0 2px 12px rgba(255, 207, 36, 0.35);
+}
+
+.fanpage-modal-desc {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.5;
+  margin: 0;
+  padding: 0 8px;
+}
+
+.fanpage-modal-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.fanpage-option-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  border-radius: 18px;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  transition: all 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.fanpage-option-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.28s ease;
+  pointer-events: none;
+}
+
+.fanpage-option-card.opt-yamaha {
+  border-color: rgba(24, 119, 242, 0.4);
+}
+
+.fanpage-option-card.opt-yamaha::before {
+  background: linear-gradient(135deg, rgba(24, 119, 242, 0.22), rgba(168, 85, 247, 0.18));
+}
+
+.fanpage-option-card.opt-namtien {
+  border-color: rgba(255, 207, 36, 0.4);
+}
+
+.fanpage-option-card.opt-namtien::before {
+  background: linear-gradient(135deg, rgba(234, 67, 53, 0.18), rgba(255, 207, 36, 0.2));
+}
+
+.fanpage-option-card:hover {
+  transform: translateY(-3px) scale(1.015);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
+}
+
+.fanpage-option-card.opt-yamaha:hover {
+  border-color: #1877f2;
+  box-shadow: 0 10px 30px rgba(24, 119, 242, 0.4);
+}
+
+.fanpage-option-card.opt-namtien:hover {
+  border-color: var(--primary-gold);
+  box-shadow: 0 10px 30px rgba(255, 207, 36, 0.35);
+}
+
+.fanpage-option-card:hover::before {
+  opacity: 1;
+}
+
+.option-icon-box {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: rgba(24, 119, 242, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid rgba(24, 119, 242, 0.35);
+  transition: transform 0.28s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.opt-namtien .option-icon-box {
+  background: rgba(255, 207, 36, 0.18);
+  border-color: rgba(255, 207, 36, 0.4);
+}
+
+.fanpage-option-card:hover .option-icon-box {
+  transform: scale(1.1);
+}
+
+.option-fb-icon {
+  fill: #1877f2;
+  filter: drop-shadow(0 0 6px rgba(24, 119, 242, 0.7));
+}
+
+.opt-namtien .option-fb-icon {
+  fill: #ffcf24;
+  filter: drop-shadow(0 0 6px rgba(255, 207, 36, 0.7));
+}
+
+.option-info {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.option-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-bottom: 3px;
+}
+
+.tag-yamaha {
+  color: #60a5fa;
+}
+
+.tag-motor {
+  color: #fcd34d;
+}
+
+.option-name {
+  font-size: 15.5px;
+  font-weight: 800;
+  color: #fff;
+  margin: 0 0 3px 0;
+  line-height: 1.3;
+}
+
+.option-detail {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.option-arrow {
+  color: rgba(255, 255, 255, 0.45);
+  flex-shrink: 0;
+  transition: all 0.28s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.fanpage-option-card:hover .option-arrow {
+  color: #fff;
+  transform: translate(3px, -3px);
+}
+
+.fanpage-modal-footer {
+  margin-top: 20px;
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 14px;
+}
+
+.fanpage-modal-footer p {
+  font-size: 12px;
+  color: rgba(255, 207, 36, 0.9);
+  margin: 0;
+  line-height: 1.4;
+}
+
+@media (max-width: 480px) {
+  .fanpage-modal-card {
+    padding: 22px 16px 18px;
+    border-radius: 20px;
+  }
+
+  .fanpage-modal-title {
+    font-size: 18px;
+  }
+
+  .fanpage-modal-desc {
+    font-size: 12px;
+  }
+
+  .fanpage-option-card {
+    padding: 13px 14px;
+    gap: 12px;
+  }
+
+  .option-icon-box {
+    width: 42px;
+    height: 42px;
+  }
+
+  .option-name {
+    font-size: 14.5px;
+  }
+
+  .option-detail {
+    font-size: 11.5px;
+  }
+}
+
+/* ==========================================================================
+   MOBILE FULLSCREEN RESPONSIVE LAYOUT (@media max-width: 768px)
+   Matches flyer-mattruoc.pdf edge-to-edge on all phones
+   ========================================================================== */
+@media (max-width: 768px) {
+  html, body {
+    width: 100vw;
+    min-height: 100dvh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    position: static;
+    background: #09031c;
+  }
+
+  .page-container {
+    padding: 0;
+    margin: 0;
+    width: 100vw;
+    height: 100dvh;
+    min-height: 100dvh;
+    max-width: 100vw;
+    max-height: 100dvh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+  .top-controls {
+    top: max(8px, env(safe-area-inset-top));
+    right: 8px;
+    gap: 6px;
+  }
+
+  .ctrl-btn {
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(20, 8, 48, 0.88);
+    border: 1px solid rgba(255, 207, 36, 0.6);
+  }
+
+  .ctrl-btn .btn-text {
+    display: none;
+  }
+
+  .ctrl-icon {
+    width: 15px;
+    height: 15px;
+  }
+
+  .brand-badge-pill {
+    display: none;
+  }
+
+  .festival-stage {
+    width: 100vw;
+    height: 100dvh;
+    max-width: 100vw;
+    max-height: 100dvh;
+    aspect-ratio: unset;
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Mobile Proportional Placement matching flyer-mattruoc.pdf */
+  .layer-logo {
+    top: max(14px, env(safe-area-inset-top));
+    left: 4%;
+    width: 13%;
+  }
+
+  .layer-brand-title {
+    top: max(18px, env(safe-area-inset-top));
+    left: 19%;
+    width: 63%;
+  }
+
+  .layer-trang {
+    top: 3.5%;
+    right: 2%;
+    width: 35%;
+  }
+
+  .layer-thu-moi {
+    top: 6.8%;
+    left: 14%;
+    width: 32%;
+  }
+
+  /* ĐÊM HỘI TRĂNG RẰM: Căn chính giữa, nâng nhẹ lên để tạo không gian thoáng bên dưới */
+  .layer-dem-hoi {
+    top: 8.2%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 410px;
+    z-index: 9;
+  }
+
+  /* TAGLINE RIBBON: Đẩy xuống rõ rệt dưới chữ "Trăng Rằm", không bị đè chữ */
+  .layer-ribbon-tagline {
+    top: 29.2%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 78%;
+    max-width: 340px;
+    z-index: 10;
+  }
+
+  /* Con đường: Phóng to ra để sao cho dưới chân chú Cuội và không lộ các góc (chỉ lộ đường cong) */
+  .layer-cung-duong {
+    top: 35.0%;
+    left: -22%;
+    width: 210%;
+    height: auto;
+    z-index: 11;
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 0) 94%);
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 0) 94%);
+  }
+
+  /* Central Invitation Card: Đẩy xuống tương ứng để cân đối hoàn hảo với ribbon */
+  .layer-invitation-card {
+    top: 36.8%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 48%;
+    max-width: 245px;
+    z-index: 26;
+  }
+
+  /* Chị Hằng: Vừa vặn bên trái, không chạm chữ thiệp mời, được mây che nhẹ gấu váy */
+  .layer-chi-hang {
+    top: 46.5%;
+    left: -18%;
+    width: 54%;
+    max-width: 280px;
+    z-index: 30;
+  }
+
+  /* Chú Cuội: Chân đặt ngay trên mặt đường cong, được mây che nhẹ và cuộn sau lưng */
+  .layer-chu-cuoi {
+    top: 49.0%;
+    right: -10%;
+    width: 51%;
+    max-width: 270px;
+    z-index: 30;
+  }
+
+  /* Hide grey atmospheric clouds on mobile so background is clean and deep like flyer */
+  .cloud-m1,
+  .cloud-m5,
+  .cloud-m6 {
+    display: none;
+  }
+
+  /* Mooncakes along celestial road - arranged to match design reference */
+  .cake-3 {
+    top: 73.5%;
+    left: 34.3%;
+    width: 10.3%;
+    z-index: 33;
+  }
+
+  .cake-2 {
+    top: 71.3%;
+    left: 48.7%;
+    width: 16.1%;
+    z-index: 33;
+  }
+
+  .cake-1 {
+    top: 82.8%;
+    left: 49.2%;
+    width: 25.1%;
+    z-index: 39;
+  }
+
+  /* Thỏ Ngọc sitting in the middle space on golden cloud */
+  .layer-tho-ngoc {
+    top: 80.8%;
+    left: 17.2%;
+    width: 19.0%;
+    z-index: 40;
+  }
+
+  /* Các đám mây vàng: Phóng to lên và bố trí che nhẹ Chị Hằng và Chú Cuội khớp mẫu flyer */
+  .stage-cloud-glow {
+    height: 38%;
+    z-index: 32;
+  }
+
+  .cloud-m2 {
+    bottom: 4%;
+    left: -28%;
+    width: 175%;
+    z-index: 34;
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 55%, rgba(0, 0, 0, 0.5) 75%, transparent 92%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 55%, rgba(0, 0, 0, 0.5) 75%, transparent 92%);
+  }
+
+  .cloud-m4 {
+    bottom: 2%;
+    right: -18%;
+    width: 185%;
+    z-index: 35;
+    filter: drop-shadow(0 0 25px rgba(255, 200, 30, 0.45));
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 60%, rgba(0, 0, 0, 0.5) 80%, transparent 95%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 60%, rgba(0, 0, 0, 0.5) 80%, transparent 95%);
+  }
+
+  .cloud-m3 {
+    bottom: 0%;
+    left: -35%;
+    width: 170%;
+    z-index: 36;
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 50%, rgba(0, 0, 0, 0.4) 75%, transparent 92%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 50%, rgba(0, 0, 0, 0.4) 75%, transparent 92%);
+  }
+
+  .cloud-m4-base {
+    bottom: -4%;
+    left: -15%;
+    width: 175%;
+    z-index: 37;
+    filter: drop-shadow(0 0 20px rgba(255, 200, 30, 0.4));
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 70%, transparent 98%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 70%, transparent 98%);
+  }
+
+  .cloud-dream-blur {
+    height: 24%;
+    z-index: 38;
+  }
+
+  .layer-frame-strip {
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 20;
+    -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 60%, rgba(0, 0, 0, 0) 100%);
+    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 60%, rgba(0, 0, 0, 0) 100%);
+  }
+
+  .layer-dia-chi {
+    bottom: max(6px, env(safe-area-inset-bottom));
+    left: 0;
+    width: 100%;
+    z-index: 42;
+  }
+
+  .char-bubble {
+    display: none; /* Hide hover speech bubbles on touch devices to avoid layout interference */
+  }
+
+  /* Mobile adjustments for Registration Section */
+  .section-register {
+    padding: 45px 14px 65px;
+  }
+
+  .form-wrapper {
+    max-width: 100%;
+    padding: 22px 16px;
+    border-radius: 20px;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .submit-btn {
+    font-size: 13.5px;
+    padding: 13px 16px;
+  }
+
+  .form-quick-actions {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 18px;
+    padding-top: 16px;
+  }
+
+  .action-btn {
+    padding: 10px 8px;
+    gap: 7px;
+    border-radius: 12px;
+  }
+
+  .action-btn-text .btn-subtitle {
+    font-size: 8.5px;
+  }
+
+  .action-btn-text .btn-title {
+    font-size: 11.5px;
+  }
+
+  .action-btn .btn-icon {
+    font-size: 18px;
+  }
+
+  .action-btn .fb-svg-icon,
+  .action-btn .map-svg-icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* Developer & Instant Preview Helper */
+body.skip-animations *,
+body.skip-animations *::before,
+body.skip-animations *::after {
+  animation-delay: 0s !important;
+  animation-duration: 0.001s !important;
+}
