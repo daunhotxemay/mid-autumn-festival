@@ -701,9 +701,9 @@
       }
       if (scrollHintEl) {
         entranceTimeline.fromTo(scrollHintEl,
-          { y: 15, scale: 0.88, opacity: 0 },
-          { y: 0, scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(1.4)' },
-          0.76
+          { opacity: 0 },
+          { opacity: 1, duration: 0.5, ease: 'power2.out' },
+          0.85
         );
       }
 
@@ -785,11 +785,11 @@
 
     // 1. Cụm trung tâm, nút cuộn & Chân viền Hotline mờ dần nhanh chóng khi rèm bắt đầu rẽ
     const heroDiaChi = document.getElementById('heroDiaChi');
-    const centerElements = [doorCenterGroup, heroDiaChi].filter(Boolean);
+    const scrollHintEl = document.getElementById('scrollHint');
+    const centerElements = [doorCenterGroup, heroDiaChi, scrollHintEl].filter(Boolean);
     if (centerElements.length > 0) {
       curtainTl.to(centerElements, {
         autoAlpha: 0,
-        scale: 0.92,
         ease: 'power1.out',
         duration: 0.32
       }, 0);

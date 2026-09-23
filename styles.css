@@ -471,63 +471,68 @@ body {
 }
 
 /* --------------------------------------------------------------------------
-   MINIMALIST CENTER SCROLL INDICATOR
+   MINIMALIST BOTTOM CENTER SCROLL INDICATOR
    -------------------------------------------------------------------------- */
 .scroll-hint-minimal {
   position: absolute;
-  top: calc(100% + 14px);
+  bottom: max(38px, calc(env(safe-area-inset-bottom) + 34px));
   left: 50%;
   transform: translateX(-50%);
   display: inline-flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   white-space: nowrap;
-  gap: 6px;
-  background: rgba(22, 9, 48, 0.76);
-  border: 1px solid rgba(255, 207, 36, 0.55);
-  box-shadow: 
-    0 4px 16px rgba(0, 0, 0, 0.45),
-    0 0 14px rgba(255, 207, 36, 0.25);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border-radius: 999px;
-  padding: 4px 12px;
-  color: #fff;
-  z-index: 28;
+  gap: 2px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 4px 10px;
+  color: rgba(255, 255, 255, 0.88);
+  z-index: 46;
   pointer-events: auto;
   cursor: pointer;
   user-select: none;
-  animation: scrollHintFloat 2.2s ease-in-out infinite;
-  transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+  animation: scrollHintFloat 2.4s ease-in-out infinite;
+  transition: transform 0.25s ease, opacity 0.25s ease;
 }
 
 .scroll-hint-minimal:hover,
 .scroll-hint-minimal:focus-visible {
-  background: rgba(42, 18, 92, 0.9);
-  border-color: #ffd700;
-  transform: translateX(-50%) scale(1.06);
-  box-shadow: 
-    0 6px 20px rgba(0, 0, 0, 0.6),
-    0 0 20px rgba(255, 215, 0, 0.55);
+  opacity: 1;
+  transform: translateX(-50%) translateY(2px);
   outline: none;
+}
+
+.scroll-hint-minimal:hover .scroll-hint-text,
+.scroll-hint-minimal:hover .scroll-hint-icon {
+  color: #fff;
+  stroke: #fff;
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.7));
 }
 
 .scroll-hint-text {
   font-family: 'Montserrat', sans-serif;
-  font-size: 10.5px;
+  font-size: 8.5px;
   font-weight: 700;
-  letter-spacing: 0.8px;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.92);
+  color: #ffffff;
+  text-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.95),
+    0 0 8px rgba(0, 0, 0, 0.7);
+  transition: color 0.2s ease;
 }
 
 .scroll-hint-icon {
-  width: 12px;
-  height: 12px;
-  stroke: var(--primary-gold);
-  stroke-width: 2.5;
+  width: 11px;
+  height: 11px;
+  stroke: #ffffff;
+  stroke-width: 2.4;
   display: block;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.9));
   animation: chevronBob 1.6s ease-in-out infinite;
+  transition: stroke 0.2s ease;
 }
 
 @keyframes scrollHintFloat {
@@ -535,14 +540,14 @@ body {
     transform: translateX(-50%) translateY(0);
   }
   50% {
-    transform: translateX(-50%) translateY(4px);
+    transform: translateX(-50%) translateY(3px);
   }
 }
 
 @keyframes chevronBob {
   0%, 100% {
     transform: translateY(0);
-    opacity: 0.85;
+    opacity: 0.75;
   }
   50% {
     transform: translateY(2.5px);
@@ -2347,17 +2352,19 @@ button.action-btn {
   }
 
   .scroll-hint-minimal {
-    padding: 5px 14px;
+    bottom: 46px;
+    padding: 4px 10px;
+    gap: 2.5px;
   }
 
   .scroll-hint-text {
-    font-size: 11px;
-    letter-spacing: 1px;
+    font-size: 9px;
+    letter-spacing: 1.6px;
   }
 
   .scroll-hint-icon {
-    width: 13px;
-    height: 13px;
+    width: 11px;
+    height: 11px;
   }
 }
 
