@@ -21,23 +21,23 @@
   position: absolute;
   pointer-events: auto; /* Only the lantern body itself receives click/hover events */
   cursor: pointer;
-  will-change: transform, opacity;
+  will-change: transform;
+  contain: layout style paint; /* WebKit/Blink isolated rendering tree - 0% reflow cost */
   transform-origin: 50% 90%;
   display: inline-flex;
   flex-direction: column;
   align-items: center;
   width: max-content;
   height: max-content;
-  transition: filter 0.3s ease, transform 0.2s ease;
   -webkit-tap-highlight-color: transparent;
 }
 
 .sky-lantern:hover {
-  filter: drop-shadow(0 0 18px rgba(255, 207, 36, 0.95)) brightness(1.15) !important;
+  transform: scale(1.08);
 }
 
 .sky-lantern:active {
-  transform: scale(0.95);
+  transform: scale(0.96);
 }
 
 /* SVG Graphic inside lantern */
@@ -49,30 +49,25 @@
 }
 
 /* 3. LANTERN DEPTH TIERS (Cinematic Depth of Field) */
-/* Lớp Xa: Nhỏ, mờ ảo, bay rất chậm */
+/* Lớp Xa: Nhỏ, trôi êm đềm */
 .sky-lantern.tier-far {
   z-index: 4;
-  filter: blur(0.5px) drop-shadow(0 0 8px rgba(255, 183, 3, 0.6));
 }
 
 /* Lớp Trung: Rõ vừa, lơ lửng quanh cung đường trăng */
 .sky-lantern.tier-mid {
   z-index: 12;
-  filter: drop-shadow(0 0 12px rgba(255, 170, 0, 0.75)) drop-shadow(0 0 24px rgba(247, 92, 3, 0.35));
 }
 
 /* Lớp Gần: Sắc nét, rực rỡ, chi tiết tim lửa và vành nan tre */
 .sky-lantern.tier-near {
   z-index: 24;
-  filter: drop-shadow(0 0 18px rgba(255, 200, 30, 0.85)) drop-shadow(0 0 35px rgba(251, 133, 0, 0.5));
 }
 
-/* 4. FLAME FLICKER & WIND SWAY ANIMATIONS */
+/* 4. FLAME FLICKER & WIND SWAY ANIMATIONS (Tối ưu Compositor-only) */
 @keyframes lanternFlicker {
   0%, 100% { opacity: 0.92; transform: scale(1); }
-  25% { opacity: 1.05; transform: scale(1.03); }
-  50% { opacity: 0.88; transform: scale(0.98); }
-  75% { opacity: 1.08; transform: scale(1.04); }
+  50% { opacity: 1; transform: scale(1.03); }
 }
 
 .lantern-flame-core {
@@ -83,7 +78,6 @@
 /* 5. USER'S GOLDEN WISH LANTERN (ĐÈN ƯỚC NGUYỆN HOÀNG KIM) */
 .sky-lantern--user {
   z-index: 26 !important;
-  filter: drop-shadow(0 0 25px #ffcf24) drop-shadow(0 0 50px #ff8800) drop-shadow(0 0 80px rgba(255, 207, 36, 0.75)) !important;
   animation: userLanternPulse 2s ease-in-out infinite alternate;
 }
 

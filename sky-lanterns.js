@@ -77,7 +77,8 @@
     lanternUniqueCounter++;
     const gradId = `lanternGrad_${lanternUniqueCounter}`;
     const flameId = `flameGrad_${lanternUniqueCounter}`;
-    const glowId = `glowFilter_${lanternUniqueCounter}`;
+    const auraId = `auraGrad_${lanternUniqueCounter}`;
+    const bottomGlowId = `bottomGlow_${lanternUniqueCounter}`;
 
     // Khổ kích thước chuẩn tỷ lệ Khổng Minh Đăng theo example.png
     const w = isUser ? 68 : (tier === 'near' ? 52 : (tier === 'mid' ? 36 : 24));
@@ -105,14 +106,26 @@
             <stop offset="100%" stop-color="#f77f00" stop-opacity="0" />
           </radialGradient>
 
-          <!-- Filter quầng hào quang mềm tỏa sáng trên nền tím -->
-          <filter id="${glowId}" x="-40%" y="-40%" width="180%" height="180%">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="${isUser ? 6.5 : (tier === 'near' ? 4 : 2.5)}" />
-          </filter>
+          <!-- Hào quang ấm áp tỏa rộng (Zero Filter - Render siêu tốc 60fps trên mọi máy cỏ) -->
+          <radialGradient id="${auraId}" cx="50%" cy="58%" r="50%">
+            <stop offset="0%" stop-color="#ffcf24" stop-opacity="${isUser ? '0.85' : '0.65'}" />
+            <stop offset="35%" stop-color="#ff9100" stop-opacity="${isUser ? '0.5' : '0.35'}" />
+            <stop offset="70%" stop-color="#e63946" stop-opacity="${isUser ? '0.2' : '0.12'}" />
+            <stop offset="100%" stop-color="#3d0a4e" stop-opacity="0" />
+          </radialGradient>
+
+          <!-- Quầng sáng đáy rực rỡ xung quanh miệng lồng đèn -->
+          <radialGradient id="${bottomGlowId}" cx="50%" cy="85%" r="35%">
+            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9" />
+            <stop offset="25%" stop-color="#fff07c" stop-opacity="0.75" />
+            <stop offset="60%" stop-color="#ff9e00" stop-opacity="0.35" />
+            <stop offset="100%" stop-color="#f77f00" stop-opacity="0" />
+          </radialGradient>
         </defs>
 
-        <!-- Quầng sáng ấm áp tỏa ra nền trời đêm tím -->
-        <rect x="18" y="10" width="64" height="106" rx="8" fill="url(#${flameId})" filter="url(#${glowId})" opacity="${isUser ? 0.95 : 0.75}" />
+        <!-- Quầng hào quang tỏa ấm tự nhiên vào nền trời đêm tím (Không dùng bất kỳ filter blur nào) -->
+        <ellipse cx="50" cy="72" rx="49" ry="60" fill="url(#${auraId})" />
+        <ellipse cx="50" cy="115" rx="38" ry="16" fill="url(#${bottomGlowId})" />
 
         <!-- Thân đèn Khổng Minh dạng hình thang đỉnh bằng chuẩn example.png -->
         <path d="M 24 12 
@@ -150,7 +163,7 @@
           <!-- Lõi lửa trắng tinh khiết rực sáng -->
           <path d="M 50 68 C 46 86 45 104 47 115 C 49 117 51 117 53 115 C 55 104 54 86 50 68 Z" fill="#ffffff" />
           <!-- Vùng tâm lửa rực rỡ tại miệng đáy -->
-          <circle cx="50" cy="116" r="${isUser ? 6.5 : 5}" fill="#ffffff" filter="url(#${glowId})" />
+          <circle cx="50" cy="116" r="${isUser ? 6.5 : 5}" fill="#ffffff" />
         </g>
 
         <!-- Vành nan tre miệng đáy mở chuẩn đèn Khổng Minh -->
@@ -235,6 +248,7 @@
       this.swayPhase = Math.random() * Math.PI * 2;
       this.isDormant = false;
       this.dormantTimer = 0;
+      this.lastOpacityStr = '';
 
       if (initial) {
         // Khi tải trang: phân bổ độ cao so le khắp bầu trời
@@ -244,6 +258,7 @@
           this.dormantTimer = Math.random() * 150 + 60; // 1-3.5s sau mới bay
           this.isDormant = true;
           this.el.style.opacity = '0';
+          this.lastOpacityStr = '0';
         } else {
           this.y = Math.random() * (vH * 0.75) + (vH * 0.08);
         }
@@ -254,6 +269,7 @@
         this.dormantTimer = Math.random() * 320 + 200; // 3.5 - 9s
         this.isDormant = true;
         this.el.style.opacity = '0';
+        this.lastOpacityStr = '0';
       }
     }
 
@@ -263,17 +279,22 @@
         if (this.dormantTimer <= 0) {
           this.isDormant = false;
         } else {
-          this.el.style.opacity = '0';
+          if (this.lastOpacityStr !== '0') {
+            this.el.style.opacity = '0';
+            this.lastOpacityStr = '0';
+          }
           return;
         }
       }
 
       this.y -= this.speed * (delta / 16.67);
 
+      const vW = window.innerWidth;
       const vH = window.innerHeight;
+      const isMobile = vW <= 768;
       const swayOffset = Math.sin(time * this.swayFreq + this.swayPhase) * this.swayAmp;
       this.x = this.baseX + swayOffset;
-      const tilt = Math.cos(time * this.swayFreq + this.swayPhase) * 2.0;
+      const tilt = isMobile ? 0 : Math.cos(time * this.swayFreq + this.swayPhase) * 2.0;
 
       let currentOpacity = this.baseOpacity;
       let currentScale = 1.0;
@@ -285,7 +306,6 @@
       }
 
       // 2. Trên đỉnh: Bay lên tầng cao khí quyển thì thu nhỏ dần và tan biến vào vũ trụ
-      // Bắt đầu thu nhỏ & mờ dần từ 38% chiều cao màn hình (y < vH * 0.38)
       const topThreshold = Math.max(220, vH * 0.38);
       const vanishY = -60; // Điểm tan biến hoàn toàn thành hư vô
       if (this.y < topThreshold) {
@@ -296,11 +316,21 @@
         currentScale = 0.18 + 0.82 * Math.pow(topProgress, 0.85);
       }
 
-      // GPU Transform
-      this.el.style.transform = `translate3d(${this.x.toFixed(1)}px, ${this.y.toFixed(1)}px, 0) scale(${currentScale.toFixed(3)}) rotate(${tilt.toFixed(1)}deg)`;
-      this.el.style.opacity = currentOpacity.toFixed(3);
+      // GPU Transform (Phần cứng tăng tốc - Không kích hoạt Layout Reflow)
+      if (isMobile) {
+        this.el.style.transform = `translate3d(${this.x.toFixed(1)}px, ${this.y.toFixed(1)}px, 0) scale(${currentScale.toFixed(2)})`;
+      } else {
+        this.el.style.transform = `translate3d(${this.x.toFixed(1)}px, ${this.y.toFixed(1)}px, 0) scale(${currentScale.toFixed(2)}) rotate(${tilt.toFixed(1)}deg)`;
+      }
 
-      // Khi đã tan biến hoàn toàn (y <= vanishY hoặc opacity <= 0) mới kích hoạt chu kỳ tái sinh ngẫu nhiên
+      // Chỉ cập nhật style.opacity khi giá trị thực sự biến thiên để bảo vệ WebKit Main Thread
+      const opacityStr = currentOpacity.toFixed(2);
+      if (this.lastOpacityStr !== opacityStr) {
+        this.el.style.opacity = opacityStr;
+        this.lastOpacityStr = opacityStr;
+      }
+
+      // Khi đã tan biến hoàn toàn (y <= vanishY) mới kích hoạt chu kỳ tái sinh ngẫu nhiên
       if (this.y <= vanishY) {
         this.reset(false);
       }
@@ -333,6 +363,7 @@
       this.swayFreq = 0.0016;
       this.swayPhase = 0;
       this.isAlive = true;
+      this.lastOpacityStr = '';
     }
 
     update(time, delta) {
@@ -341,7 +372,7 @@
       this.y -= this.speed * (delta / 16.67);
       const swayOffset = Math.sin(time * this.swayFreq + this.swayPhase) * this.swayAmp;
       this.x = this.baseX + swayOffset;
-      const tilt = Math.cos(time * this.swayFreq + this.swayPhase) * 2.4;
+      const tilt = Math.cos(time * this.swayFreq + this.swayPhase) * 2.0;
 
       const vH = window.innerHeight;
       let currentOpacity = 1.0;
@@ -356,8 +387,12 @@
         currentScale = 0.2 + 0.8 * Math.pow(topProgress, 0.85);
       }
 
-      this.el.style.transform = `translate3d(${this.x.toFixed(1)}px, ${this.y.toFixed(1)}px, 0) scale(${currentScale.toFixed(3)}) rotate(${tilt.toFixed(1)}deg)`;
-      this.el.style.opacity = currentOpacity.toFixed(3);
+      this.el.style.transform = `translate3d(${this.x.toFixed(1)}px, ${this.y.toFixed(1)}px, 0) scale(${currentScale.toFixed(2)}) rotate(${tilt.toFixed(1)}deg)`;
+      const opacityStr = currentOpacity.toFixed(2);
+      if (this.lastOpacityStr !== opacityStr) {
+        this.el.style.opacity = opacityStr;
+        this.lastOpacityStr = opacityStr;
+      }
 
       // Khi bay khuất hẳn khỏi màn hình
       if (this.y <= vanishY) {
@@ -372,8 +407,22 @@
   let userLanterns = [];
 
   /* --------------------------------------------------------------------------
-     5. RENDER LOOP (60FPS HARDWARE ACCELERATED)
+     5. RENDER LOOP (60FPS HARDWARE ACCELERATED & SCROLL-FREEZE)
      -------------------------------------------------------------------------- */
+  let isScrolling = false;
+  let scrollTimeout = null;
+
+  // Lắng nghe sự kiện cuộn: Khi ngón tay đang cuộn trang, tạm dừng render đèn
+  // để nhường 100% tài nguyên CPU/GPU cho hiệu ứng GSAP ScrollTrigger
+  window.addEventListener('scroll', () => {
+    isScrolling = true;
+    if (scrollTimeout) clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+      isScrolling = false;
+      lastTimestamp = performance.now(); // Reset timestamp để tránh giật bước sau khi dừng cuộn
+    }, 100);
+  }, { passive: true });
+
   function animate(now) {
     if (!isRunning) return;
 
@@ -381,16 +430,19 @@
     const delta = Math.min(now - lastTimestamp, 50); // Cap delta to prevent jump after tab switch
     lastTimestamp = now;
 
-    // Cập nhật đèn nền
-    for (let i = 0; i < lanternsPool.length; i++) {
-      lanternsPool[i].update(now, delta);
-    }
+    // Khi người dùng đang vuốt cuộn trang, đóng băng update đèn để cuộn siêu mượt 120Hz/60Hz
+    if (!isScrolling) {
+      // Cập nhật đèn nền
+      for (let i = 0; i < lanternsPool.length; i++) {
+        lanternsPool[i].update(now, delta);
+      }
 
-    // Cập nhật đèn của người dùng
-    for (let i = userLanterns.length - 1; i >= 0; i--) {
-      userLanterns[i].update(now, delta);
-      if (!userLanterns[i].isAlive) {
-        userLanterns.splice(i, 1);
+      // Cập nhật đèn của người dùng
+      for (let i = userLanterns.length - 1; i >= 0; i--) {
+        userLanterns[i].update(now, delta);
+        if (!userLanterns[i].isAlive) {
+          userLanterns.splice(i, 1);
+        }
       }
     }
 
@@ -579,17 +631,15 @@
   function initSkyLanterns() {
     createWishModalDOM();
 
-    // Điều chỉnh số lượng đèn theo kích thước màn hình để đảm bảo thoáng đãng, chill chill
-    // Mobile: 6 đèn (2 Xa, 2 Trung, 2 Gần)
-    // Desktop: 8 đèn (3 Xa, 3 Trung, 2 Gần)
+    // Tối ưu số lượng đèn: Mobile 4 đèn (siêu nhẹ, mượt 60fps không giật lag), Desktop 6 đèn (thoáng đãng, thanh tao)
     const isMobile = window.innerWidth <= 768;
     const config = isMobile ? [
+      { tier: 'far', count: 1 },
+      { tier: 'mid', count: 2 },
+      { tier: 'near', count: 1 }
+    ] : [
       { tier: 'far', count: 2 },
       { tier: 'mid', count: 2 },
-      { tier: 'near', count: 2 }
-    ] : [
-      { tier: 'far', count: 3 },
-      { tier: 'mid', count: 3 },
       { tier: 'near', count: 2 }
     ];
 
