@@ -682,8 +682,9 @@
         0.55
       );
 
-      // 6. Cung đường ngân hà & Chân viền địa chỉ (0.62s)
-      entranceTimeline.fromTo(['.layer-cung-duong', '.layer-frame-strip', '.layer-dia-chi'],
+      // 6. Cung đường ngân hà & Chân viền (0.62s)
+      // Lưu ý: .layer-dia-chi đã chuyển ra ngoài heroCurtainWrapper, luôn hiển thị fixed, không cần animate
+      entranceTimeline.fromTo(['.layer-cung-duong', '.layer-frame-strip'],
         { y: 25, opacity: 0 },
         { y: 0, opacity: 1, duration: 0.5, stagger: 0.05 },
         0.62

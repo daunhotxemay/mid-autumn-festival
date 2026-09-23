@@ -838,15 +838,19 @@ body {
 }
 
 .layer-dia-chi {
+  position: fixed;
   bottom: 20px;
   bottom: max(20px, calc(env(safe-area-inset-bottom, 0px) + 16px));
   left: 50%;
   transform: translateX(-50%);
   width: 94%;
   max-width: 520px;
-  z-index: 50;
+  z-index: 120;
   pointer-events: auto;
   padding: 0;
+  user-select: none;
+  opacity: 1;
+  visibility: visible;
 }
 
 .hotline-link {
@@ -2178,13 +2182,14 @@ button.action-btn {
   }
 
   .layer-dia-chi {
+    position: fixed;
     bottom: 20px;
     bottom: max(20px, calc(env(safe-area-inset-bottom, 0px) + 16px));
     left: 50%;
     transform: translateX(-50%);
     width: 95%;
     max-width: 440px;
-    z-index: 50;
+    z-index: 120;
     padding: 0;
   }
 
@@ -2355,11 +2360,13 @@ button.action-btn {
   }
 
   .layer-dia-chi {
+    position: fixed;
     bottom: 12px;
     left: 50%;
     transform: translateX(-50%);
     max-width: 520px;
     width: 100%;
+    z-index: 120;
   }
 
   .scroll-hint-minimal {

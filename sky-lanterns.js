@@ -433,17 +433,11 @@
   let activeTargetLantern = null;
 
   function createWishModalDOM() {
-    // 1. Viewport Container - gắn vào #festivalStage để nằm trong stacking context
-    //    của sân khấu hero (z-index: 30), tránh che khuất hotline & nhân vật
+    // 1. Viewport Container - append to body for highest visual layer (above characters for depth)
     viewportEl = document.createElement('div');
     viewportEl.id = 'skyLanternsContainer';
     viewportEl.className = 'sky-lanterns-viewport';
-    const stageEl = document.getElementById('festivalStage');
-    if (stageEl) {
-      stageEl.appendChild(viewportEl);
-    } else {
-      document.body.appendChild(viewportEl);
-    }
+    document.body.appendChild(viewportEl);
 
     // 2. Wish Modal Overlay (Tâm Thư Giấy Dó Cổ Phong - Đường Cong Mỹ Thuật)
     const modalHTML = `

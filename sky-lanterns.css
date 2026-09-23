@@ -4,16 +4,13 @@
    ========================================================================== */
 
 /* 1. VIEWPORT CONTAINER (Non-blocking, zero interference with page controls) */
-/* Gắn bên trong #festivalStage → position: absolute + z-index: 18
-   Nằm trên nền trời (z-index: 2) nhưng SAU nhân vật (z-index: 25+),
-   Thỏ/Bánh (z-index: 40), và Hotline (z-index: 50) */
 .sky-lanterns-viewport {
-  position: absolute;
+  position: fixed;
   inset: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   pointer-events: none; /* Crucial: Allows all clicks to pass straight through */
-  z-index: 18;          /* Behind characters (25+), cakes (40), hotline (50) */
+  z-index: 100;         /* Above hero curtain wrapper so lanterns create depth in front of characters */
   overflow: hidden;
   user-select: none;
   -webkit-user-select: none;
