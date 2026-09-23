@@ -151,6 +151,8 @@ body {
   top: 0;
   left: 0;
   width: 100vw;
+  height: 100vh;
+  height: 100svh;
   height: 100dvh;
   z-index: 30;
   overflow: hidden;
@@ -475,8 +477,8 @@ body {
    -------------------------------------------------------------------------- */
 .scroll-hint-minimal {
   position: absolute;
-  bottom: 44px;
-  bottom: max(44px, calc(env(safe-area-inset-bottom, 8px) + 36px));
+  bottom: 76px;
+  bottom: max(76px, calc(env(safe-area-inset-bottom, 0px) + 70px));
   left: 50%;
   transform: translateX(-50%);
   display: inline-flex;
@@ -836,8 +838,8 @@ body {
 }
 
 .layer-dia-chi {
-  bottom: 8px;
-  bottom: max(8px, env(safe-area-inset-bottom, 8px));
+  bottom: 20px;
+  bottom: max(20px, calc(env(safe-area-inset-bottom, 0px) + 16px));
   left: 50%;
   transform: translateX(-50%);
   width: 94%;
@@ -2002,6 +2004,8 @@ button.action-btn {
     top: 0;
     left: 0;
     width: 100vw;
+    height: 100vh;
+    height: 100svh;
     height: 100dvh;
     z-index: 30;
     overflow: hidden;
@@ -2174,8 +2178,8 @@ button.action-btn {
   }
 
   .layer-dia-chi {
-    bottom: 8px;
-    bottom: max(8px, env(safe-area-inset-bottom, 8px));
+    bottom: 20px;
+    bottom: max(20px, calc(env(safe-area-inset-bottom, 0px) + 16px));
     left: 50%;
     transform: translateX(-50%);
     width: 95%;
