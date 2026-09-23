@@ -176,11 +176,19 @@
      ========================================================================== */
   function scrollToRegister() {
     const isMobile = window.innerWidth <= 768;
-    const targetScroll = isMobile ? 500 : 640;
-    window.scrollTo({
-      top: targetScroll,
-      behavior: 'smooth'
-    });
+    const targetScroll = isMobile ? 800 : 1000;
+
+    if (window.lenisInstance) {
+      window.lenisInstance.scrollTo(targetScroll, {
+        duration: 1.5,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+      });
+    } else {
+      window.scrollTo({
+        top: targetScroll,
+        behavior: 'smooth'
+      });
+    }
   }
 
   window.scrollToRegister = scrollToRegister;
@@ -196,6 +204,20 @@
     invitationCard.addEventListener('click', (e) => {
       e.preventDefault();
       scrollToRegister();
+    });
+  }
+
+  const scrollHint = document.getElementById('scrollHint');
+  if (scrollHint) {
+    scrollHint.addEventListener('click', (e) => {
+      e.preventDefault();
+      scrollToRegister();
+    });
+    scrollHint.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        scrollToRegister();
+      }
     });
   }
 
@@ -348,7 +370,11 @@
     if (registerForm) registerForm.style.display = 'none';
     if (successBox) {
       successBox.style.display = 'block';
-      successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      if (window.lenisInstance) {
+        window.lenisInstance.scrollTo(successBox, { offset: -60, duration: 1.2 });
+      } else {
+        successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
     }
 
     triggerConfetti();
@@ -578,6 +604,29 @@
     const isMobile = window.innerWidth <= 768;
 
     // ------------------------------------------------------------------------
+    // LENIS SMOOTH SCROLL INITIALIZATION
+    // ------------------------------------------------------------------------
+    let lenis = null;
+    if (typeof Lenis !== 'undefined') {
+      lenis = new Lenis({
+        duration: 1.25,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true,
+        wheelMultiplier: 1.0,
+        touchMultiplier: 1.2
+      });
+      window.lenisInstance = lenis;
+
+      lenis.on('scroll', ScrollTrigger.update);
+
+      gsap.ticker.add((time) => {
+        lenis.raf(time * 1000);
+      });
+
+      gsap.ticker.lagSmoothing(0);
+    }
+
+    // ------------------------------------------------------------------------
     // ENTRANCE TIMELINE: HIỆU ỨNG XUẤT HIỆN TỪNG TẦNG CỰC KỲ MƯỢT MÀ (~1.4S)
     // ------------------------------------------------------------------------
     let entranceTimeline = null;
@@ -640,13 +689,21 @@
         0.62
       );
 
-      // 7. Thiệp mời trung tâm (Kính Mời - Vui Tết Thiếu Nhi) (0.7s)
+      // 7. Thiệp mời trung tâm & Nút gợi ý cuộn (0.7s)
       const invitationCard = document.getElementById('invitationCard');
+      const scrollHintEl = document.getElementById('scrollHint');
       if (invitationCard) {
         entranceTimeline.fromTo(invitationCard,
           { y: 25, scale: 0.88, opacity: 0 },
           { y: 0, scale: 1, opacity: 1, duration: 0.55, ease: 'back.out(1.3)' },
           0.7
+        );
+      }
+      if (scrollHintEl) {
+        entranceTimeline.fromTo(scrollHintEl,
+          { y: 15, scale: 0.88, opacity: 0 },
+          { y: 0, scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(1.4)' },
+          0.76
         );
       }
 
@@ -709,10 +766,10 @@
       scrollTrigger: {
         trigger: document.body,
         start: 'top top',
-        end: isMobile ? '+=480' : '+=620',
+        end: isMobile ? '+=800' : '+=1000',
         pin: sectionRegister,
         pinSpacing: true,
-        scrub: isMobile ? 0.35 : 0.6,
+        scrub: isMobile ? 0.65 : 0.8,
         anticipatePin: 1,
         invalidateOnRefresh: true,
         onUpdate: (self) => {
@@ -726,15 +783,15 @@
       }
     });
 
-    // 1. Cụm trung tâm & Chân viền Hotline mờ dần nhanh chóng khi rèm bắt đầu rẽ
+    // 1. Cụm trung tâm, nút cuộn & Chân viền Hotline mờ dần nhanh chóng khi rèm bắt đầu rẽ
     const heroDiaChi = document.getElementById('heroDiaChi');
     const centerElements = [doorCenterGroup, heroDiaChi].filter(Boolean);
     if (centerElements.length > 0) {
       curtainTl.to(centerElements, {
         autoAlpha: 0,
-        scale: 0.93,
+        scale: 0.92,
         ease: 'power1.out',
-        duration: 0.38
+        duration: 0.32
       }, 0);
     }
 
