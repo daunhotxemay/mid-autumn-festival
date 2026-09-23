@@ -41,15 +41,20 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-html, body {
+html {
+  overflow-x: hidden;
+  touch-action: pan-y;
+}
+
+body {
   width: 100%;
-  height: 100%;
   font-family: 'Be Vietnam Pro', sans-serif;
   background: #09031c;
   color: var(--white);
   overflow-x: hidden;
-  overflow-y: auto;
+  min-height: 100vh;
   min-height: 100dvh;
+  touch-action: pan-y;
 }
 
 /* --------------------------------------------------------------------------
@@ -959,6 +964,7 @@ html, body {
   will-change: transform;
 }
 
+body.gsap-active [class*="anim-phase-"],
 .gsap-scrolling [class*="anim-phase-"] {
   animation: none !important;
 }
@@ -1809,14 +1815,17 @@ button.action-btn {
    Matches flyer-mattruoc.pdf edge-to-edge on all phones
    ========================================================================== */
 @media (max-width: 768px) {
-  html, body {
-    width: 100vw;
-    min-height: 100dvh;
+  html {
     overflow-x: hidden;
-    overflow-y: auto;
-    scroll-behavior: smooth;
+    touch-action: pan-y;
+  }
+
+  body {
+    width: 100%;
+    min-height: 100dvh;
     position: static;
     background: #09031c;
+    touch-action: pan-y;
   }
 
   .page-container {
