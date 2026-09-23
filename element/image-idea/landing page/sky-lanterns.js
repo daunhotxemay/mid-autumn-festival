@@ -187,7 +187,7 @@
       this.tier = tier;
       this.index = index;
       this.total = total;
-      this.isUser = false;
+      this.isBlessed = false;
 
       this.el = document.createElement('div');
       this.el.className = `sky-lantern tier-${tier}`;
@@ -200,10 +200,10 @@
       this.tooltip.textContent = `✨ ${wishText}`;
       this.el.appendChild(this.tooltip);
 
-      // Thao tác click vào đèn mở sớ ước nguyện
+      // Thao tác click vào đèn mở sớ ước nguyện (gắn trực tiếp ngọn đèn này làm mục tiêu)
       this.el.addEventListener('click', (e) => {
         e.stopPropagation();
-        openWishModal();
+        openWishModal(this);
       });
 
       this.reset(true);
@@ -211,6 +211,19 @@
     }
 
     reset(initial = false) {
+      // Nếu ngọn đèn vừa hoàn thành chu kỳ ước nguyện hoàng kim, trả về trạng thái đèn thường
+      if (this.isBlessed) {
+        this.isBlessed = false;
+        this.el.className = `sky-lantern tier-${this.tier}`;
+        this.el.innerHTML = createLanternSVG(this.tier, false);
+
+        const wishText = COMMUNITY_WISHES[Math.floor(Math.random() * COMMUNITY_WISHES.length)];
+        this.tooltip = document.createElement('div');
+        this.tooltip.className = 'lantern-wish-tooltip';
+        this.tooltip.textContent = `✨ ${wishText}`;
+        this.el.appendChild(this.tooltip);
+      }
+
       const vW = window.innerWidth;
       const vH = window.innerHeight;
 
@@ -306,12 +319,12 @@
       }
 
       // 2. Trên đỉnh: Bay lên tầng cao khí quyển thì thu nhỏ dần và tan biến vào vũ trụ
-      const topThreshold = Math.max(220, vH * 0.38);
-      const vanishY = -60; // Điểm tan biến hoàn toàn thành hư vô
+      const topThreshold = Math.max(220, vH * (this.isBlessed ? 0.42 : 0.38));
+      const vanishY = this.isBlessed ? -70 : -60; // Điểm tan biến hoàn toàn thành hư vô
       if (this.y < topThreshold) {
         const topProgress = Math.max(0, Math.min(1, (this.y - vanishY) / (topThreshold - vanishY)));
         // Opacity giảm theo hàm mũ mượt mà để mờ dần tự nhiên
-        currentOpacity *= Math.pow(topProgress, 1.4);
+        currentOpacity *= Math.pow(topProgress, 1.35);
         // Scale thu nhỏ từ 1.0 xuống 0.18 như một đốm sao xa xôi
         currentScale = 0.18 + 0.82 * Math.pow(topProgress, 0.85);
       }
@@ -338,76 +351,7 @@
   }
 
   /* --------------------------------------------------------------------------
-     4. USER WISH LANTERN (ĐÈN ƯỚC NGUYỆN CÁ NHÂN SÁNG VƯỢT TRỘI)
-     -------------------------------------------------------------------------- */
-  class UserWishLantern {
-    constructor(wishText, senderName, startX, startY) {
-      this.el = document.createElement('div');
-      this.el.className = 'sky-lantern sky-lantern--user';
-      this.el.innerHTML = createLanternSVG('near', true);
-
-      // Thêm dải sớ nguyện ước rủ xuống
-      const ribbon = document.createElement('div');
-      ribbon.className = 'user-wish-ribbon';
-      const displayName = senderName ? `${senderName}: ` : '';
-      ribbon.textContent = `🏮 ${displayName}${wishText}`;
-      this.el.appendChild(ribbon);
-
-      viewportEl.appendChild(this.el);
-
-      this.baseX = startX || (window.innerWidth * 0.5 - 34);
-      this.x = this.baseX;
-      this.y = startY || (window.innerHeight - 60);
-      this.speed = 1.95; // Bay bứt phá nhanh hơn 1.85x đèn thường
-      this.swayAmp = 18;
-      this.swayFreq = 0.0016;
-      this.swayPhase = 0;
-      this.isAlive = true;
-      this.lastOpacityStr = '';
-    }
-
-    update(time, delta) {
-      if (!this.isAlive) return;
-
-      this.y -= this.speed * (delta / 16.67);
-      const swayOffset = Math.sin(time * this.swayFreq + this.swayPhase) * this.swayAmp;
-      this.x = this.baseX + swayOffset;
-      const tilt = Math.cos(time * this.swayFreq + this.swayPhase) * 2.0;
-
-      const vH = window.innerHeight;
-      let currentOpacity = 1.0;
-      let currentScale = 1.0;
-
-      // Khi bay lên cao vút (y < vH * 0.42), thu nhỏ dần và hòa tan vào ánh sáng Cung Trăng
-      const topThreshold = Math.max(240, vH * 0.42);
-      const vanishY = -70;
-      if (this.y < topThreshold) {
-        const topProgress = Math.max(0, Math.min(1, (this.y - vanishY) / (topThreshold - vanishY)));
-        currentOpacity = Math.pow(topProgress, 1.35);
-        currentScale = 0.2 + 0.8 * Math.pow(topProgress, 0.85);
-      }
-
-      this.el.style.transform = `translate3d(${this.x.toFixed(1)}px, ${this.y.toFixed(1)}px, 0) scale(${currentScale.toFixed(2)}) rotate(${tilt.toFixed(1)}deg)`;
-      const opacityStr = currentOpacity.toFixed(2);
-      if (this.lastOpacityStr !== opacityStr) {
-        this.el.style.opacity = opacityStr;
-        this.lastOpacityStr = opacityStr;
-      }
-
-      // Khi bay khuất hẳn khỏi màn hình
-      if (this.y <= vanishY) {
-        this.isAlive = false;
-        if (this.el.parentNode) {
-          this.el.parentNode.removeChild(this.el);
-        }
-      }
-    }
-  }
-
-  let userLanterns = [];
-
-  /* --------------------------------------------------------------------------
-     5. RENDER LOOP (60FPS HARDWARE ACCELERATED & SCROLL-FREEZE)
+     4. RENDER LOOP (60FPS HARDWARE ACCELERATED & SCROLL-FREEZE)
      -------------------------------------------------------------------------- */
   let isScrolling = false;
   let scrollTimeout = null;
@@ -432,17 +376,9 @@
 
     // Khi người dùng đang vuốt cuộn trang, đóng băng update đèn để cuộn siêu mượt 120Hz/60Hz
     if (!isScrolling) {
-      // Cập nhật đèn nền
+      // Cập nhật đèn trong pool (số lượng cố định, cực nhẹ)
       for (let i = 0; i < lanternsPool.length; i++) {
         lanternsPool[i].update(now, delta);
-      }
-
-      // Cập nhật đèn của người dùng
-      for (let i = userLanterns.length - 1; i >= 0; i--) {
-        userLanterns[i].update(now, delta);
-        if (!userLanterns[i].isAlive) {
-          userLanterns.splice(i, 1);
-        }
       }
     }
 
@@ -461,13 +397,14 @@
   });
 
   /* --------------------------------------------------------------------------
-     6. WISH SCROLL MODAL (SỚ ƯỚC NGUYỆN HOÀNG KIM)
+     5. WISH PARCHMENT MODAL (TÂM THƯ GIẤY DÓ CỔ PHONG HOÀNG KIM)
      -------------------------------------------------------------------------- */
   let wishModal = null;
   let wishBackdrop = null;
   let wishTextarea = null;
   let wishNameInput = null;
   let chipButtons = [];
+  let activeTargetLantern = null;
 
   function createWishModalDOM() {
     // 1. Viewport Container
@@ -488,15 +425,15 @@
       </svg>
       <span>🏮 Thả Thiên Đăng</span>
     `;
-    btnLaunch.addEventListener('click', openWishModal);
+    btnLaunch.addEventListener('click', () => openWishModal());
     document.body.appendChild(btnLaunch);
 
-    // 3. Wish Modal Overlay
+    // 3. Wish Modal Overlay (Phong cách Tâm Thư Giấy Dó Cổ Phong)
     const modalHTML = `
       <div class="wish-modal-overlay" id="wishModalOverlay" role="dialog" aria-modal="true" aria-labelledby="wishModalTitle" hidden>
         <div class="wish-modal-backdrop" id="wishModalBackdrop"></div>
-        <div class="wish-modal-card">
-          <button type="button" class="wish-modal-close" id="btnCloseWishModal" aria-label="Đóng sớ ước nguyện">
+        <div class="wish-modal-card wish-parchment-card">
+          <button type="button" class="wish-modal-close" id="btnCloseWishModal" aria-label="Đóng tâm thư">
             <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
               <line x1="18" y1="6" x2="6" y2="18"></line>
               <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -504,14 +441,17 @@
           </button>
 
           <div class="wish-modal-header">
-            <div class="wish-modal-badge">
-              <span>🏮 THIÊN ĐĂNG NGUYỆN ƯỚC</span>
+            <div class="wish-parchment-seal" aria-hidden="true">
+              <span>VẠN SỰ<br>AN LÀNH</span>
             </div>
-            <h3 class="wish-modal-title" id="wishModalTitle">THẢ ĐÈN LÊN CUNG TRĂNG</h3>
-            <p class="wish-modal-desc">Thắp sáng một ngọn đèn mang theo tâm nguyện bình an, tài lộc đêm Rằm tháng Tám:</p>
+            <div class="wish-modal-badge">
+              <span>📜 TÂM THƯ ƯỚC NGUYỆN</span>
+            </div>
+            <h3 class="wish-modal-title" id="wishModalTitle">SỚ NGUYỆN ƯỚC CUNG TRĂNG</h3>
+            <p class="wish-modal-desc">Kính cẩn thắp sáng ngọn thiên đăng, gửi gắm tâm nguyện bình an, tài lộc đêm Rằm tháng Tám:</p>
           </div>
 
-          <div class="wish-chips-title">Chọn nhanh ước nguyện ý nghĩa:</div>
+          <div class="wish-chips-title">Chọn nhanh lời nguyện ước ý nghĩa:</div>
           <div class="wish-chips-grid">
             <button type="button" class="wish-chip-btn is-selected" data-text="Gia đình sum vầy, vạn sự bình an 🌕">🌕 Gia đình sum vầy, bình an</button>
             <button type="button" class="wish-chip-btn" data-text="Công danh thăng tiến, tài lộc hanh thông 🏮">🏮 Công danh, tài lộc hanh thông</button>
@@ -520,17 +460,17 @@
           </div>
 
           <div class="wish-input-group">
-            <label class="wish-label" for="txtCustomWish">Hoặc tự tay viết lời chúc của bạn:</label>
-            <textarea id="txtCustomWish" class="wish-textarea" placeholder="Nhập tâm nguyện hoặc lời chúc tốt đẹp đêm Trung Thu..."></textarea>
+            <label class="wish-label" for="txtCustomWish">Hoặc tự tay nắn nót viết lời tâm nguyện:</label>
+            <textarea id="txtCustomWish" class="wish-textarea" placeholder="Nắn nót ghi lại tâm nguyện hoặc lời chúc chân thành đêm Trung Thu..."></textarea>
           </div>
 
           <div class="wish-input-group">
-            <label class="wish-label" for="txtWishAuthor">Tên người gửi (không bắt buộc):</label>
-            <input type="text" id="txtWishAuthor" class="wish-name-input" placeholder="Ví dụ: Gia đình An Nhiên, Tuấn Anh..." maxlength="30" />
+            <label class="wish-label" for="txtWishAuthor">Người kính cẩn dâng ước nguyện (không bắt buộc):</label>
+            <input type="text" id="txtWishAuthor" class="wish-name-input" placeholder="Ví dụ: Con kính chúc cha mẹ, Gia đình Tuấn Anh..." maxlength="30" />
           </div>
 
           <button type="button" class="btn-submit-wish" id="btnSendWish">
-            <span>✨ Thắp Sáng & Thả Đèn Lên Trời</span>
+            <span>✨ Thắp Lửa & Thả Đèn Lên Cung Trăng</span>
           </button>
         </div>
       </div>
@@ -581,18 +521,46 @@
     });
   }
 
-  function openWishModal() {
+  function openWishModal(targetLantern = null) {
     if (!wishModal) return;
+
+    // Gán ngọn đèn mục tiêu
+    if (targetLantern && targetLantern instanceof SkyLantern) {
+      activeTargetLantern = targetLantern;
+    } else {
+      // Nếu bấm nút nổi, tự động chọn ngọn đèn đang ở tầm mắt đẹp nhất
+      const vH = window.innerHeight;
+      const candidates = lanternsPool.filter(l => !l.isDormant && !l.isBlessed && l.y > vH * 0.25 && l.y < vH * 0.85);
+      if (candidates.length > 0) {
+        candidates.sort((a, b) => (b.tier === 'near' ? 2 : 1) - (a.tier === 'near' ? 2 : 1));
+        activeTargetLantern = candidates[0];
+      } else {
+        activeTargetLantern = lanternsPool.find(l => !l.isBlessed) || lanternsPool[0];
+      }
+    }
+
+    // Hiệu ứng focus nhẹ ngọn đèn đang được chọn
+    if (activeTargetLantern && activeTargetLantern.el) {
+      lanternsPool.forEach(l => l.el.classList.remove('sky-lantern--focused'));
+      activeTargetLantern.el.classList.add('sky-lantern--focused');
+    }
+
     wishModal.removeAttribute('hidden');
     wishModal.classList.add('is-active');
 
-    // Âm chuông thiền mở sớ
+    // Âm chuông thiền ngân mở sớ
     playHarmonicChime([523.25, 659.25, 783.99], 1.2);
   }
 
   function closeWishModal() {
     if (!wishModal || !wishModal.classList.contains('is-active')) return;
     wishModal.classList.remove('is-active');
+
+    // Nếu đóng mà chưa thả, gỡ focus của ngọn đèn
+    if (activeTargetLantern && !activeTargetLantern.isBlessed && activeTargetLantern.el) {
+      activeTargetLantern.el.classList.remove('sky-lantern--focused');
+    }
+
     setTimeout(() => {
       if (!wishModal.classList.contains('is-active')) {
         wishModal.setAttribute('hidden', '');
@@ -610,18 +578,36 @@
     // Đóng modal
     closeWishModal();
 
-    // Âm chuông thăng hoa khi thả đèn
-    playHarmonicChime([587.33, 739.99, 880.00, 1174.66], 2.4);
+    // Biến chính ngọn đèn người dùng đã bấm thành ngọn đèn hoàng kim đặc biệt
+    if (activeTargetLantern) {
+      const target = activeTargetLantern;
+      target.isBlessed = true;
+      target.el.classList.remove('sky-lantern--focused');
+      target.el.classList.add('sky-lantern--blessed');
 
-    // Sinh ngọn đèn của người dùng xuất phát từ giữa dưới màn hình
-    const startX = window.innerWidth * 0.5 - 39;
-    const startY = window.innerHeight - 70;
-    const userLantern = new UserWishLantern(wishText, author, startX, startY);
-    userLanterns.push(userLantern);
+      // Thay thế bằng SVG hoàng kim rực rỡ
+      target.el.innerHTML = createLanternSVG('near', true);
 
-    // Hiển thị thông báo Toast nếu trang có hàm showToast
-    if (typeof window.showToast === 'function') {
-      window.showToast('Đã thả đèn ước nguyện!', 'Ngọn đèn hoàng kim mang theo lời chúc của bạn đang bay lên Cung Trăng ✨', '🏮');
+      // Thêm dải sớ lụa đỏ son rủ xuống dưới đèn
+      const ribbon = document.createElement('div');
+      ribbon.className = 'user-wish-ribbon';
+      const displayName = author ? `${author}: ` : '';
+      ribbon.textContent = `🏮 ${displayName}${wishText}`;
+      target.el.appendChild(ribbon);
+
+      // Tăng tốc độ bay bứt phá hướng về Cung Trăng
+      target.speed = 1.95;
+      target.baseOpacity = 1.0;
+      target.swayAmp = 18;
+
+      // Âm chuông thăng hoa khi thả đèn
+      playHarmonicChime([587.33, 739.99, 880.00, 1174.66], 2.4);
+
+      if (typeof window.showToast === 'function') {
+        window.showToast('Đã thả đèn ước nguyện!', 'Ngọn đèn của bạn đang bừng sáng hoàng kim và mang lời chúc bay lên Cung Trăng ✨', '🏮');
+      }
+
+      activeTargetLantern = null;
     }
   }
 
@@ -662,10 +648,10 @@
       openWishModal();
     }
 
-    // Hỗ trợ xem trước đèn cá nhân người dùng
-    if (window.location.href.includes('user_lantern')) {
-      const u = new UserWishLantern('Gia đình sum vầy, vạn sự bình an 🌕', 'Gia đình Nam Tiến', window.innerWidth * 0.5 - 39, window.innerHeight * 0.5);
-      userLanterns.push(u);
+    // Hỗ trợ xem trước đèn ước nguyện
+    if (window.location.href.includes('user_lantern') && lanternsPool.length > 0) {
+      activeTargetLantern = lanternsPool[0];
+      handleSendWish();
     }
 
     // Expose ra window để có thể gọi từ bên ngoài nếu cần
