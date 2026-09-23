@@ -175,8 +175,12 @@
      5. SMOOTH SCROLL TO REGISTRATION FORM & SUBMISSION
      ========================================================================== */
   function scrollToRegister() {
-    if (!sectionRegister) return;
-    sectionRegister.scrollIntoView({ behavior: 'smooth' });
+    const isMobile = window.innerWidth <= 768;
+    const targetScroll = isMobile ? 500 : 640;
+    window.scrollTo({
+      top: targetScroll,
+      behavior: 'smooth'
+    });
   }
 
   window.scrollToRegister = scrollToRegister;
@@ -543,12 +547,15 @@
   }
 
   /* ==========================================================================
-     9. GSAP SCROLL-DRIVEN CELESTIAL CHOREOGRAPHY
-     - Sân khấu Hero được Ghim (Pin) trong lúc người dùng cuộn
-     - Phase 1 (0.0 -> 0.65): Mây tách ra 2 bên, Chị Hằng bay sang trái, Chú Cuội bay sang phải
-     - Phase 2 (0.05 -> 0.55): Toàn bộ chi tiết còn lại (Trăng, thiệp mời, tiêu đề, bánh, thỏ, khung, sao) mờ dần
-     - Phase 3 (0.28 -> 1.00): "RỒI" Section Form được đẩy trồi lên mượt mà theo cuộn
-     - Đảo chiều 100% khi cuộn ngược lên đầu trang
+     9. GSAP SCROLL-DRIVEN CURTAIN SPLIT REVEAL CHOREOGRAPHY
+     - Form Đăng ký (#sectionRegister) nằm ở tầng dưới (z-index: 10)
+     - Sân khấu Hero (#heroCurtainWrapper) nằm ở tầng trên (z-index: 30)
+     - Khi người dùng cuộn:
+       + Nhóm trái: doorBgLeft + doorLeftGroup (Chị Hằng + Mây trái + Logo) trượt sang TRÁI (xPercent: -105)
+       + Nhóm phải: doorBgRight + doorRightGroup (Chú Cuội + Mây phải + Trăng) trượt sang PHẢI (xPercent: 105)
+       + Cụm trung tâm: doorCenterGroup (Đêm hội, Ribbon, Thiệp mời, Bánh, Thỏ, Hotline) mờ dần (autoAlpha: 0)
+       + Section Form nằm tĩnh ở tầng dưới được hé lộ (reveal) hoàn hảo qua khe mở
+       + Khi mở hết: pointerEvents = 'none' để người dùng thao tác form, cuộn ngược lại thì rèm đóng kín
      ========================================================================== */
   if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
@@ -558,18 +565,20 @@
       autoRefreshEvents: 'visibilitychange,DOMContentLoaded,load,resize'
     });
 
-    const pageContainer = document.querySelector('.page-container');
-    if (!festivalStage || !pageContainer || !sectionRegister) return;
+    const heroCurtainWrapper = document.getElementById('heroCurtainWrapper');
+    const doorBgLeft = document.getElementById('doorBgLeft');
+    const doorBgRight = document.getElementById('doorBgRight');
+    const doorLeftGroup = document.getElementById('doorLeftGroup');
+    const doorRightGroup = document.getElementById('doorRightGroup');
+    const doorCenterGroup = document.getElementById('doorCenterGroup');
+    const sectionRegister = document.getElementById('sectionRegister');
 
-    // Đặt trước các thuộc tính căn giữa trong GSAP
-    gsap.set(['#titleDemHoi', '.layer-ribbon-tagline', '#invitationCard'], {
-      xPercent: -50
-    });
+    if (!heroCurtainWrapper || !sectionRegister) return;
 
     const isMobile = window.innerWidth <= 768;
 
     // ------------------------------------------------------------------------
-    // ENTRANCE TIMELINE: HIỆU ỨNG XUẤT HIỆN TỪNG TẦNG CỰC KỲ MƯỢT MÀ (~1.6S)
+    // ENTRANCE TIMELINE: HIỆU ỨNG XUẤT HIỆN TỪNG TẦNG CỰC KỲ MƯỢT MÀ (~1.4S)
     // ------------------------------------------------------------------------
     let entranceTimeline = null;
 
@@ -581,108 +590,102 @@
       });
 
       // 1. Vũ trụ bầu trời & Ngôi sao nhấp nháy (0.0s)
-      entranceTimeline.fromTo(['.layer-nen', '.star-sparkle'],
+      entranceTimeline.fromTo(['.door-inner-bg', '.star-sparkle'],
         { opacity: 0 },
-        { opacity: 1, duration: 0.5, stagger: 0.05 },
+        { opacity: 1, duration: 0.45, stagger: 0.05 },
         0
       );
 
-      // 2. Khung viền không gian 3D & Tia sáng neon (0.12s)
-      entranceTimeline.fromTo(['.layer-khung-dai', '.layer-khung-giua', '.layer-anh-sang'],
-        { scale: 0.94, opacity: 0 },
-        { scale: 1, opacity: 1, duration: 0.55 },
-        0.12
-      );
-
-      // 3. Vầng Trăng Rằm tháng 8 mọc lên tỏa ánh hào quang (0.22s)
+      // 2. Vầng Trăng Rằm tháng 8 mọc lên tỏa ánh hào quang (0.15s)
       const moonEl = document.getElementById('moonElement');
       if (moonEl) {
         entranceTimeline.fromTo(moonEl,
-          { x: 30, y: -25, scale: 0.8, opacity: 0 },
-          { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.65, ease: 'back.out(1.3)' },
-          0.22
+          { x: 25, y: -20, scale: 0.82, opacity: 0 },
+          { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.55, ease: 'back.out(1.3)' },
+          0.15
         );
       }
 
-      // 4. Logo Yamaha Town Nam Tiến & Tiêu đề thương hiệu (0.32s)
+      // 3. Logo Yamaha Town Nam Tiến & Tiêu đề thương hiệu (0.28s)
       entranceTimeline.fromTo(['.layer-logo', '.layer-brand-title'],
         { y: -20, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.5, stagger: 0.07 },
-        0.32
+        { y: 0, opacity: 1, duration: 0.45, stagger: 0.06 },
+        0.28
       );
 
-      // 5. Thư mời tham gia & Đại tự 3D "ĐÊM HỘI TRĂNG RẰM" (0.42s)
+      // 4. Thư mời tham gia & Đại tự 3D "ĐÊM HỘI TRĂNG RẰM" (0.38s)
       entranceTimeline.fromTo('.layer-thu-moi',
         { y: -15, opacity: 0, rotate: -2.5 },
-        { y: 0, opacity: 1, rotate: 0, duration: 0.5, ease: 'back.out(1.2)' },
-        0.42
+        { y: 0, opacity: 1, rotate: 0, duration: 0.45, ease: 'back.out(1.2)' },
+        0.38
       );
 
       entranceTimeline.fromTo('#titleDemHoi',
-        { xPercent: -50, y: 25, scale: 0.82, opacity: 0 },
-        { xPercent: -50, y: 0, scale: 1, opacity: 1, duration: 0.65, ease: 'back.out(1.5)' },
-        0.48
+        { y: 22, scale: 0.85, opacity: 0 },
+        { y: 0, scale: 1, opacity: 1, duration: 0.55, ease: 'back.out(1.4)' },
+        0.44
       );
 
-      // 6. Dải lụa Tagline "Vui Tết Trung Thu" (0.6s)
+      // 5. Dải lụa Tagline "Vui Tết Trung Thu" (0.55s)
       entranceTimeline.fromTo('.layer-ribbon-tagline',
-        { xPercent: -50, y: 15, scaleX: 0.85, opacity: 0 },
-        { xPercent: -50, y: 0, scaleX: 1, opacity: 1, duration: 0.55 },
-        0.6
+        { y: 15, scaleX: 0.85, opacity: 0 },
+        { y: 0, scaleX: 1, opacity: 1, duration: 0.45 },
+        0.55
       );
 
-      // 7. Cung đường ngân hà & Chân viền địa chỉ (0.68s)
+      // 6. Cung đường ngân hà & Chân viền địa chỉ (0.62s)
       entranceTimeline.fromTo(['.layer-cung-duong', '.layer-frame-strip', '.layer-dia-chi'],
         { y: 25, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.55, stagger: 0.05 },
-        0.68
+        { y: 0, opacity: 1, duration: 0.5, stagger: 0.05 },
+        0.62
       );
 
-      // 8. Thiệp mời trung tâm (Kính Mời - Vui Tết Thiếu Nhi) (0.76s)
+      // 7. Thiệp mời trung tâm (Kính Mời - Vui Tết Thiếu Nhi) (0.7s)
+      const invitationCard = document.getElementById('invitationCard');
       if (invitationCard) {
         entranceTimeline.fromTo(invitationCard,
-          { xPercent: -50, y: 28, scale: 0.86, opacity: 0 },
-          { xPercent: -50, y: 0, scale: 1, opacity: 1, duration: 0.6, ease: 'back.out(1.4)' },
-          0.76
+          { y: 25, scale: 0.88, opacity: 0 },
+          { y: 0, scale: 1, opacity: 1, duration: 0.55, ease: 'back.out(1.3)' },
+          0.7
         );
       }
 
-      // 9. Chị Hằng giáng trần từ mạn trái & Chú Cuội đón hội từ mạn phải (0.86s)
+      // 8. Chị Hằng giáng trần từ mạn trái & Chú Cuội đón hội từ mạn phải (0.8s)
       if (charChiHang) {
         entranceTimeline.fromTo(charChiHang,
-          { x: -50, y: 15, scale: 0.9, opacity: 0 },
-          { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.65 },
-          0.86
+          { x: -45, y: 15, scale: 0.92, opacity: 0 },
+          { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.6 },
+          0.8
         );
       }
       if (charChuCuoi) {
         entranceTimeline.fromTo(charChuCuoi,
-          { x: 50, y: 15, scale: 0.9, opacity: 0 },
-          { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.65 },
-          0.9
+          { x: 45, y: 15, scale: 0.92, opacity: 0 },
+          { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.6 },
+          0.84
         );
       }
 
-      // 10. Các tầng mây vàng bồng bềnh uốn lượn nâng bước (0.96s)
+      // 9. Các tầng mây vàng bồng bềnh uốn lượn nâng bước (0.92s)
       entranceTimeline.fromTo(['#stageCloudGlow', '#cloudLeft', '#cloudRight', '#cloudDreamBlur'],
         { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.6, stagger: 0.06 },
-        0.96
+        { y: 0, opacity: 1, duration: 0.55, stagger: 0.06 },
+        0.92
       );
 
-      // 11. Các mâm bánh Trung Thu rải đều theo cung đường (1.08s)
+      // 10. Các mâm bánh Trung Thu rải đều theo cung đường (1.02s)
       entranceTimeline.fromTo(['#cake3', '#cake2', '#cake1'],
-        { y: -20, scale: 0.7, opacity: 0 },
-        { y: 0, scale: 1, opacity: 1, duration: 0.45, stagger: 0.07, ease: 'back.out(1.5)' },
-        1.08
+        { y: -18, scale: 0.72, opacity: 0 },
+        { y: 0, scale: 1, opacity: 1, duration: 0.4, stagger: 0.06, ease: 'back.out(1.4)' },
+        1.02
       );
 
-      // 12. Chú Thỏ Ngọc nhảy lên chào đón (1.18s)
+      // 11. Chú Thỏ Ngọc nhảy lên chào đón (1.12s)
       if (thoNgoc) {
         entranceTimeline.fromTo(thoNgoc,
-          { y: 22, scale: 0.75, opacity: 0 },
-          { y: 0, scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(1.6)' },
-          1.18
+          { y: 20, scale: 0.75, opacity: 0 },
+          { y: 0, scale: 1, opacity: 1, duration: 0.45, ease: 'back.out(1.5)' },
+          1.12
         );
       }
     }
@@ -700,269 +703,93 @@
     initEntranceAnimation();
 
     // ------------------------------------------------------------------------
-    // TIMELINE 1: GHIM SÂN KHẤU HERO & RẼ MÂY, TÁCH NGƯỜI, MỜ DẦN CHI TIẾT
+    // CURTAIN SPLIT REVEAL TIMELINE: TÁCH ĐÔI MỞ RÈM HÉ LỘ FORM NẰM DƯỚI
     // ------------------------------------------------------------------------
-    const stageTimeline = gsap.timeline({
+    const curtainTl = gsap.timeline({
       scrollTrigger: {
-        trigger: pageContainer,
+        trigger: document.body,
         start: 'top top',
-        end: isMobile ? '+=60%' : '+=75%',
-        pin: pageContainer,
-        pinSpacing: false, // Form đăng ký trồi lên tự nhiên đè lên hero khi cuộn
-        scrub: isMobile ? 0.4 : 0.7,
+        end: isMobile ? '+=480' : '+=620',
+        pin: sectionRegister,
+        pinSpacing: true,
+        scrub: isMobile ? 0.35 : 0.6,
         anticipatePin: 1,
         invalidateOnRefresh: true,
         onUpdate: (self) => {
           if (self.progress > 0) fastForwardEntrance();
+          if (self.progress >= 0.98) {
+            heroCurtainWrapper.style.pointerEvents = 'none';
+          } else {
+            heroCurtainWrapper.style.pointerEvents = 'auto';
+          }
         }
       }
     });
 
-    // 1. Nhánh Trái: Mây cong bên trái (#cloudLeft) & Chị Hằng cùng lướt dạt sang trái
-    const cloudLeft = document.getElementById('cloudLeft');
-    if (cloudLeft) {
-      stageTimeline.fromTo(cloudLeft,
-        { xPercent: 0, yPercent: 0, autoAlpha: 1 },
-        {
-          xPercent: isMobile ? -85 : -110,
-          yPercent: -6,
-          autoAlpha: 0,
-          ease: 'power1.inOut',
-          duration: 0.6
-        },
-        0
-      );
-    }
-
-    if (charChiHang) {
-      stageTimeline.fromTo(charChiHang,
-        { xPercent: 0, yPercent: 0, autoAlpha: 1 },
-        {
-          xPercent: isMobile ? -100 : -130,
-          yPercent: -10,
-          autoAlpha: 0,
-          ease: 'power1.inOut',
-          duration: 0.65
-        },
-        0
-      );
-    }
-
-    // 2. Nhánh Phải: Mây cong bên phải (#cloudRight) & Chú Cuội cùng lướt dạt sang phải
-    const cloudRight = document.getElementById('cloudRight');
-    if (cloudRight) {
-      stageTimeline.fromTo(cloudRight,
-        { xPercent: 0, yPercent: 0, autoAlpha: 1 },
-        {
-          xPercent: isMobile ? 85 : 110,
-          yPercent: -6,
-          autoAlpha: 0,
-          ease: 'power1.inOut',
-          duration: 0.6
-        },
-        0
-      );
-    }
-
-    if (charChuCuoi) {
-      stageTimeline.fromTo(charChuCuoi,
-        { xPercent: 0, yPercent: 0, autoAlpha: 1 },
-        {
-          xPercent: isMobile ? 100 : 130,
-          yPercent: -10,
-          autoAlpha: 0,
-          ease: 'power1.inOut',
-          duration: 0.65
-        },
-        0
-      );
-    }
-
-    // 3. Vầng sáng mây vàng và lớp sương mờ ở giữa mờ dần
-    stageTimeline.fromTo(['#stageCloudGlow', '#cloudDreamBlur'],
-      { autoAlpha: 1 },
-      {
+    // 1. Cụm trung tâm & Chân viền Hotline mờ dần nhanh chóng khi rèm bắt đầu rẽ
+    const heroDiaChi = document.getElementById('heroDiaChi');
+    const centerElements = [doorCenterGroup, heroDiaChi].filter(Boolean);
+    if (centerElements.length > 0) {
+      curtainTl.to(centerElements, {
         autoAlpha: 0,
+        scale: 0.93,
         ease: 'power1.out',
-        duration: 0.45
-      },
-      0
-    );
-
-    // 4. Toàn bộ chi tiết còn lại mờ dần theo cuộn
-    const moonEl = document.getElementById('moonElement');
-    if (moonEl) {
-      stageTimeline.fromTo(moonEl,
-        { scale: 1, yPercent: 0, autoAlpha: 1 },
-        {
-          scale: 1.12,
-          yPercent: -20,
-          autoAlpha: 0,
-          ease: 'power1.out',
-          duration: 0.55
-        },
-        0.05
-      );
+        duration: 0.38
+      }, 0);
     }
 
-    stageTimeline.fromTo(['.layer-logo', '.layer-brand-title', '.layer-thu-moi'],
-      { yPercent: 0, autoAlpha: 1 },
-      {
-        yPercent: -25,
-        autoAlpha: 0,
-        ease: 'power1.out',
-        duration: 0.5
-      },
-      0.05
-    );
-
-    const titleDemHoi = document.getElementById('titleDemHoi');
-    if (titleDemHoi) {
-      stageTimeline.fromTo(titleDemHoi,
-        { xPercent: -50, yPercent: 0, autoAlpha: 1 },
-        {
-          xPercent: -50,
-          yPercent: -35,
-          autoAlpha: 0,
-          ease: 'power1.out',
-          duration: 0.5
-        },
-        0.05
-      );
+    // 2. Nhóm Cánh Trái (Nền Trái + Chị Hằng + Mây Trái + Logo) trượt sang TRÁI
+    const leftElements = [doorBgLeft, doorLeftGroup].filter(Boolean);
+    if (leftElements.length > 0) {
+      curtainTl.to(leftElements, {
+        xPercent: -105,
+        ease: 'power2.inOut',
+        duration: 1.0
+      }, 0);
     }
 
-    stageTimeline.fromTo('.layer-ribbon-tagline',
-      { xPercent: -50, yPercent: 0, autoAlpha: 1 },
-      {
-        xPercent: -50,
-        yPercent: -25,
-        autoAlpha: 0,
-        ease: 'power1.out',
-        duration: 0.5
-      },
-      0.05
-    );
-
-    stageTimeline.fromTo('.layer-cung-duong',
-      { yPercent: 0, autoAlpha: 1 },
-      {
-        yPercent: 20,
-        autoAlpha: 0,
-        ease: 'power1.out',
-        duration: 0.5
-      },
-      0.05
-    );
-
-    if (invitationCard) {
-      stageTimeline.fromTo(invitationCard,
-        { xPercent: -50, scale: 1, yPercent: 0, autoAlpha: 1 },
-        {
-          xPercent: -50,
-          scale: 0.88,
-          yPercent: -15,
-          autoAlpha: 0,
-          ease: 'power1.out',
-          duration: 0.5
-        },
-        0.06
-      );
+    // 3. Nhóm Cánh Phải (Nền Phải + Chú Cuội + Mây Phải + Trăng) trượt sang PHẢI
+    const rightElements = [doorBgRight, doorRightGroup].filter(Boolean);
+    if (rightElements.length > 0) {
+      curtainTl.to(rightElements, {
+        xPercent: 105,
+        ease: 'power2.inOut',
+        duration: 1.0
+      }, 0);
     }
 
-    stageTimeline.fromTo(['.cake-1', '.cake-2', '.cake-3'],
-      { yPercent: 0, autoAlpha: 1 },
-      {
-        yPercent: 30,
-        autoAlpha: 0,
-        ease: 'power1.out',
-        duration: 0.5
-      },
-      0.06
-    );
-
-    if (thoNgoc) {
-      stageTimeline.fromTo(thoNgoc,
-        { yPercent: 0, autoAlpha: 1 },
-        {
-          yPercent: 25,
-          autoAlpha: 0,
-          ease: 'power1.out',
-          duration: 0.5
-        },
-        0.06
-      );
-    }
-
-    stageTimeline.fromTo(['.layer-khung-dai', '.layer-khung-giua', '.layer-anh-sang', '.star-sparkle'],
-      { autoAlpha: 1 },
-      {
-        autoAlpha: 0,
-        ease: 'power1.out',
-        duration: 0.45
-      },
-      0.05
-    );
-
-    stageTimeline.fromTo(['.layer-frame-strip', '.layer-dia-chi'],
-      { yPercent: 0, autoAlpha: 1 },
-      {
-        yPercent: 30,
-        autoAlpha: 0,
-        ease: 'power1.out',
-        duration: 0.45
-      },
-      0.05
-    );
-
-    stageTimeline.fromTo('.layer-nen',
-      { opacity: 1 },
-      {
-        opacity: 0.15,
-        ease: 'power1.out',
-        duration: 0.6
-      },
-      0.08
-    );
-
-    // ------------------------------------------------------------------------
-    // TIMELINE 2: "RỒI" SECTION FORM ĐĂNG KÝ ĐƯỢC ĐẨY TRỒI LÊN THEO CUỘN
-    // ------------------------------------------------------------------------
+    // 4. Form ở tầng dưới dần rõ nét khi rèm mở ra
     const registerHeader = sectionRegister.querySelector('.section-header');
     const formWrapperCard = sectionRegister.querySelector('.form-wrapper');
-    const quickActions = sectionRegister.querySelector('.form-quick-actions');
-
-    const formTimeline = gsap.timeline({
-      scrollTrigger: {
-        trigger: sectionRegister,
-        start: 'top 95%',
-        end: 'top 20%',
-        scrub: isMobile ? 0.4 : 0.7,
-        invalidateOnRefresh: true
-      }
-    });
 
     if (registerHeader) {
-      formTimeline.fromTo(registerHeader,
-        { y: 35, autoAlpha: 0 },
-        { y: 0, autoAlpha: 1, ease: 'power2.out', duration: 0.4 },
-        0
+      curtainTl.fromTo(registerHeader,
+        { autoAlpha: 0.5, y: 15 },
+        { autoAlpha: 1, y: 0, ease: 'power2.out', duration: 0.4 },
+        0.15
       );
     }
 
     if (formWrapperCard) {
-      formTimeline.fromTo(formWrapperCard,
-        { y: isMobile ? 50 : 70, scale: 0.96, autoAlpha: 0 },
-        { y: 0, scale: 1, autoAlpha: 1, ease: 'power2.out', duration: 0.55 },
-        0.06
+      curtainTl.fromTo(formWrapperCard,
+        { autoAlpha: 0.65, scale: 0.97, y: 25 },
+        { autoAlpha: 1, scale: 1, y: 0, ease: 'power2.out', duration: 0.55 },
+        0.2
       );
     }
 
-    if (quickActions) {
-      formTimeline.fromTo(quickActions,
-        { y: 25, autoAlpha: 0 },
-        { y: 0, autoAlpha: 1, ease: 'power2.out', duration: 0.35 },
-        0.18
-      );
+    // URL debug / test support
+    const urlParams = new URLSearchParams(window.location.search);
+    const progressParam = urlParams.get('progress');
+    if (progressParam) {
+      if (curtainTl.scrollTrigger) curtainTl.scrollTrigger.kill();
+      fastForwardEntrance();
+      curtainTl.progress(parseFloat(progressParam));
+    }
+    const scrollParam = urlParams.get('scroll');
+    if (scrollParam) {
+      window.scrollTo(0, parseInt(scrollParam, 10));
+      ScrollTrigger.update();
     }
 
     // Refresh lại ScrollTrigger để đo chuẩn kích thước trên mọi thiết bị

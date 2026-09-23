@@ -33,179 +33,137 @@
     </div>
   </header>
 
-  <!-- Main Showcase Container -->
-  <main class="page-container">
+  <!-- LAYER 2: THE UPPER STAGE CURTAIN (Z-INDEX: 30) -->
+  <div class="hero-curtain-wrapper" id="heroCurtainWrapper">
+    <div class="festival-stage-curtain" id="festivalStage">
 
-    <!-- Canvas for Floating Star Dust Particles -->
-    <canvas id="particleCanvas" class="ambient-particles"></canvas>
-
-    <!-- =======================================================
-         THE FESTIVAL HERO STAGE (ACCURATE TO FLYER-MATTRUOC.PDF)
-         ======================================================= -->
-    <div class="festival-stage" id="festivalStage">
-
-      <!-- Layer 1: Background Universe Texture -->
-      <div class="layer-item layer-nen" data-order="1">
-        <img src="element/image-idea/nen.avif" alt="Bầu trời đêm Trung Thu" class="layer-img full-fit">
-      </div>
-
-      <!-- Twinkle Sparkle Stars -->
-      <div class="layer-item star-sparkle star-1" style="left: 12%; top: 14%;">
-        <img src="element/image-idea/ngoi%20sao.avif" alt="Ngôi sao" class="sparkle-img">
-      </div>
-      <div class="layer-item star-sparkle star-2" style="left: 88%; top: 10%;">
-        <img src="element/image-idea/ngoi%20sao.avif" alt="Ngôi sao" class="sparkle-img">
-      </div>
-      <div class="layer-item star-sparkle star-3" style="left: 72%; top: 60%;">
-        <img src="element/image-idea/ngoi%20sao.avif" alt="Ngôi sao" class="sparkle-img">
-      </div>
-      <div class="layer-item star-sparkle star-4" style="left: 20%; top: 48%;">
-        <img src="element/image-idea/ngoi%20sao.avif" alt="Ngôi sao" class="sparkle-img">
-      </div>
-
-      <!-- Layer 2: 3D Geometry Backdrop Frames -->
-      <div class="layer-item layer-khung-dai" data-order="2">
-        <img src="element/image-idea/khung%20hinh%20dai.avif" alt="Khung hình không gian" class="layer-img full-fit">
-      </div>
-
-      <div class="layer-item layer-khung-giua" data-order="3">
-        <img src="element/image-idea/khung%20hinh%20giua.avif" alt="Khung chấm bi neon" class="layer-img full-fit">
-      </div>
-
-      <!-- Neon Laser Light Beam Streak -->
-      <div class="layer-item layer-anh-sang" data-order="4">
-        <img src="element/image-idea/anh%20sang.avif" alt="Tia sáng neon" class="layer-img">
-      </div>
-
-      <!-- Layer 3: The Golden Full Moon -->
-      <div class="layer-item layer-trang" data-order="5" id="moonElement">
-        <img src="element/image-idea/trang.avif" alt="Mặt trăng rằm tháng 8" class="layer-img moon-spin-glow">
-        <div class="moon-aura"></div>
-      </div>
-
-      <!-- Layer 4: Top Branding Header -->
-      <div class="layer-item layer-logo" data-order="6">
-        <img src="element/image-idea/LOGO%20yamaha%20town%20NT.avif" alt="Logo Yamaha Town Nam Tiến" class="layer-img">
-      </div>
-
-      <div class="layer-item layer-brand-title" data-order="7">
-        <img src="element/image-idea/yamaha%20town%20NT.avif" alt="YAMAHA TOWN NAM TIẾN" class="layer-img">
-      </div>
-
-      <!-- Layer 5: "THƯ MỜI THAM GIA" -->
-      <div class="layer-item layer-thu-moi" data-order="8">
-        <img src="element/image-idea/thu%20moi%20tham%20gia.avif" alt="Thư mời tham gia" class="layer-img">
-      </div>
-
-      <!-- Layer 6: Grand 3D Festival Title "ĐÊM HỘI TRĂNG RẰM" -->
-      <div class="layer-item layer-dem-hoi" data-order="9" id="titleDemHoi">
-        <img src="element/image-idea/dem%20hoi%20trang%20ram.avif" alt="Đêm Hội Trăng Rằm" class="layer-img title-floating">
-      </div>
-
-      <!-- Layer 7: Tagline Ribbon Banner -->
-      <div class="layer-item layer-ribbon-tagline" data-order="10">
-        <img src="element/image-idea/vui%20tet%20trung%20thu%20vui%20vung%20nam%20tien.avif" alt="Vui tết Trung Thu - Vui cùng Nam Tiến" class="layer-img">
-      </div>
-
-      <!-- Layer 8: The Celestial Starlit Pathway -->
-      <div class="layer-item layer-cung-duong" data-order="11">
-        <img src="element/image-idea/cung%20duong.avif" alt="Cung đường ngân hà" class="layer-img road-shimmer">
-      </div>
-
-      <!-- Atmospheric Fluffy Background Clouds -->
-      <div class="layer-item cloud-layer cloud-m1">
-        <img src="element/image-idea/may1.avif" alt="Mây" class="layer-img">
-      </div>
-      <div class="layer-item cloud-layer cloud-m5">
-        <img src="element/image-idea/may5.avif" alt="Mây" class="layer-img">
-      </div>
-      <div class="layer-item cloud-layer cloud-m6">
-        <img src="element/image-idea/may6.avif" alt="Mây" class="layer-img">
-      </div>
-
-      <!-- Layer 9: THE CENTRAL INVITATION CARD (VUI TẾT THIẾU NHI) -->
-      <section class="layer-item layer-invitation-card" data-order="12" id="invitationCard" title="Bấm vào thiệp để cuộn xuống đăng ký nhận quà!">
-        <div class="invitation-card-inner card-clickable" id="btnOpenRegister">
-          <img src="element/image-idea/the-card-bg-pill.png" alt="Khung thiệp mời" class="invitation-bg-img">
-          <picture class="invitation-text-picture">
-            <source srcset="element/image-idea/vui%20tet%20trung%20thu%20nguoi%20lon%20cung%20co%20qua.avif" type="image/avif">
-            <img src="element/image-idea/vui%20tet%20trung%20thu%20nguoi%20lon%20cung%20co%20qua.png" 
-                 alt="Vui Tết Thiếu Nhi - Người Lớn Cũng Có Quà" 
-                 class="invitation-text-img">
-          </picture>
-        </div>
-      </section>
-
-      <!-- Layer 10: Chị Hằng giáng trần (Left Cloud) -->
-      <div class="layer-item layer-chi-hang" data-order="13" id="charChiHang" title="Chị Hằng chúc mừng Tết Trung Thu">
-        <img src="element/image-idea/chi%20hang.avif" alt="Chị Hằng" class="layer-img char-hover">
-        <div class="char-bubble char-bubble-left">
-          <span>✨ Chị Hằng chúc bạn Trung Thu đầm ấm, ngập tràn lộc may!</span>
+      <!-- DOOR BG LEFT (50VW) -->
+      <div class="curtain-door-bg door-left" id="doorBgLeft">
+        <div class="door-inner-bg">
+          <img src="element/image-idea/nen.avif" alt="Bầu trời đêm Trung Thu" class="layer-img full-fit">
+          <img src="element/image-idea/khung%20hinh%20dai.avif" alt="Khung hình không gian" class="layer-img full-fit" style="position: absolute; inset: 0;">
+          <img src="element/image-idea/khung%20hinh%20giua.avif" alt="Khung chấm bi neon" class="layer-img full-fit" style="position: absolute; inset: 0;">
+          <img src="element/image-idea/anh%20sang.avif" alt="Tia sáng neon" class="layer-img" style="position: absolute; top: -5%; left: -10%; width: 120%;">
         </div>
       </div>
 
-      <!-- Layer 10: Chú Cuội đón hội (Right Cloud) -->
-      <div class="layer-item layer-chu-cuoi" data-order="14" id="charChuCuoi" title="Chú Cuội rước đèn Trung Thu">
-        <img src="element/image-idea/chu%20cuoi.avif" alt="Chú Cuội" class="layer-img char-hover">
-        <div class="char-bubble char-bubble-right">
-          <span>🏮 Chú Cuội rủ bạn ghé Yamaha Nam Tiến nhận quà nha!</span>
+      <!-- DOOR BG RIGHT (50VW) -->
+      <div class="curtain-door-bg door-right" id="doorBgRight">
+        <div class="door-inner-bg">
+          <img src="element/image-idea/nen.avif" alt="Bầu trời đêm Trung Thu" class="layer-img full-fit">
+          <img src="element/image-idea/khung%20hinh%20dai.avif" alt="Khung hình không gian" class="layer-img full-fit" style="position: absolute; inset: 0;">
+          <img src="element/image-idea/khung%20hinh%20giua.avif" alt="Khung chấm bi neon" class="layer-img full-fit" style="position: absolute; inset: 0;">
+          <img src="element/image-idea/anh%20sang.avif" alt="Tia sáng neon" class="layer-img" style="position: absolute; top: -5%; left: -10%; width: 120%;">
         </div>
       </div>
 
-      <!-- Layer 11: The Festive Mooncakes along the Celestial Road -->
-      <!-- Mooncake 3 (Small piece - Upper curve of the road) -->
-      <div class="layer-item layer-cake cake-3" data-order="15" id="cake3" title="Click nhận quà bất ngờ!">
-        <img src="element/image-idea/banh%203.avif" alt="Bánh trung thu 3" class="layer-img cake-hover">
-        <span class="cake-hint">Bấm mở quà</span>
-      </div>
-
-      <!-- Mooncake 2 (Round whole cake - Mid road) -->
-      <div class="layer-item layer-cake cake-2" data-order="16" id="cake2" title="Click nhận quà bất ngờ!">
-        <img src="element/image-idea/banh%202.avif" alt="Bánh trung thu 2" class="layer-img cake-hover">
-        <span class="cake-hint">Bấm mở quà</span>
-      </div>
-
-      <!-- Mooncake 1 (Large sliced cake with filling - Foreground) -->
-      <div class="layer-item layer-cake cake-1" data-order="17" id="cake1" title="Click nhận quà đặc biệt!">
-        <img src="element/image-idea/banh%201.avif" alt="Bánh trung thu 1" class="layer-img cake-hover">
-        <span class="cake-hint">Bánh Trăng Vàng</span>
-      </div>
-
-      <!-- Layer 12: Adorable Jade Rabbit (Thỏ Ngọc) -->
-      <div class="layer-item layer-tho-ngoc" data-order="18" id="thoNgoc" title="Bấm vào Thỏ Ngọc để chào hỏi!">
-        <img src="element/image-idea/tho%20ngoc.avif" alt="Thỏ Ngọc cung trăng" class="layer-img rabbit-bobbing">
-        <div class="rabbit-dialogue" id="rabbitDialogue">
-          <span>Thỏ Ngọc chào bạn! Chúc vạn sự như ý!</span>
+      <!-- LEFT MOVING GROUP (CHỊ HẰNG + MÂY TRÁI + LOGO) -->
+      <div class="door-moving-group group-left" id="doorLeftGroup">
+        <div class="layer-item layer-logo" data-order="6">
+          <img src="element/image-idea/LOGO%20yamaha%20town%20NT.avif" alt="Logo Yamaha Town Nam Tiến" class="layer-img">
+        </div>
+        <div class="layer-item star-sparkle star-1" style="left: 12%; top: 14%;">
+          <img src="element/image-idea/ngoi%20sao.avif" alt="Ngôi sao" class="sparkle-img">
+        </div>
+        <div class="layer-item star-sparkle star-4" style="left: 20%; top: 48%;">
+          <img src="element/image-idea/ngoi%20sao.avif" alt="Ngôi sao" class="sparkle-img">
+        </div>
+        <div class="layer-item layer-chi-hang" data-order="13" id="charChiHang" title="Chị Hằng chúc mừng Tết Trung Thu">
+          <img src="element/image-idea/chi%20hang.avif" alt="Chị Hằng" class="layer-img char-hover">
+          <div class="char-bubble char-bubble-left">
+            <span>✨ Chị Hằng chúc bạn Trung Thu đầm ấm, ngập tràn lộc may!</span>
+          </div>
+        </div>
+        <div class="layer-item cloud-left" id="cloudLeft">
+          <img src="element/image-idea/may-left.png" alt="Mây vàng Chị Hằng" class="layer-img">
         </div>
       </div>
 
-      <!-- Layer 13: Golden Clouds wrapping under characters & Foreground (Organic Curved Clouds) -->
-      <div class="layer-item stage-cloud-glow" id="stageCloudGlow"></div>
-      <div class="layer-item cloud-left" id="cloudLeft">
-        <img src="element/image-idea/may-left.png" alt="Mây vàng Chị Hằng" class="layer-img">
-      </div>
-      <div class="layer-item cloud-right" id="cloudRight">
-        <img src="element/image-idea/may-right.png" alt="Mây vàng Chú Cuội" class="layer-img">
+      <!-- RIGHT MOVING GROUP (CHÚ CUỘI + MÂY PHẢI + TRĂNG) -->
+      <div class="door-moving-group group-right" id="doorRightGroup">
+        <div class="layer-item layer-trang" data-order="5" id="moonElement">
+          <img src="element/image-idea/trang.avif" alt="Mặt trăng rằm tháng 8" class="layer-img moon-spin-glow">
+          <div class="moon-aura"></div>
+        </div>
+        <div class="layer-item star-sparkle star-2" style="left: 88%; top: 10%;">
+          <img src="element/image-idea/ngoi%20sao.avif" alt="Ngôi sao" class="sparkle-img">
+        </div>
+        <div class="layer-item star-sparkle star-3" style="left: 72%; top: 60%;">
+          <img src="element/image-idea/ngoi%20sao.avif" alt="Ngôi sao" class="sparkle-img">
+        </div>
+        <div class="layer-item layer-chu-cuoi" data-order="14" id="charChuCuoi" title="Chú Cuội rước đèn Trung Thu">
+          <img src="element/image-idea/chu%20cuoi.avif" alt="Chú Cuội" class="layer-img char-hover">
+          <div class="char-bubble char-bubble-right">
+            <span>🏮 Chú Cuội rủ bạn ghé Yamaha Nam Tiến nhận quà nha!</span>
+          </div>
+        </div>
+        <div class="layer-item cloud-right" id="cloudRight">
+          <img src="element/image-idea/may-right.png" alt="Mây vàng Chú Cuội" class="layer-img">
+        </div>
       </div>
 
-      <!-- Dreamy Cloud Horizon Blur -->
-      <div class="layer-item cloud-dream-blur" id="cloudDreamBlur"></div>
-
-      <!-- Layer 13: Bottom Ambient Strip & Contact Hotline Bar -->
-      <div class="layer-item layer-frame-strip">
-        <img src="element/image-idea/frame.avif" alt="Chân viền" class="layer-img full-fit">
+      <!-- CENTER CONTENT GROUP (FADES OUT) -->
+      <div class="door-center-group" id="doorCenterGroup">
+        <div class="layer-item layer-brand-title" data-order="7">
+          <img src="element/image-idea/yamaha%20town%20NT.avif" alt="YAMAHA TOWN NAM TIẾN" class="layer-img">
+        </div>
+        <div class="layer-item layer-thu-moi" data-order="8">
+          <img src="element/image-idea/thu%20moi%20tham%20gia.avif" alt="Thư mời tham gia" class="layer-img">
+        </div>
+        <div class="layer-item layer-dem-hoi" data-order="9" id="titleDemHoi">
+          <img src="element/image-idea/dem%20hoi%20trang%20ram.avif" alt="Đêm Hội Trăng Rằm" class="layer-img title-floating">
+        </div>
+        <div class="layer-item layer-ribbon-tagline" data-order="10">
+          <img src="element/image-idea/vui%20tet%20trung%20thu%20vui%20vung%20nam%20tien.avif" alt="Vui tết Trung Thu - Vui cùng Nam Tiến" class="layer-img">
+        </div>
+        <div class="layer-item layer-cung-duong" data-order="11">
+          <img src="element/image-idea/cung%20duong.avif" alt="Cung đường ngân hà" class="layer-img road-shimmer">
+        </div>
+        <section class="layer-item layer-invitation-card" data-order="12" id="invitationCard" title="Bấm vào thiệp để cuộn xuống đăng ký nhận quà!">
+          <div class="invitation-card-inner card-clickable" id="btnOpenRegister">
+            <img src="element/image-idea/the-card-bg-pill.png" alt="Khung thiệp mời" class="invitation-bg-img">
+            <picture class="invitation-text-picture">
+              <source srcset="element/image-idea/vui%20tet%20trung%20thu%20nguoi%20lon%20cung%20co%20qua.avif" type="image/avif">
+              <img src="element/image-idea/vui%20tet%20trung%20thu%20nguoi%20lon%20cung%20co%20qua.png" 
+                   alt="Vui Tết Thiếu Nhi - Người Lớn Cũng Có Quà" 
+                   class="invitation-text-img">
+            </picture>
+          </div>
+        </section>
+        <div class="layer-item layer-cake cake-3" data-order="15" id="cake3" title="Click nhận quà bất ngờ!">
+          <img src="element/image-idea/banh%203.avif" alt="Bánh trung thu 3" class="layer-img cake-hover">
+          <span class="cake-hint">Bấm mở quà</span>
+        </div>
+        <div class="layer-item layer-cake cake-2" data-order="16" id="cake2" title="Click nhận quà bất ngờ!">
+          <img src="element/image-idea/banh%202.avif" alt="Bánh trung thu 2" class="layer-img cake-hover">
+          <span class="cake-hint">Bấm mở quà</span>
+        </div>
+        <div class="layer-item layer-cake cake-1" data-order="17" id="cake1" title="Click nhận quà đặc biệt!">
+          <img src="element/image-idea/banh%201.avif" alt="Bánh trung thu 1" class="layer-img cake-hover">
+          <span class="cake-hint">Bánh Trăng Vàng</span>
+        </div>
+        <div class="layer-item layer-tho-ngoc" data-order="18" id="thoNgoc" title="Bấm vào Thỏ Ngọc để chào hỏi!">
+          <img src="element/image-idea/tho%20ngoc.avif" alt="Thỏ Ngọc cung trăng" class="layer-img rabbit-bobbing">
+          <div class="rabbit-dialogue" id="rabbitDialogue">
+            <span>Thỏ Ngọc chào bạn! Chúc vạn sự như ý!</span>
+          </div>
+        </div>
+        <div class="layer-item stage-cloud-glow" id="stageCloudGlow"></div>
+        <div class="layer-item cloud-dream-blur" id="cloudDreamBlur"></div>
+        <div class="layer-item layer-frame-strip">
+          <img src="element/image-idea/frame.avif" alt="Chân viền" class="layer-img full-fit">
+        </div>
       </div>
 
-      <footer class="layer-item layer-dia-chi" data-order="19">
+      <!-- BOTTOM HOTLINE BAR (SITS IN FRONT OF CLOUDS, FADES OUT ON SCROLL) -->
+      <footer class="layer-item layer-dia-chi" data-order="19" id="heroDiaChi">
         <a href="tel:0989704370" class="hotline-link" title="Gọi Hotline Yamaha Nam Tiến">
           <img src="element/image-idea/dia%20chi%20hoteline.avif" alt="Địa chỉ: 463B Nguyễn Thị Tú, P. Bình Hưng Hòa, TP.HCM / HOTLINE: 0989.704.370" class="layer-img">
         </a>
       </footer>
 
     </div>
-    <!-- /festival-stage -->
-
-  </main>
+  </div>
 
   <!-- =======================================================
        REGISTRATION SECTION (INLINE SCROLL-DOWN FORM)

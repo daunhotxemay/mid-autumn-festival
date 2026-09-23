@@ -144,19 +144,84 @@ body {
 }
 
 /* --------------------------------------------------------------------------
-   STAGE WRAPPER & PARTICLES
+   CURTAIN HERO WRAPPER & SPLIT-DOOR STAGE (100DVH FULLSCREEN)
    -------------------------------------------------------------------------- */
-.page-container {
-  position: relative;
-  width: 100%;
+.hero-curtain-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
   height: 100dvh;
-  min-height: 100dvh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 16px;
+  z-index: 30;
   overflow: hidden;
-  z-index: 10;
+  pointer-events: auto;
+  contain: layout paint;
+}
+
+.festival-stage-curtain,
+.festival-stage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: transparent;
+  isolation: isolate;
+}
+
+/* Double Doors for Background (Left 50vw & Right 50vw) */
+.curtain-door-bg {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 50vw;
+  overflow: hidden;
+  z-index: 2;
+  will-change: transform;
+}
+
+.curtain-door-bg.door-left {
+  left: 0;
+}
+
+.curtain-door-bg.door-right {
+  left: 50vw;
+}
+
+.door-inner-bg {
+  position: absolute;
+  top: 0;
+  width: 100vw;
+  height: 100dvh;
+}
+
+.door-left .door-inner-bg {
+  left: 0;
+}
+
+.door-right .door-inner-bg {
+  left: -50vw;
+}
+
+/* Door Moving Groups */
+.door-moving-group {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 25;
+  will-change: transform;
+}
+
+.door-center-group {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 20;
+  will-change: transform, opacity;
 }
 
 .ambient-particles {
@@ -166,26 +231,7 @@ body {
   width: 100%;
   height: 100%;
   pointer-events: none;
-  z-index: 5;
-}
-
-/* --------------------------------------------------------------------------
-   THE 1748x2480 FESTIVAL HERO STAGE
-   Ratio: 1748 / 2480 = 0.7048387
-   -------------------------------------------------------------------------- */
-.festival-stage {
-  position: relative;
-  width: min(100vw - 32px, 740px, calc((100dvh - 50px) * 0.7048));
-  aspect-ratio: 1748 / 2480;
-  border-radius: 28px;
-  overflow: hidden;
-  box-shadow: 
-    0 30px 80px -15px rgba(0, 0, 0, 0.95),
-    0 0 70px rgba(106, 38, 219, 0.4),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.15);
-  background: #0d0728;
-  isolation: isolate;
-  contain: layout style;
+  z-index: 35;
 }
 
 /* Common Layer Element */
@@ -276,6 +322,7 @@ body {
   top: 3.5%;
   right: 2%;
   width: 35%;
+  max-width: 180px;
   z-index: 5;
 }
 
@@ -291,36 +338,40 @@ body {
 
 /* Layer 4: Brand Header */
 .layer-logo {
-  top: 2.2%;
-  left: 4.5%;
-  width: 12.5%;
+  top: max(12px, env(safe-area-inset-top));
+  left: 4%;
+  width: 13%;
+  max-width: 75px;
   z-index: 6;
   filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
 }
 
 .layer-brand-title {
-  top: 3.2%;
-  left: 19.5%;
-  width: 62.0%;
+  top: max(16px, env(safe-area-inset-top));
+  left: 19%;
+  width: 63%;
+  max-width: 320px;
   z-index: 6;
   filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.5));
 }
 
 /* Layer 5: "THƯ MỜI THAM GIA" */
 .layer-thu-moi {
-  top: 6.8%;
+  top: 7.2%;
   left: 14%;
   width: 32%;
+  max-width: 160px;
   z-index: 8;
   filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
 }
 
 /* Layer 6: Grand 3D Festival Title "ĐÊM HỘI TRĂNG RẰM" */
 .layer-dem-hoi {
-  top: 8.2%;
+  top: 9.2%;
   left: 50%;
   transform: translateX(-50%);
   width: 90%;
+  max-width: 410px;
   z-index: 9;
 }
 
@@ -336,17 +387,18 @@ body {
 
 /* Layer 7: Tagline Ribbon */
 .layer-ribbon-tagline {
-  top: 29.2%;
+  top: 29.5%;
   left: 50%;
   transform: translateX(-50%);
   width: 78%;
+  max-width: 340px;
   z-index: 10;
   filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.5));
 }
 
 /* Layer 8: Celestial Road */
 .layer-cung-duong {
-  top: 35.0%;
+  top: 36.0%;
   left: -22%;
   width: 210%;
   height: auto;
@@ -373,10 +425,11 @@ body {
 
 /* Layer 9: THE CENTRAL INVITATION CARD (KÍNH MỜI) */
 .layer-invitation-card {
-  top: 36.8%;
+  top: 37.5%;
   left: 50%;
   transform: translateX(-50%);
-  width: 48%;
+  width: 50%;
+  max-width: 250px;
   z-index: 26;
   pointer-events: auto;
 }
@@ -419,18 +472,22 @@ body {
 
 /* Layer 10: CHỊ HẰNG & CHÚ CUỘI */
 .layer-chi-hang {
-  top: 46.5%;
-  left: -18%;
-  width: 54%;
+  top: auto;
+  bottom: 8%;
+  left: -14%;
+  width: 56%;
+  max-width: 290px;
   z-index: 30;
   pointer-events: auto;
   cursor: pointer;
 }
 
 .layer-chu-cuoi {
-  top: 49.0%;
-  right: -10%;
-  width: 51%;
+  top: auto;
+  bottom: 8%;
+  right: -8%;
+  width: 53%;
+  max-width: 280px;
   z-index: 30;
   pointer-events: auto;
   cursor: pointer;
@@ -547,31 +604,39 @@ body {
 
 /* Individual Mooncake Coordinates */
 .cake-3 {
-  top: 73.5%;
-  left: 34.3%;
-  width: 10.3%;
+  top: auto;
+  bottom: 21%;
+  left: 34%;
+  width: 10.5%;
+  max-width: 55px;
   z-index: 33;
 }
 
 .cake-2 {
-  top: 65%;
-  left: 48.7%;
-  width: 16.1%;
+  top: auto;
+  bottom: 23%;
+  left: 48.5%;
+  width: 16%;
+  max-width: 85px;
   z-index: 33;
 }
 
 .cake-1 {
-  top: 82.8%;
-  left: 49.2%;
-  width: 25.1%;
+  top: auto;
+  bottom: 12%;
+  left: 49%;
+  width: 25%;
+  max-width: 130px;
   z-index: 39;
 }
 
 /* Layer 12: Thỏ Ngọc */
 .layer-tho-ngoc {
-  top: 80.8%;
-  left: 17.2%;
-  width: 26%;
+  top: auto;
+  bottom: 11%;
+  left: 18%;
+  width: 20%;
+  max-width: 105px;
   z-index: 40;
   pointer-events: auto;
   cursor: pointer;
@@ -634,9 +699,10 @@ body {
 
 .cloud-left {
   position: absolute;
-  left: -3%;
-  bottom: 0%;
+  bottom: 0;
+  left: -4%;
   width: 58%;
+  max-width: 300px;
   z-index: 35;
   pointer-events: none;
   filter: drop-shadow(0 -4px 18px rgba(255, 200, 30, 0.4));
@@ -644,9 +710,10 @@ body {
 
 .cloud-right {
   position: absolute;
-  right: -3%;
-  bottom: 0%;
+  bottom: 0;
+  right: -4%;
   width: 61%;
+  max-width: 310px;
   z-index: 35;
   pointer-events: none;
   filter: drop-shadow(0 -4px 18px rgba(255, 200, 30, 0.4));
@@ -683,11 +750,12 @@ body {
 }
 
 .layer-dia-chi {
-  bottom: 8px;
+  bottom: max(6px, env(safe-area-inset-bottom));
   left: 0;
   width: 100%;
   z-index: 42;
   pointer-events: auto;
+  padding: 0 4px;
 }
 
 .hotline-link {
@@ -940,13 +1008,14 @@ body {
 .section-register {
   position: relative;
   width: 100%;
-  margin-top: -10vh;
+  min-height: 100dvh;
+  margin-top: 0;
   background: radial-gradient(ellipse at 50% 0%, #29115b 0%, #150933 45%, #09031c 100%);
   border-top: 1.5px solid rgba(255, 207, 36, 0.4);
   box-shadow: 0 -15px 45px rgba(168, 85, 247, 0.25);
-  padding: 70px 20px 80px;
-  z-index: 50;
-  will-change: transform, opacity;
+  padding: max(75px, env(safe-area-inset-top)) 20px 85px;
+  z-index: 10;
+  will-change: transform;
 }
 
 .register-container {
@@ -1792,7 +1861,7 @@ button.action-btn {
 
 /* ==========================================================================
    MOBILE FULLSCREEN RESPONSIVE LAYOUT (@media max-width: 768px)
-   Matches flyer-mattruoc.pdf edge-to-edge on all phones
+   Matches flyer reference edge-to-edge (100dvh) on all mobile devices
    ========================================================================== */
 @media (max-width: 768px) {
   html {
@@ -1806,21 +1875,6 @@ button.action-btn {
     position: static;
     background: #09031c;
     touch-action: pan-y;
-  }
-
-  .page-container {
-    padding: 8px 6px;
-    margin: 0;
-    width: 100vw;
-    height: 100dvh;
-    min-height: 100dvh;
-    max-width: 100vw;
-    max-height: 100dvh;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
   }
 
   .top-controls {
@@ -1854,46 +1908,61 @@ button.action-btn {
     display: none;
   }
 
+  .hero-curtain-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100dvh;
+    z-index: 30;
+    overflow: hidden;
+    pointer-events: auto;
+  }
+
+  .festival-stage-curtain,
   .festival-stage {
-    width: min(100vw - 12px, calc((100dvh - 16px) * 0.7048));
-    aspect-ratio: 1748 / 2480;
-    height: auto;
-    max-height: calc(100dvh - 16px);
-    border-radius: 20px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(106, 38, 219, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    position: relative;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
     overflow: hidden;
   }
 
-  /* Mobile Proportional Placement matching flyer-mattruoc.pdf */
+  /* Mobile Proportional Placement matching reference flyer */
   .layer-logo {
-    top: max(14px, env(safe-area-inset-top));
+    top: max(12px, env(safe-area-inset-top));
     left: 4%;
     width: 13%;
+    max-width: 75px;
   }
 
   .layer-brand-title {
-    top: max(18px, env(safe-area-inset-top));
+    top: max(16px, env(safe-area-inset-top));
     left: 19%;
     width: 63%;
+    max-width: 320px;
   }
 
   .layer-trang {
-    top: 3.5%;
+    top: 3.2%;
     right: 2%;
     width: 35%;
+    max-width: 180px;
   }
 
   .layer-thu-moi {
-    top: 6.8%;
+    top: 7.2%;
     left: 14%;
     width: 32%;
+    max-width: 160px;
   }
 
-  /* ĐÊM HỘI TRĂNG RẰM: Căn chính giữa, nâng nhẹ lên để tạo không gian thoáng bên dưới */
   .layer-dem-hoi {
-    top: 8.2%;
+    top: 9.2%;
     left: 50%;
     transform: translateX(-50%);
     width: 90%;
@@ -1901,9 +1970,8 @@ button.action-btn {
     z-index: 9;
   }
 
-  /* TAGLINE RIBBON: Đẩy xuống rõ rệt dưới chữ "Trăng Rằm", không bị đè chữ */
   .layer-ribbon-tagline {
-    top: 29.2%;
+    top: 29.5%;
     left: 50%;
     transform: translateX(-50%);
     width: 78%;
@@ -1911,100 +1979,97 @@ button.action-btn {
     z-index: 10;
   }
 
-  /* Con đường: Phóng to ra để sao cho dưới chân chú Cuội và không lộ các góc (chỉ lộ đường cong) */
   .layer-cung-duong {
-    top: 35.0%;
+    top: 36.0%;
     left: -22%;
     width: 210%;
     height: auto;
     z-index: 11;
-    -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 0) 94%);
-    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 0) 94%);
   }
 
-  /* Central Invitation Card: Đẩy xuống tương ứng để cân đối hoàn hảo với ribbon */
   .layer-invitation-card {
-    top: 36.8%;
+    top: 37.5%;
     left: 50%;
     transform: translateX(-50%);
-    width: 48%;
-    max-width: 245px;
+    width: 50%;
+    max-width: 250px;
     z-index: 26;
   }
 
-  /* Chị Hằng: Vừa vặn bên trái, không chạm chữ thiệp mời, được mây che nhẹ gấu váy */
+  /* Anchored Corners for Chị Hằng & Chú Cuội + Organic Curved Clouds */
+  .cloud-left {
+    bottom: 0;
+    left: -4%;
+    width: 58%;
+    max-width: 300px;
+    z-index: 35;
+  }
+
   .layer-chi-hang {
-    top: 46.5%;
-    left: -18%;
-    width: 54%;
+    top: auto;
+    bottom: 8%;
+    left: -14%;
+    width: 56%;
+    max-width: 290px;
+    z-index: 30;
+  }
+
+  .cloud-right {
+    bottom: 0;
+    right: -4%;
+    width: 61%;
+    max-width: 310px;
+    z-index: 35;
+  }
+
+  .layer-chu-cuoi {
+    top: auto;
+    bottom: 8%;
+    right: -8%;
+    width: 53%;
     max-width: 280px;
     z-index: 30;
   }
 
-  /* Chú Cuội: Chân đặt ngay trên mặt đường cong, được mây che nhẹ và cuộn sau lưng */
-  .layer-chu-cuoi {
-    top: 49.0%;
-    right: -10%;
-    width: 51%;
-    max-width: 270px;
-    z-index: 30;
-  }
-
-  /* Hide grey atmospheric clouds on mobile so background is clean and deep like flyer */
-  .cloud-m1,
-  .cloud-m5,
-  .cloud-m6 {
-    display: none;
-  }
-
-  /* Mooncakes along celestial road - arranged to match design reference */
   .cake-3 {
-    top: 73.5%;
-    left: 34.3%;
-    width: 10.3%;
+    top: auto;
+    bottom: 21%;
+    left: 34%;
+    width: 10.5%;
+    max-width: 55px;
     z-index: 33;
   }
 
   .cake-2 {
-    top: 71.3%;
-    left: 48.7%;
-    width: 16.1%;
+    top: auto;
+    bottom: 23%;
+    left: 48.5%;
+    width: 16%;
+    max-width: 85px;
     z-index: 33;
   }
 
   .cake-1 {
-    top: 82.8%;
-    left: 49.2%;
-    width: 25.1%;
+    top: auto;
+    bottom: 12%;
+    left: 49%;
+    width: 25%;
+    max-width: 130px;
     z-index: 39;
   }
 
-  /* Thỏ Ngọc sitting in the middle space on golden cloud */
   .layer-tho-ngoc {
-    top: 80.8%;
-    left: 17.2%;
-    width: 19.0%;
+    top: auto;
+    bottom: 11%;
+    left: 18%;
+    width: 20%;
+    max-width: 105px;
     z-index: 40;
   }
 
-  /* Các đám mây vàng: Phóng to lên và bố trí che nhẹ Chị Hằng và Chú Cuội khớp mẫu flyer */
   .stage-cloud-glow {
     height: 38%;
     z-index: 32;
-  }
-
-  .cloud-left {
-    left: -3%;
-    bottom: 0%;
-    width: 58%;
-    z-index: 35;
-  }
-
-  .cloud-right {
-    right: -3%;
-    bottom: 0%;
-    width: 61%;
-    z-index: 35;
   }
 
   .cloud-dream-blur {
@@ -2017,8 +2082,6 @@ button.action-btn {
     left: 0;
     width: 100%;
     z-index: 20;
-    -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 60%, rgba(0, 0, 0, 0) 100%);
-    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 60%, rgba(0, 0, 0, 0) 100%);
   }
 
   .layer-dia-chi {
@@ -2026,16 +2089,21 @@ button.action-btn {
     left: 0;
     width: 100%;
     z-index: 42;
+    padding: 0 4px;
   }
 
   .char-bubble {
-    display: none; /* Hide hover speech bubbles on touch devices to avoid layout interference */
+    display: none;
   }
 
-  /* Mobile adjustments for Registration Section */
+  /* Mobile adjustments for Registration Section (Underneath curtain) */
   .section-register {
-    margin-top: -8vh;
-    padding: 45px 14px 65px;
+    position: relative;
+    width: 100%;
+    min-height: 100dvh;
+    margin-top: 0;
+    padding: max(75px, env(safe-area-inset-top)) 14px 75px;
+    z-index: 10;
   }
 
   .form-wrapper {
@@ -2083,6 +2151,119 @@ button.action-btn {
   .action-btn .map-svg-icon {
     width: 18px;
     height: 18px;
+  }
+}
+
+/* ==========================================================================
+   DESKTOP RESPONSIVE LAYOUT (@media min-width: 769px)
+   Balanced center poster with 100vw galaxy expanse
+   ========================================================================== */
+@media (min-width: 769px) {
+  .layer-logo {
+    top: 24px;
+    left: calc(50% - 250px);
+    width: 68px;
+  }
+
+  .layer-brand-title {
+    top: 28px;
+    left: calc(50% - 170px);
+    width: 330px;
+  }
+
+  .layer-trang {
+    top: 22px;
+    right: calc(50% - 260px);
+    width: 180px;
+  }
+
+  .layer-thu-moi {
+    top: 75px;
+    left: calc(50% - 190px);
+    width: 165px;
+  }
+
+  .layer-dem-hoi {
+    top: 98px;
+    width: 440px;
+  }
+
+  .layer-ribbon-tagline {
+    top: 295px;
+    width: 370px;
+  }
+
+  .layer-cung-duong {
+    top: 360px;
+    left: calc(50% - 390px);
+    width: 780px;
+  }
+
+  .layer-invitation-card {
+    top: 375px;
+    width: 260px;
+  }
+
+  .layer-chi-hang {
+    top: auto;
+    bottom: 8%;
+    left: calc(50% - 370px);
+    width: 285px;
+  }
+
+  .cloud-left {
+    bottom: 0;
+    left: calc(50% - 380px);
+    width: 320px;
+  }
+
+  .layer-chu-cuoi {
+    top: auto;
+    bottom: 8%;
+    right: calc(50% - 360px);
+    width: 275px;
+  }
+
+  .cloud-right {
+    bottom: 0;
+    right: calc(50% - 370px);
+    width: 330px;
+  }
+
+  .cake-3 {
+    top: auto;
+    bottom: 21%;
+    left: calc(50% - 90px);
+    width: 55px;
+  }
+
+  .cake-2 {
+    top: auto;
+    bottom: 23%;
+    left: calc(50% - 15px);
+    width: 85px;
+  }
+
+  .cake-1 {
+    top: auto;
+    bottom: 12%;
+    left: calc(50% - 10px);
+    width: 130px;
+  }
+
+  .layer-tho-ngoc {
+    top: auto;
+    bottom: 11%;
+    left: calc(50% - 180px);
+    width: 110px;
+  }
+
+  .layer-dia-chi {
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 520px;
+    width: 100%;
   }
 }
 
