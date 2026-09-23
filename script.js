@@ -203,7 +203,14 @@
      5. SMOOTH SCROLL TO REGISTRATION FORM & SUBMISSION
      ========================================================================== */
   function scrollToRegister() {
-    if (sectionRegister) {
+    if (!sectionRegister) return;
+    const isAtTop = window.scrollY < window.innerHeight * 0.8;
+    if (isAtTop) {
+      window.scrollTo({
+        top: window.innerHeight,
+        behavior: 'smooth'
+      });
+    } else {
       sectionRegister.scrollIntoView({ behavior: 'smooth' });
     }
   }
@@ -573,102 +580,278 @@
 
   /* ==========================================================================
      9. GSAP SCROLL-DRIVEN CELESTIAL CHOREOGRAPHY
-     - Chị Hằng & mây bên trái tách mượt mà sang trái
-     - Chú Cuội & mây bên phải tách mượt mà sang phải
-     - Form đăng ký bên dưới từ từ đẩy smooth lên khi cuộn
-     - Trở về nguyên vẹn 100% bố cục gốc khi cuộn ngược lên đầu trang
+     - Sân khấu Hero được Ghim (Pin) trong lúc người dùng cuộn
+     - Phase 1 (0.0 -> 0.65): Mây tách ra 2 bên, Chị Hằng bay sang trái, Chú Cuội bay sang phải
+     - Phase 2 (0.05 -> 0.55): Toàn bộ chi tiết còn lại (Trăng, thiệp mời, tiêu đề, bánh, thỏ, khung, sao) mờ dần
+     - Phase 3 (0.28 -> 1.00): "RỒI" Section Form được đẩy trồi lên mượt mà theo cuộn
+     - Đảo chiều 100% khi cuộn ngược lên đầu trang
      ========================================================================== */
   if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
 
-    const isMobile = window.innerWidth <= 768;
+    // Tối ưu hóa ScrollTrigger cho Mobile (Tránh giật khi thanh địa chỉ co giãn)
+    ScrollTrigger.config({
+      ignoreMobileResize: true,
+      autoRefreshEvents: 'visibilitychange,DOMContentLoaded,load'
+    });
 
-    // Timeline 1: Stage Exit - Tách mây, Chị Hằng, Chú Cuội sang 2 bên
-    if (festivalStage) {
-      const stageTimeline = gsap.timeline({
+    const pageContainer = document.querySelector('.page-container');
+
+    const mm = gsap.matchMedia();
+
+    mm.add({
+      isDesktop: '(min-width: 769px)',
+      isMobile: '(max-width: 768px)',
+      reduceMotion: '(prefers-reduced-motion: reduce)'
+    }, (context) => {
+      const { isDesktop, isMobile, reduceMotion } = context.conditions;
+
+      if (!festivalStage || !pageContainer || !sectionRegister) return;
+
+      // Đặt trước các thuộc tính căn giữa trong GSAP
+      gsap.set(['#titleDemHoi', '.layer-ribbon-tagline', '#invitationCard'], {
+        xPercent: -50
+      });
+
+      if (reduceMotion) {
+        const reducedTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: pageContainer,
+            start: 'top top',
+            end: '+=80%',
+            pin: true,
+            pinSpacing: false,
+            scrub: true
+          }
+        });
+        reducedTl.to(festivalStage, { autoAlpha: 0, duration: 0.5 }, 0);
+        reducedTl.fromTo(sectionRegister, { y: 100, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.5 }, 0.3);
+        return;
+      }
+
+      // Kịch bản cuộn chính (Scrollytelling Timeline)
+      const scrollyTimeline = gsap.timeline({
         scrollTrigger: {
-          trigger: festivalStage,
+          trigger: pageContainer,
           start: 'top top',
-          end: 'bottom 20%',
-          scrub: 1,
-          invalidateOnRefresh: true
+          end: '+=100%',
+          pin: true,
+          pinSpacing: false,
+          scrub: isMobile ? 0.8 : 1,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            if (self.progress > 0.01 && !festivalStage.classList.contains('gsap-scrolling')) {
+              festivalStage.classList.add('gsap-scrolling');
+            }
+          }
         }
       });
 
-      // 1. NHÁNH TRÁI: Mây bên trái & Chị Hằng cùng trôi mượt mà sang trái
-      const leftElements = ['.cloud-m2', '.cloud-m3'];
-      if (charChiHang) leftElements.push(charChiHang);
+      // ----------------------------------------------------------------------
+      // BƯỚC 1: MÂY TÁCH RA & CHỊ HẰNG, CHÚ CUỘI TÁCH RA 2 BÊN
+      // ----------------------------------------------------------------------
 
-      stageTimeline.to(leftElements, {
-        xPercent: isMobile ? -35 : -45,
-        yPercent: -10,
-        opacity: 0,
-        ease: 'power1.inOut'
+      // 1. Nhánh Trái: Mây bên trái & Chị Hằng cùng lướt dạt sang trái
+      const leftClouds = ['.cloud-m2', '.cloud-m3'];
+      scrollyTimeline.to(leftClouds, {
+        xPercent: isMobile ? -85 : -115,
+        yPercent: -5,
+        autoAlpha: 0,
+        ease: 'power1.inOut',
+        duration: 0.6
       }, 0);
 
-      // 2. NHÁNH PHẢI: Mây bên phải & Chú Cuội cùng trôi mượt mà sang phải
-      const rightElements = ['.cloud-m4', '.cloud-m4-base'];
-      if (charChuCuoi) rightElements.push(charChuCuoi);
+      if (charChiHang) {
+        scrollyTimeline.to(charChiHang, {
+          xPercent: isMobile ? -110 : -140,
+          yPercent: -15,
+          autoAlpha: 0,
+          ease: 'power1.inOut',
+          duration: 0.65
+        }, 0);
+      }
 
-      stageTimeline.to(rightElements, {
-        xPercent: isMobile ? 35 : 45,
-        yPercent: -10,
-        opacity: 0,
-        ease: 'power1.inOut'
+      // 2. Nhánh Phải: Mây bên phải & Chú Cuội cùng lướt dạt sang phải
+      const rightClouds = ['.cloud-m4', '.cloud-m4-base'];
+      scrollyTimeline.to(rightClouds, {
+        xPercent: isMobile ? 85 : 115,
+        yPercent: -5,
+        autoAlpha: 0,
+        ease: 'power1.inOut',
+        duration: 0.6
       }, 0);
 
-      // 3. Mây vàng phát sáng và lớp mờ ảo ở giữa mờ dần
-      stageTimeline.to(['.stage-cloud-glow', '.cloud-dream-blur'], {
-        opacity: 0,
-        ease: 'power1.out'
+      if (charChuCuoi) {
+        scrollyTimeline.to(charChuCuoi, {
+          xPercent: isMobile ? 110 : 140,
+          yPercent: -15,
+          autoAlpha: 0,
+          ease: 'power1.inOut',
+          duration: 0.65
+        }, 0);
+      }
+
+      // 3. Vầng sáng mây vàng và lớp sương mờ ở giữa mờ dần
+      scrollyTimeline.to(['.stage-cloud-glow', '.cloud-dream-blur'], {
+        autoAlpha: 0,
+        ease: 'power1.out',
+        duration: 0.4
       }, 0);
 
-      // 4. Các chi tiết trung tâm trôi nhẹ và mờ dần
-      stageTimeline.to(['.layer-invitation-card', '.cake-1', '.cake-2', '.cake-3', '.layer-tho-ngoc'], {
+      // ----------------------------------------------------------------------
+      // BƯỚC 2: CÁC PHẦN CÒN LẠI MỜ DẦN THEO CUỘN
+      // ----------------------------------------------------------------------
+
+      // Mặt trăng rằm phóng nhẹ và mờ dần vào vũ trụ
+      const moonEl = document.getElementById('moonElement');
+      if (moonEl) {
+        scrollyTimeline.to(moonEl, {
+          scale: 1.15,
+          yPercent: -20,
+          autoAlpha: 0,
+          ease: 'power1.out',
+          duration: 0.5
+        }, 0.05);
+      }
+
+      // Tiêu đề, Logo, Thư mời và dải ruy băng trôi lên nhẹ rồi mờ dần
+      scrollyTimeline.to(['.layer-logo', '.layer-brand-title', '.layer-thu-moi'], {
+        yPercent: -25,
+        autoAlpha: 0,
+        ease: 'power1.out',
+        duration: 0.45
+      }, 0.05);
+
+      const titleDemHoi = document.getElementById('titleDemHoi');
+      if (titleDemHoi) {
+        scrollyTimeline.to(titleDemHoi, {
+          xPercent: -50,
+          yPercent: -35,
+          autoAlpha: 0,
+          ease: 'power1.out',
+          duration: 0.45
+        }, 0.05);
+      }
+
+      scrollyTimeline.to('.layer-ribbon-tagline', {
+        xPercent: -50,
+        yPercent: -25,
+        autoAlpha: 0,
+        ease: 'power1.out',
+        duration: 0.45
+      }, 0.05);
+
+      // Cung đường ngân hà trôi lùi xuống và mờ dần
+      scrollyTimeline.to('.layer-cung-duong', {
         yPercent: 20,
-        opacity: 0,
-        ease: 'power1.out'
-      }, 0);
+        autoAlpha: 0,
+        ease: 'power1.out',
+        duration: 0.45
+      }, 0.05);
 
-      // 5. Tiêu đề và dải ruy băng trôi lên nhẹ
-      stageTimeline.to(['.layer-dem-hoi', '.layer-ribbon-tagline'], {
-        yPercent: -15,
-        opacity: 0.25,
-        ease: 'power1.out'
-      }, 0);
-    }
+      // Thiệp mời trung tâm thu nhỏ nhẹ và mờ dần
+      if (invitationCard) {
+        scrollyTimeline.to(invitationCard, {
+          xPercent: -50,
+          scale: 0.88,
+          yPercent: -15,
+          autoAlpha: 0,
+          ease: 'power1.out',
+          duration: 0.48
+        }, 0.06);
+      }
 
-    // Timeline 2: Form đăng ký từ từ đẩy smooth lên khi cuộn tới
-    if (sectionRegister) {
+      // Bánh trung thu & Thỏ ngọc trôi xuống và mờ dần
+      scrollyTimeline.to(['.cake-1', '.cake-2', '.cake-3'], {
+        yPercent: 30,
+        autoAlpha: 0,
+        ease: 'power1.out',
+        duration: 0.45
+      }, 0.06);
+
+      if (thoNgoc) {
+        scrollyTimeline.to(thoNgoc, {
+          yPercent: 25,
+          autoAlpha: 0,
+          ease: 'power1.out',
+          duration: 0.45
+        }, 0.06);
+      }
+
+      // Khung hình 3D, tia laser, sao lấp lánh mờ dần
+      scrollyTimeline.to(['.layer-khung-dai', '.layer-khung-giua', '.layer-anh-sang', '.star-sparkle'], {
+        autoAlpha: 0,
+        ease: 'power1.out',
+        duration: 0.4
+      }, 0.05);
+
+      // Chân viền & Thanh Hotline trôi xuống và mờ dần
+      scrollyTimeline.to(['.layer-frame-strip', '.layer-dia-chi'], {
+        yPercent: 30,
+        autoAlpha: 0,
+        ease: 'power1.out',
+        duration: 0.4
+      }, 0.05);
+
+      // Nền vũ trụ dịu dần hòa vào màu nền section form
+      scrollyTimeline.to('.layer-nen', {
+        opacity: 0.2,
+        ease: 'power1.out',
+        duration: 0.55
+      }, 0.08);
+
+      // ----------------------------------------------------------------------
+      // BƯỚC 3: "RỒI" SECTION FORM ĐƯỢC ĐẨY LÊN THEO CUỘN (0.28 -> 1.00)
+      // ----------------------------------------------------------------------
       const registerHeader = sectionRegister.querySelector('.section-header');
       const formWrapperCard = sectionRegister.querySelector('.form-wrapper');
+      const quickActions = sectionRegister.querySelector('.form-quick-actions');
 
-      const registerTimeline = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRegister,
-          start: 'top 85%',
-          end: 'top 35%',
-          scrub: 1,
-          invalidateOnRefresh: true
-        }
-      });
+      // Toàn bộ section form được đẩy từ dưới trồi lên che phủ sân khấu
+      scrollyTimeline.fromTo(sectionRegister,
+        {
+          y: () => window.innerHeight * (isMobile ? 0.45 : 0.5)
+        },
+        {
+          y: 0,
+          ease: 'power1.inOut',
+          duration: 0.72
+        },
+        0.28
+      );
 
+      // Tiêu đề của form xuất hiện trang trọng
       if (registerHeader) {
-        registerTimeline.fromTo(registerHeader,
-          { y: 40, opacity: 0 },
-          { y: 0, opacity: 1, ease: 'power2.out' },
-          0
+        scrollyTimeline.fromTo(registerHeader,
+          { y: 45, autoAlpha: 0.1 },
+          { y: 0, autoAlpha: 1, ease: 'power2.out', duration: 0.55 },
+          0.42
         );
       }
 
+      // Khung thẻ đăng ký Frosted Glass trượt lên vững chãi
       if (formWrapperCard) {
-        registerTimeline.fromTo(formWrapperCard,
-          { y: isMobile ? 60 : 90, opacity: 0.25, scale: 0.96 },
-          { y: 0, opacity: 1, scale: 1, ease: 'power2.out' },
-          0
+        scrollyTimeline.fromTo(formWrapperCard,
+          { y: isMobile ? 60 : 80, scale: 0.95, autoAlpha: 0.2 },
+          { y: 0, scale: 1, autoAlpha: 1, ease: 'power2.out', duration: 0.55 },
+          0.48
         );
       }
-    }
+
+      // Nút Google Maps & Fanpage trượt nhẹ vào vị trí
+      if (quickActions) {
+        scrollyTimeline.fromTo(quickActions,
+          { y: 30, autoAlpha: 0 },
+          { y: 0, autoAlpha: 1, ease: 'power2.out', duration: 0.45 },
+          0.62
+        );
+      }
+    });
+
+    // Refresh lại ScrollTrigger khi ảnh tải xong
+    window.addEventListener('load', () => {
+      ScrollTrigger.refresh();
+    });
   }
 
   console.log('🌕 Đêm Hội Trăng Rằm - Yamaha Town Nam Tiến loaded smoothly!');
