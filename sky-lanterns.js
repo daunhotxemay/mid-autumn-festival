@@ -202,18 +202,16 @@
       this.el.appendChild(this.tooltip);
 
       // Thao tác click/chạm vào đèn mở sớ ước nguyện (gắn trực tiếp ngọn đèn này làm mục tiêu)
-      let lastTouchTime = 0;
-      this.el.addEventListener('touchend', (e) => {
-        lastTouchTime = Date.now();
+      let lastTrigger = 0;
+      const triggerSelect = (e) => {
+        if (Date.now() - lastTrigger < 450) return;
+        lastTrigger = Date.now();
         e.stopPropagation();
         openWishModal(this);
-      }, { passive: true });
+      };
 
-      this.el.addEventListener('click', (e) => {
-        if (Date.now() - lastTouchTime < 450) return;
-        e.stopPropagation();
-        openWishModal(this);
-      });
+      this.el.addEventListener('pointerdown', triggerSelect);
+      this.el.addEventListener('click', triggerSelect);
 
       this.reset(true);
       viewportEl.appendChild(this.el);
@@ -379,14 +377,21 @@
   let scrollTimeout = null;
 
   // Lắng nghe sự kiện cuộn: Khi ngón tay đang cuộn trang, tạm dừng render đèn
-  // để nhường 100% tài nguyên CPU/GPU cho hiệu ứng GSAP ScrollTrigger
+  // Lắng nghe sự kiện cuộn: Khi cuộn trang, làm mờ hẳn toàn bộ thiên đăng
+  // để người dùng tập trung nội dung và không tạo cảm giác đơ/lag
   window.addEventListener('scroll', () => {
     isScrolling = true;
+    if (viewportEl && !viewportEl.classList.contains('is-scrolling')) {
+      viewportEl.classList.add('is-scrolling');
+    }
     if (scrollTimeout) clearTimeout(scrollTimeout);
     scrollTimeout = setTimeout(() => {
       isScrolling = false;
+      if (viewportEl) {
+        viewportEl.classList.remove('is-scrolling');
+      }
       lastTimestamp = performance.now(); // Reset timestamp để tránh giật bước sau khi dừng cuộn
-    }, 100);
+    }, 180);
   }, { passive: true });
 
   function animate(now) {
@@ -434,22 +439,7 @@
     viewportEl.className = 'sky-lanterns-viewport';
     document.body.appendChild(viewportEl);
 
-    // 2. Floating Quick Launch Button
-    const btnLaunch = document.createElement('button');
-    btnLaunch.type = 'button';
-    btnLaunch.id = 'btnLaunchLantern';
-    btnLaunch.className = 'btn-launch-lantern';
-    btnLaunch.title = 'Gửi gắm ước nguyện lên Cung Trăng';
-    btnLaunch.innerHTML = `
-      <svg class="lantern-icon-svg" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 2C7.5 2 6 6 6 10c0 4.5 3 8 6 10 3-2 6-5.5 6-10 0-4-1.5-8-6-10zm0 15c-1.5 0-3-1.8-3-4s1.5-4 3-4 3 1.8 3 4-1.5 4-3 4z"/>
-      </svg>
-      <span>Thả Thiên Đăng</span>
-    `;
-    btnLaunch.addEventListener('click', () => openWishModal());
-    document.body.appendChild(btnLaunch);
-
-    // 3. Wish Modal Overlay (Tâm Thư Giấy Dó Cổ Phong - Đường Cong Mỹ Thuật)
+    // 2. Wish Modal Overlay (Tâm Thư Giấy Dó Cổ Phong - Đường Cong Mỹ Thuật)
     const modalHTML = `
       <div class="wish-modal-overlay" id="wishModalOverlay" role="dialog" aria-modal="true" aria-labelledby="wishModalTitle" hidden>
         <div class="wish-modal-backdrop" id="wishModalBackdrop"></div>
@@ -623,15 +613,17 @@
     }
     const author = wishNameInput ? wishNameInput.value.trim() : '';
 
-    // Đóng modal
-    closeWishModal();
-
     // Biến chính ngọn đèn người dùng đã bấm thành ngọn đèn hoàng kim đặc biệt
     if (activeTargetLantern) {
       const target = activeTargetLantern;
+      target.isDormant = false;
+      target.dormantTimer = 0;
       target.isPaused = false;
       target.isBlessed = true;
+      target.baseOpacity = 1.0;
+      target.lastOpacityStr = '1';
       if (target.el) {
+        target.el.style.opacity = '1';
         target.el.classList.remove('sky-lantern--focused');
         target.el.classList.add('sky-lantern--blessed');
 
@@ -647,9 +639,8 @@
       }
 
       // Tăng tốc độ bay bứt phá hướng về Cung Trăng
-      target.speed = 2.1;
-      target.baseOpacity = 1.0;
-      target.swayAmp = 16;
+      target.speed = 2.4;
+      target.swayAmp = 14;
 
       // Âm chuông thăng hoa khi thả đèn
       playHarmonicChime([587.33, 739.99, 880.00, 1174.66], 2.4);
@@ -660,6 +651,9 @@
 
       activeTargetLantern = null;
     }
+
+    // Đóng modal sau khi ngọn đèn đã được thắp sáng
+    closeWishModal();
   }
 
   /* --------------------------------------------------------------------------
@@ -702,6 +696,9 @@
     // Hỗ trợ xem trước đèn ước nguyện
     if (window.location.href.includes('user_lantern') && lanternsPool.length > 0) {
       activeTargetLantern = lanternsPool[0];
+      activeTargetLantern.y = window.innerHeight * 0.45;
+      activeTargetLantern.baseX = window.innerWidth * 0.5 - 35;
+      activeTargetLantern.x = activeTargetLantern.baseX;
       handleSendWish();
     }
 
