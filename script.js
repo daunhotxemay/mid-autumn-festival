@@ -55,37 +55,9 @@
   const cdSecs = document.getElementById('cdSecs');
 
   /* ==========================================================================
-     1. STAGGERED ENTRANCE REPLAY ENGINE
+     1. STAGE READY NOTIFICATION & SETUP
      ========================================================================== */
-  function replayEntrance() {
-    const animatedElements = festivalStage.querySelectorAll('[class*="anim-phase-"]');
-    
-    // Remove animation classes
-    animatedElements.forEach((el) => {
-      const classList = Array.from(el.classList);
-      classList.forEach((cls) => {
-        if (cls.startsWith('anim-phase-')) {
-          el.dataset.animClass = cls;
-          el.classList.remove(cls);
-        }
-      });
-    });
-
-    // Force single browser reflow
-    void festivalStage.offsetWidth;
-
-    // Restore animation classes to trigger silky sequence
-    requestAnimationFrame(() => {
-      animatedElements.forEach((el) => {
-        if (el.dataset.animClass) {
-          el.classList.add(el.dataset.animClass);
-        }
-      });
-    });
-
-    // Show toast notice
-    showToast('Đang phát lại hiệu ứng!', 'Thưởng thức chuỗi xuất hiện mượt mà từng chi tiết ✨');
-  }
+  // Hero stage is immediately ready on page load with 100% visibility
 
 
 
@@ -589,15 +561,6 @@
     const pageContainer = document.querySelector('.page-container');
     if (!festivalStage || !pageContainer || !sectionRegister) return;
 
-    // Kích hoạt ngay class hủy CSS animation lock khi bắt đầu cuộn hoặc chạm
-    const unlockAnimations = () => {
-      if (!document.body.classList.contains('gsap-active')) {
-        document.body.classList.add('gsap-active');
-      }
-    };
-    window.addEventListener('scroll', unlockAnimations, { passive: true, once: true });
-    window.addEventListener('touchstart', unlockAnimations, { passive: true, once: true });
-
     // Đặt trước các thuộc tính căn giữa trong GSAP
     gsap.set(['#titleDemHoi', '.layer-ribbon-tagline', '#invitationCard'], {
       xPercent: -50
@@ -612,157 +575,216 @@
       scrollTrigger: {
         trigger: pageContainer,
         start: 'top top',
-        end: '+=100%',
+        end: '+=45%',
         pin: pageContainer,
         pinSpacing: true, // Giữ spacer để trang có đủ chiều cao cuộn tự nhiên 100% trên iOS
-        scrub: isMobile ? 0.6 : 1,
+        scrub: isMobile ? 0.4 : 0.7,
         anticipatePin: 1,
-        invalidateOnRefresh: true,
-        onUpdate: (self) => {
-          if (self.progress > 0.005) {
-            unlockAnimations();
-          }
-        }
+        invalidateOnRefresh: true
       }
     });
 
     // 1. Nhánh Trái: Mây bên trái & Chị Hằng cùng lướt dạt sang trái
     const leftClouds = ['.cloud-m2', '.cloud-m3'];
-    stageTimeline.to(leftClouds, {
-      xPercent: isMobile ? -85 : -115,
-      yPercent: -5,
-      autoAlpha: 0,
-      ease: 'power1.inOut',
-      duration: 0.65
-    }, 0);
-
-    if (charChiHang) {
-      stageTimeline.to(charChiHang, {
-        xPercent: isMobile ? -110 : -140,
-        yPercent: -15,
+    stageTimeline.fromTo(leftClouds,
+      { xPercent: 0, yPercent: 0, autoAlpha: 1 },
+      {
+        xPercent: isMobile ? -95 : -125,
+        yPercent: -8,
         autoAlpha: 0,
         ease: 'power1.inOut',
-        duration: 0.7
-      }, 0);
+        duration: 0.6
+      },
+      0
+    );
+
+    if (charChiHang) {
+      stageTimeline.fromTo(charChiHang,
+        { xPercent: 0, yPercent: 0, autoAlpha: 1 },
+        {
+          xPercent: isMobile ? -120 : -150,
+          yPercent: -12,
+          autoAlpha: 0,
+          ease: 'power1.inOut',
+          duration: 0.65
+        },
+        0
+      );
     }
 
     // 2. Nhánh Phải: Mây bên phải & Chú Cuội cùng lướt dạt sang phải
     const rightClouds = ['.cloud-m4', '.cloud-m4-base'];
-    stageTimeline.to(rightClouds, {
-      xPercent: isMobile ? 85 : 115,
-      yPercent: -5,
-      autoAlpha: 0,
-      ease: 'power1.inOut',
-      duration: 0.65
-    }, 0);
-
-    if (charChuCuoi) {
-      stageTimeline.to(charChuCuoi, {
-        xPercent: isMobile ? 110 : 140,
-        yPercent: -15,
+    stageTimeline.fromTo(rightClouds,
+      { xPercent: 0, yPercent: 0, autoAlpha: 1 },
+      {
+        xPercent: isMobile ? 95 : 125,
+        yPercent: -8,
         autoAlpha: 0,
         ease: 'power1.inOut',
-        duration: 0.7
-      }, 0);
+        duration: 0.6
+      },
+      0
+    );
+
+    if (charChuCuoi) {
+      stageTimeline.fromTo(charChuCuoi,
+        { xPercent: 0, yPercent: 0, autoAlpha: 1 },
+        {
+          xPercent: isMobile ? 120 : 150,
+          yPercent: -12,
+          autoAlpha: 0,
+          ease: 'power1.inOut',
+          duration: 0.65
+        },
+        0
+      );
     }
 
     // 3. Vầng sáng mây vàng và lớp sương mờ ở giữa mờ dần
-    stageTimeline.to(['.stage-cloud-glow', '.cloud-dream-blur'], {
-      autoAlpha: 0,
-      ease: 'power1.out',
-      duration: 0.45
-    }, 0);
+    stageTimeline.fromTo(['.stage-cloud-glow', '.cloud-dream-blur'],
+      { autoAlpha: 1 },
+      {
+        autoAlpha: 0,
+        ease: 'power1.out',
+        duration: 0.45
+      },
+      0
+    );
 
     // 4. Toàn bộ chi tiết còn lại mờ dần theo cuộn
     const moonEl = document.getElementById('moonElement');
     if (moonEl) {
-      stageTimeline.to(moonEl, {
-        scale: 1.15,
-        yPercent: -20,
-        autoAlpha: 0,
-        ease: 'power1.out',
-        duration: 0.55
-      }, 0.05);
+      stageTimeline.fromTo(moonEl,
+        { scale: 1, yPercent: 0, autoAlpha: 1 },
+        {
+          scale: 1.12,
+          yPercent: -20,
+          autoAlpha: 0,
+          ease: 'power1.out',
+          duration: 0.55
+        },
+        0.05
+      );
     }
 
-    stageTimeline.to(['.layer-logo', '.layer-brand-title', '.layer-thu-moi'], {
-      yPercent: -25,
-      autoAlpha: 0,
-      ease: 'power1.out',
-      duration: 0.5
-    }, 0.05);
+    stageTimeline.fromTo(['.layer-logo', '.layer-brand-title', '.layer-thu-moi'],
+      { yPercent: 0, autoAlpha: 1 },
+      {
+        yPercent: -25,
+        autoAlpha: 0,
+        ease: 'power1.out',
+        duration: 0.5
+      },
+      0.05
+    );
 
     const titleDemHoi = document.getElementById('titleDemHoi');
     if (titleDemHoi) {
-      stageTimeline.to(titleDemHoi, {
+      stageTimeline.fromTo(titleDemHoi,
+        { xPercent: -50, yPercent: 0, autoAlpha: 1 },
+        {
+          xPercent: -50,
+          yPercent: -35,
+          autoAlpha: 0,
+          ease: 'power1.out',
+          duration: 0.5
+        },
+        0.05
+      );
+    }
+
+    stageTimeline.fromTo('.layer-ribbon-tagline',
+      { xPercent: -50, yPercent: 0, autoAlpha: 1 },
+      {
         xPercent: -50,
-        yPercent: -35,
+        yPercent: -25,
         autoAlpha: 0,
         ease: 'power1.out',
         duration: 0.5
-      }, 0.05);
-    }
+      },
+      0.05
+    );
 
-    stageTimeline.to('.layer-ribbon-tagline', {
-      xPercent: -50,
-      yPercent: -25,
-      autoAlpha: 0,
-      ease: 'power1.out',
-      duration: 0.5
-    }, 0.05);
-
-    stageTimeline.to('.layer-cung-duong', {
-      yPercent: 20,
-      autoAlpha: 0,
-      ease: 'power1.out',
-      duration: 0.5
-    }, 0.05);
+    stageTimeline.fromTo('.layer-cung-duong',
+      { yPercent: 0, autoAlpha: 1 },
+      {
+        yPercent: 20,
+        autoAlpha: 0,
+        ease: 'power1.out',
+        duration: 0.5
+      },
+      0.05
+    );
 
     if (invitationCard) {
-      stageTimeline.to(invitationCard, {
-        xPercent: -50,
-        scale: 0.88,
-        yPercent: -15,
+      stageTimeline.fromTo(invitationCard,
+        { xPercent: -50, scale: 1, yPercent: 0, autoAlpha: 1 },
+        {
+          xPercent: -50,
+          scale: 0.88,
+          yPercent: -15,
+          autoAlpha: 0,
+          ease: 'power1.out',
+          duration: 0.5
+        },
+        0.06
+      );
+    }
+
+    stageTimeline.fromTo(['.cake-1', '.cake-2', '.cake-3'],
+      { yPercent: 0, autoAlpha: 1 },
+      {
+        yPercent: 30,
         autoAlpha: 0,
         ease: 'power1.out',
         duration: 0.5
-      }, 0.06);
-    }
-
-    stageTimeline.to(['.cake-1', '.cake-2', '.cake-3'], {
-      yPercent: 30,
-      autoAlpha: 0,
-      ease: 'power1.out',
-      duration: 0.5
-    }, 0.06);
+      },
+      0.06
+    );
 
     if (thoNgoc) {
-      stageTimeline.to(thoNgoc, {
-        yPercent: 25,
-        autoAlpha: 0,
-        ease: 'power1.out',
-        duration: 0.5
-      }, 0.06);
+      stageTimeline.fromTo(thoNgoc,
+        { yPercent: 0, autoAlpha: 1 },
+        {
+          yPercent: 25,
+          autoAlpha: 0,
+          ease: 'power1.out',
+          duration: 0.5
+        },
+        0.06
+      );
     }
 
-    stageTimeline.to(['.layer-khung-dai', '.layer-khung-giua', '.layer-anh-sang', '.star-sparkle'], {
-      autoAlpha: 0,
-      ease: 'power1.out',
-      duration: 0.45
-    }, 0.05);
+    stageTimeline.fromTo(['.layer-khung-dai', '.layer-khung-giua', '.layer-anh-sang', '.star-sparkle'],
+      { autoAlpha: 1 },
+      {
+        autoAlpha: 0,
+        ease: 'power1.out',
+        duration: 0.45
+      },
+      0.05
+    );
 
-    stageTimeline.to(['.layer-frame-strip', '.layer-dia-chi'], {
-      yPercent: 30,
-      autoAlpha: 0,
-      ease: 'power1.out',
-      duration: 0.45
-    }, 0.05);
+    stageTimeline.fromTo(['.layer-frame-strip', '.layer-dia-chi'],
+      { yPercent: 0, autoAlpha: 1 },
+      {
+        yPercent: 30,
+        autoAlpha: 0,
+        ease: 'power1.out',
+        duration: 0.45
+      },
+      0.05
+    );
 
-    stageTimeline.to('.layer-nen', {
-      opacity: 0.2,
-      ease: 'power1.out',
-      duration: 0.6
-    }, 0.08);
+    stageTimeline.fromTo('.layer-nen',
+      { opacity: 1 },
+      {
+        opacity: 0.15,
+        ease: 'power1.out',
+        duration: 0.6
+      },
+      0.08
+    );
 
     // ------------------------------------------------------------------------
     // TIMELINE 2: "RỒI" SECTION FORM ĐĂNG KÝ ĐƯỢC ĐẨY TRỒI LÊN THEO CUỘN
@@ -775,15 +797,15 @@
       scrollTrigger: {
         trigger: sectionRegister,
         start: 'top 95%',
-        end: 'top 30%',
-        scrub: isMobile ? 0.6 : 1,
+        end: 'top 20%',
+        scrub: isMobile ? 0.4 : 0.7,
         invalidateOnRefresh: true
       }
     });
 
     if (registerHeader) {
       formTimeline.fromTo(registerHeader,
-        { y: 50, autoAlpha: 0 },
+        { y: 35, autoAlpha: 0 },
         { y: 0, autoAlpha: 1, ease: 'power2.out', duration: 0.4 },
         0
       );
@@ -791,17 +813,17 @@
 
     if (formWrapperCard) {
       formTimeline.fromTo(formWrapperCard,
-        { y: isMobile ? 70 : 90, scale: 0.94, autoAlpha: 0 },
-        { y: 0, scale: 1, autoAlpha: 1, ease: 'power2.out', duration: 0.6 },
-        0.1
+        { y: isMobile ? 50 : 70, scale: 0.96, autoAlpha: 0 },
+        { y: 0, scale: 1, autoAlpha: 1, ease: 'power2.out', duration: 0.55 },
+        0.06
       );
     }
 
     if (quickActions) {
       formTimeline.fromTo(quickActions,
-        { y: 35, autoAlpha: 0 },
-        { y: 0, autoAlpha: 1, ease: 'power2.out', duration: 0.4 },
-        0.25
+        { y: 25, autoAlpha: 0 },
+        { y: 0, autoAlpha: 1, ease: 'power2.out', duration: 0.35 },
+        0.18
       );
     }
 

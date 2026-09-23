@@ -193,6 +193,8 @@ body {
   position: absolute;
   pointer-events: none;
   user-select: none;
+  opacity: 1;
+  visibility: visible;
   will-change: transform, opacity;
 }
 
@@ -956,17 +958,13 @@ body {
 .section-register {
   position: relative;
   width: 100%;
+  margin-top: -10vh;
   background: radial-gradient(ellipse at 50% 0%, #29115b 0%, #150933 45%, #09031c 100%);
   border-top: 1.5px solid rgba(255, 207, 36, 0.4);
   box-shadow: 0 -15px 45px rgba(168, 85, 247, 0.25);
   padding: 70px 20px 80px;
   z-index: 50;
-  will-change: transform;
-}
-
-body.gsap-active [class*="anim-phase-"],
-.gsap-scrolling [class*="anim-phase-"] {
-  animation: none !important;
+  will-change: transform, opacity;
 }
 
 .register-container {
@@ -2079,6 +2077,7 @@ button.action-btn {
 
   /* Mobile adjustments for Registration Section */
   .section-register {
+    margin-top: -8vh;
     padding: 45px 14px 65px;
   }
 
