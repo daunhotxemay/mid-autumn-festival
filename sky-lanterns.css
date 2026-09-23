@@ -1,0 +1,485 @@
+/* ==========================================================================
+   HIỆU ỨNG THIÊN ĐĂNG DẠ HỘI (SKY LANTERNS) - YAMAHA TOWN NAM TIẾN
+   Isolated Module: High-Aesthetic 60fps Ambient & Interactive Lanterns
+   ========================================================================== */
+
+/* 1. VIEWPORT CONTAINER (Non-blocking, zero interference with page controls) */
+.sky-lanterns-viewport {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none; /* Crucial: Allows all clicks to pass straight through */
+  z-index: 24;          /* Sits between background/moon and foreground characters/forms */
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* 2. BASE LANTERN STYLING & HITBOX */
+.sky-lantern {
+  position: absolute;
+  pointer-events: auto; /* Only the lantern body itself receives click/hover events */
+  cursor: pointer;
+  will-change: transform, opacity;
+  transform-origin: 50% 90%;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  width: max-content;
+  height: max-content;
+  transition: filter 0.3s ease, transform 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.sky-lantern:hover {
+  filter: drop-shadow(0 0 18px rgba(255, 207, 36, 0.95)) brightness(1.15) !important;
+}
+
+.sky-lantern:active {
+  transform: scale(0.95);
+}
+
+/* SVG Graphic inside lantern */
+.sky-lantern svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* 3. LANTERN DEPTH TIERS (Cinematic Depth of Field) */
+/* Lớp Xa: Nhỏ, mờ ảo, bay rất chậm */
+.sky-lantern.tier-far {
+  z-index: 4;
+  opacity: 0.42;
+  filter: blur(1px) drop-shadow(0 0 8px rgba(255, 183, 3, 0.5));
+}
+
+/* Lớp Trung: Rõ vừa, lơ lửng quanh cung đường trăng */
+.sky-lantern.tier-mid {
+  z-index: 12;
+  opacity: 0.78;
+  filter: drop-shadow(0 0 14px rgba(255, 183, 3, 0.75));
+}
+
+/* Lớp Gần: Sắc nét, rực rỡ, chi tiết tim lửa và vành nan tre */
+.sky-lantern.tier-near {
+  z-index: 24;
+  opacity: 0.95;
+  filter: drop-shadow(0 0 20px rgba(255, 183, 3, 0.85)) drop-shadow(0 0 35px rgba(247, 127, 0, 0.45));
+}
+
+/* 4. FLAME FLICKER & WIND SWAY ANIMATIONS */
+@keyframes lanternFlicker {
+  0%, 100% { opacity: 0.92; transform: scale(1); }
+  25% { opacity: 1.05; transform: scale(1.03); }
+  50% { opacity: 0.88; transform: scale(0.98); }
+  75% { opacity: 1.08; transform: scale(1.04); }
+}
+
+.lantern-flame-core {
+  animation: lanternFlicker 2.8s ease-in-out infinite alternate;
+  transform-origin: 50% 85%;
+}
+
+/* 5. USER'S GOLDEN WISH LANTERN (ĐÈN ƯỚC NGUYỆN HOÀNG KIM) */
+.sky-lantern--user {
+  z-index: 26 !important;
+  opacity: 1 !important;
+  filter: drop-shadow(0 0 28px #ffcf24) drop-shadow(0 0 55px #f77f00) drop-shadow(0 0 85px rgba(255, 207, 36, 0.8)) !important;
+  animation: userLanternPulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes userLanternPulse {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.06); }
+}
+
+/* Dải sớ ước nguyện rủ xuống dưới đáy đèn */
+.user-wish-ribbon {
+  margin-top: -4px;
+  background: linear-gradient(180deg, rgba(234, 67, 53, 0.95) 0%, rgba(186, 24, 27, 0.9) 100%);
+  border: 1px solid rgba(255, 207, 36, 0.75);
+  border-radius: 4px;
+  padding: 4px 10px;
+  color: #fff;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0.3px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), 0 0 12px rgba(255, 207, 36, 0.6);
+  pointer-events: none;
+  animation: ribbonSway 3s ease-in-out infinite alternate;
+  transform-origin: 50% 0%;
+}
+
+@keyframes ribbonSway {
+  0% { transform: rotate(-4deg); }
+  100% { transform: rotate(4deg); }
+}
+
+/* 6. AMBIENT WISH TOOLTIP (Hé lộ lời chúc khi hover vào đèn) */
+.lantern-wish-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(5px);
+  background: rgba(22, 10, 48, 0.92);
+  border: 1px solid rgba(255, 207, 36, 0.55);
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), 0 0 15px rgba(255, 207, 36, 0.3);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  z-index: 100;
+}
+
+.lantern-wish-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: rgba(255, 207, 36, 0.6) transparent transparent transparent;
+}
+
+.sky-lantern:hover .lantern-wish-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* 7. FLOATING QUICK WISH BUTTON (Nút ghim 'Thả Đèn' tinh xảo góc màn hình) */
+.btn-launch-lantern {
+  position: fixed;
+  bottom: 24px;
+  right: 20px;
+  z-index: 995; /* Below top modal, above normal background */
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, rgba(234, 67, 53, 0.92), rgba(247, 127, 0, 0.92));
+  border: 1.5px solid rgba(255, 207, 36, 0.8);
+  border-radius: 30px;
+  padding: 10px 18px;
+  color: #fff;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.45), 0 0 20px rgba(255, 207, 36, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  outline: none;
+}
+
+.btn-launch-lantern:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55), 0 0 30px rgba(255, 207, 36, 0.7);
+  border-color: #ffcf24;
+}
+
+.btn-launch-lantern .lantern-icon-svg {
+  width: 20px;
+  height: 20px;
+  animation: lanternIconFloat 2s ease-in-out infinite alternate;
+}
+
+@keyframes lanternIconFloat {
+  0% { transform: translateY(0) rotate(-3deg); }
+  100% { transform: translateY(-3px) rotate(3deg); }
+}
+
+/* 8. WISH SCROLL MODAL (SỚ ƯỚC NGUYỆN HOÀNG KIM) */
+.wish-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 4000; /* Highest priority dialog */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.wish-modal-overlay.is-active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.wish-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 4, 25, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  cursor: pointer;
+}
+
+.wish-modal-card {
+  position: relative;
+  width: 100%;
+  max-width: 490px;
+  background: linear-gradient(155deg, #220e44 0%, #120626 100%);
+  border: 2px solid rgba(255, 207, 36, 0.7);
+  border-radius: 24px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9), 0 0 50px rgba(255, 207, 36, 0.35);
+  padding: 28px 24px 22px;
+  color: #fff;
+  z-index: 2;
+  overflow: hidden;
+  transform: translateY(25px) scale(0.94);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+  font-family: 'Be Vietnam Pro', sans-serif;
+}
+
+.wish-modal-overlay.is-active .wish-modal-card {
+  transform: translateY(0) scale(1);
+}
+
+.wish-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  z-index: 5;
+  outline: none;
+}
+
+.wish-modal-close:hover {
+  background: rgba(234, 67, 53, 0.9);
+  border-color: #ea4335;
+  color: #fff;
+  transform: rotate(90deg) scale(1.05);
+}
+
+.wish-modal-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.wish-modal-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(247, 127, 0, 0.18);
+  border: 1px solid rgba(255, 207, 36, 0.45);
+  padding: 4px 14px;
+  border-radius: 30px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffcf24;
+  letter-spacing: 0.6px;
+  margin-bottom: 10px;
+}
+
+.wish-modal-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 21px;
+  font-weight: 800;
+  color: #ffcf24;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin: 0 0 6px 0;
+  text-shadow: 0 2px 12px rgba(255, 207, 36, 0.35);
+}
+
+.wish-modal-desc {
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Quick Blessing Chips (Gợi ý lời chúc ý nghĩa) */
+.wish-chips-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255, 207, 36, 0.9);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.wish-chips-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.wish-chip-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 207, 36, 0.25);
+  border-radius: 12px;
+  padding: 9px 10px;
+  color: rgba(255, 255, 255, 0.9);
+  font-family: inherit;
+  font-size: 11.5px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  line-height: 1.35;
+  outline: none;
+}
+
+.wish-chip-btn:hover,
+.wish-chip-btn.is-selected {
+  background: linear-gradient(135deg, rgba(247, 127, 0, 0.25), rgba(255, 207, 36, 0.22));
+  border-color: #ffcf24;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(255, 207, 36, 0.2);
+}
+
+/* Custom Wish Inputs */
+.wish-input-group {
+  margin-bottom: 12px;
+}
+
+.wish-label {
+  display: block;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 5px;
+}
+
+.wish-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  background: rgba(14, 5, 30, 0.7);
+  border: 1px solid rgba(255, 207, 36, 0.35);
+  border-radius: 14px;
+  padding: 10px 14px;
+  color: #fff;
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1.45;
+  resize: none;
+  height: 64px;
+  outline: none;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.wish-textarea:focus {
+  border-color: #ffcf24;
+  box-shadow: 0 0 15px rgba(255, 207, 36, 0.3);
+}
+
+.wish-name-input {
+  width: 100%;
+  box-sizing: border-box;
+  background: rgba(14, 5, 30, 0.7);
+  border: 1px solid rgba(255, 207, 36, 0.35);
+  border-radius: 12px;
+  padding: 8px 14px;
+  color: #fff;
+  font-family: inherit;
+  font-size: 12.5px;
+  outline: none;
+  transition: border-color 0.25s;
+}
+
+.wish-name-input:focus {
+  border-color: #ffcf24;
+}
+
+/* Submit Action Button */
+.btn-submit-wish {
+  width: 100%;
+  background: linear-gradient(135deg, #f77f00 0%, #ffcf24 100%);
+  border: none;
+  border-radius: 16px;
+  padding: 13px 20px;
+  color: #2b1055;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13.5px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 8px 25px rgba(247, 127, 0, 0.5), 0 0 20px rgba(255, 207, 36, 0.4);
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  margin-top: 14px;
+  outline: none;
+}
+
+.btn-submit-wish:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 12px 30px rgba(247, 127, 0, 0.65), 0 0 30px rgba(255, 207, 36, 0.6);
+}
+
+.btn-submit-wish:active {
+  transform: translateY(0) scale(0.99);
+}
+
+/* Responsive adjustments for Mobile screens */
+@media (max-width: 480px) {
+  .btn-launch-lantern {
+    bottom: 16px;
+    right: 14px;
+    padding: 8px 14px;
+    font-size: 11.5px;
+  }
+
+  .wish-modal-card {
+    padding: 22px 16px 18px;
+    border-radius: 20px;
+  }
+
+  .wish-modal-title {
+    font-size: 18px;
+  }
+
+  .wish-chips-grid {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .wish-chip-btn {
+    padding: 7px 10px;
+    font-size: 11px;
+  }
+
+  .btn-submit-wish {
+    padding: 11px 16px;
+    font-size: 12.5px;
+  }
+}
