@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=3.0">
+  <link rel="stylesheet" href="styles.css?v=4.0">
   <link rel="stylesheet" href="sky-lanterns.css">
 </head>
 <body>
@@ -179,23 +179,17 @@
         </div>
       </div>
 
-      <!-- Layer 13: Golden Clouds wrapping under characters & Foreground -->
-      <div class="layer-item stage-cloud-glow"></div>
-      <div class="layer-item cloud-layer cloud-m2">
-        <img src="element/image-idea/may2.avif" alt="Mây vàng" class="layer-img">
+      <!-- Layer 13: Golden Clouds wrapping under characters & Foreground (Organic Curved Clouds) -->
+      <div class="layer-item stage-cloud-glow" id="stageCloudGlow"></div>
+      <div class="layer-item cloud-left" id="cloudLeft">
+        <img src="element/image-idea/may-left.png" alt="Mây vàng Chị Hằng" class="layer-img">
       </div>
-      <div class="layer-item cloud-layer cloud-m4">
-        <img src="element/image-idea/may4.avif" alt="Mây vàng rực rỡ" class="layer-img">
-      </div>
-      <div class="layer-item cloud-layer cloud-m3">
-        <img src="element/image-idea/may%203.avif" alt="Mây cuộn" class="layer-img">
-      </div>
-      <div class="layer-item cloud-layer cloud-m4-base">
-        <img src="element/image-idea/may4.avif" alt="Mây vàng chân đế" class="layer-img">
+      <div class="layer-item cloud-right" id="cloudRight">
+        <img src="element/image-idea/may-right.png" alt="Mây vàng Chú Cuội" class="layer-img">
       </div>
 
-      <!-- Dreamy Cloud Horizon Blur ("blur ảo ảo") -->
-      <div class="layer-item cloud-dream-blur"></div>
+      <!-- Dreamy Cloud Horizon Blur -->
+      <div class="layer-item cloud-dream-blur" id="cloudDreamBlur"></div>
 
       <!-- Layer 13: Bottom Ambient Strip & Contact Hotline Bar -->
       <div class="layer-item layer-frame-strip">
@@ -387,7 +381,7 @@
   <!-- GSAP 3 & ScrollTrigger for 60fps Smooth Scroll Choreography -->
   <script src="vendor/gsap.min.js"></script>
   <script src="vendor/ScrollTrigger.min.js"></script>
-  <script src="script.js?v=3.0"></script>
+  <script src="script.js?v=4.0"></script>
   <script src="sky-lanterns.js" defer></script>
 </body>
 </html>

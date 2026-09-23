@@ -569,41 +569,177 @@
     const isMobile = window.innerWidth <= 768;
 
     // ------------------------------------------------------------------------
+    // ENTRANCE TIMELINE: HIỆU ỨNG XUẤT HIỆN TỪNG TẦNG CỰC KỲ MƯỢT MÀ (~1.6S)
+    // ------------------------------------------------------------------------
+    let entranceTimeline = null;
+
+    function initEntranceAnimation() {
+      if (document.body.classList.contains('skip-animations')) return;
+
+      entranceTimeline = gsap.timeline({
+        defaults: { ease: 'power2.out' }
+      });
+
+      // 1. Vũ trụ bầu trời & Ngôi sao nhấp nháy (0.0s)
+      entranceTimeline.fromTo(['.layer-nen', '.star-sparkle'],
+        { opacity: 0 },
+        { opacity: 1, duration: 0.5, stagger: 0.05 },
+        0
+      );
+
+      // 2. Khung viền không gian 3D & Tia sáng neon (0.12s)
+      entranceTimeline.fromTo(['.layer-khung-dai', '.layer-khung-giua', '.layer-anh-sang'],
+        { scale: 0.94, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.55 },
+        0.12
+      );
+
+      // 3. Vầng Trăng Rằm tháng 8 mọc lên tỏa ánh hào quang (0.22s)
+      const moonEl = document.getElementById('moonElement');
+      if (moonEl) {
+        entranceTimeline.fromTo(moonEl,
+          { x: 30, y: -25, scale: 0.8, opacity: 0 },
+          { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.65, ease: 'back.out(1.3)' },
+          0.22
+        );
+      }
+
+      // 4. Logo Yamaha Town Nam Tiến & Tiêu đề thương hiệu (0.32s)
+      entranceTimeline.fromTo(['.layer-logo', '.layer-brand-title'],
+        { y: -20, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.5, stagger: 0.07 },
+        0.32
+      );
+
+      // 5. Thư mời tham gia & Đại tự 3D "ĐÊM HỘI TRĂNG RẰM" (0.42s)
+      entranceTimeline.fromTo('.layer-thu-moi',
+        { y: -15, opacity: 0, rotate: -2.5 },
+        { y: 0, opacity: 1, rotate: 0, duration: 0.5, ease: 'back.out(1.2)' },
+        0.42
+      );
+
+      entranceTimeline.fromTo('#titleDemHoi',
+        { xPercent: -50, y: 25, scale: 0.82, opacity: 0 },
+        { xPercent: -50, y: 0, scale: 1, opacity: 1, duration: 0.65, ease: 'back.out(1.5)' },
+        0.48
+      );
+
+      // 6. Dải lụa Tagline "Vui Tết Trung Thu" (0.6s)
+      entranceTimeline.fromTo('.layer-ribbon-tagline',
+        { xPercent: -50, y: 15, scaleX: 0.85, opacity: 0 },
+        { xPercent: -50, y: 0, scaleX: 1, opacity: 1, duration: 0.55 },
+        0.6
+      );
+
+      // 7. Cung đường ngân hà & Chân viền địa chỉ (0.68s)
+      entranceTimeline.fromTo(['.layer-cung-duong', '.layer-frame-strip', '.layer-dia-chi'],
+        { y: 25, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.55, stagger: 0.05 },
+        0.68
+      );
+
+      // 8. Thiệp mời trung tâm (Kính Mời - Vui Tết Thiếu Nhi) (0.76s)
+      if (invitationCard) {
+        entranceTimeline.fromTo(invitationCard,
+          { xPercent: -50, y: 28, scale: 0.86, opacity: 0 },
+          { xPercent: -50, y: 0, scale: 1, opacity: 1, duration: 0.6, ease: 'back.out(1.4)' },
+          0.76
+        );
+      }
+
+      // 9. Chị Hằng giáng trần từ mạn trái & Chú Cuội đón hội từ mạn phải (0.86s)
+      if (charChiHang) {
+        entranceTimeline.fromTo(charChiHang,
+          { x: -50, y: 15, scale: 0.9, opacity: 0 },
+          { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.65 },
+          0.86
+        );
+      }
+      if (charChuCuoi) {
+        entranceTimeline.fromTo(charChuCuoi,
+          { x: 50, y: 15, scale: 0.9, opacity: 0 },
+          { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.65 },
+          0.9
+        );
+      }
+
+      // 10. Các tầng mây vàng bồng bềnh uốn lượn nâng bước (0.96s)
+      entranceTimeline.fromTo(['#stageCloudGlow', '#cloudLeft', '#cloudRight', '#cloudDreamBlur'],
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.6, stagger: 0.06 },
+        0.96
+      );
+
+      // 11. Các mâm bánh Trung Thu rải đều theo cung đường (1.08s)
+      entranceTimeline.fromTo(['#cake3', '#cake2', '#cake1'],
+        { y: -20, scale: 0.7, opacity: 0 },
+        { y: 0, scale: 1, opacity: 1, duration: 0.45, stagger: 0.07, ease: 'back.out(1.5)' },
+        1.08
+      );
+
+      // 12. Chú Thỏ Ngọc nhảy lên chào đón (1.18s)
+      if (thoNgoc) {
+        entranceTimeline.fromTo(thoNgoc,
+          { y: 22, scale: 0.75, opacity: 0 },
+          { y: 0, scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(1.6)' },
+          1.18
+        );
+      }
+    }
+
+    function fastForwardEntrance() {
+      if (entranceTimeline && entranceTimeline.progress() < 1) {
+        entranceTimeline.progress(1);
+      }
+    }
+
+    window.addEventListener('scroll', fastForwardEntrance, { passive: true, once: true });
+    window.addEventListener('touchstart', fastForwardEntrance, { passive: true, once: true });
+
+    // Khởi chạy hiệu ứng xuất hiện ngay khi DOM sẵn sàng
+    initEntranceAnimation();
+
+    // ------------------------------------------------------------------------
     // TIMELINE 1: GHIM SÂN KHẤU HERO & RẼ MÂY, TÁCH NGƯỜI, MỜ DẦN CHI TIẾT
     // ------------------------------------------------------------------------
     const stageTimeline = gsap.timeline({
       scrollTrigger: {
         trigger: pageContainer,
         start: 'top top',
-        end: '+=45%',
+        end: isMobile ? '+=60%' : '+=75%',
         pin: pageContainer,
-        pinSpacing: true, // Giữ spacer để trang có đủ chiều cao cuộn tự nhiên 100% trên iOS
+        pinSpacing: false, // Form đăng ký trồi lên tự nhiên đè lên hero khi cuộn
         scrub: isMobile ? 0.4 : 0.7,
         anticipatePin: 1,
-        invalidateOnRefresh: true
+        invalidateOnRefresh: true,
+        onUpdate: (self) => {
+          if (self.progress > 0) fastForwardEntrance();
+        }
       }
     });
 
-    // 1. Nhánh Trái: Mây bên trái & Chị Hằng cùng lướt dạt sang trái
-    const leftClouds = ['.cloud-m2', '.cloud-m3'];
-    stageTimeline.fromTo(leftClouds,
-      { xPercent: 0, yPercent: 0, autoAlpha: 1 },
-      {
-        xPercent: isMobile ? -95 : -125,
-        yPercent: -8,
-        autoAlpha: 0,
-        ease: 'power1.inOut',
-        duration: 0.6
-      },
-      0
-    );
+    // 1. Nhánh Trái: Mây cong bên trái (#cloudLeft) & Chị Hằng cùng lướt dạt sang trái
+    const cloudLeft = document.getElementById('cloudLeft');
+    if (cloudLeft) {
+      stageTimeline.fromTo(cloudLeft,
+        { xPercent: 0, yPercent: 0, autoAlpha: 1 },
+        {
+          xPercent: isMobile ? -85 : -110,
+          yPercent: -6,
+          autoAlpha: 0,
+          ease: 'power1.inOut',
+          duration: 0.6
+        },
+        0
+      );
+    }
 
     if (charChiHang) {
       stageTimeline.fromTo(charChiHang,
         { xPercent: 0, yPercent: 0, autoAlpha: 1 },
         {
-          xPercent: isMobile ? -120 : -150,
-          yPercent: -12,
+          xPercent: isMobile ? -100 : -130,
+          yPercent: -10,
           autoAlpha: 0,
           ease: 'power1.inOut',
           duration: 0.65
@@ -612,26 +748,28 @@
       );
     }
 
-    // 2. Nhánh Phải: Mây bên phải & Chú Cuội cùng lướt dạt sang phải
-    const rightClouds = ['.cloud-m4', '.cloud-m4-base'];
-    stageTimeline.fromTo(rightClouds,
-      { xPercent: 0, yPercent: 0, autoAlpha: 1 },
-      {
-        xPercent: isMobile ? 95 : 125,
-        yPercent: -8,
-        autoAlpha: 0,
-        ease: 'power1.inOut',
-        duration: 0.6
-      },
-      0
-    );
+    // 2. Nhánh Phải: Mây cong bên phải (#cloudRight) & Chú Cuội cùng lướt dạt sang phải
+    const cloudRight = document.getElementById('cloudRight');
+    if (cloudRight) {
+      stageTimeline.fromTo(cloudRight,
+        { xPercent: 0, yPercent: 0, autoAlpha: 1 },
+        {
+          xPercent: isMobile ? 85 : 110,
+          yPercent: -6,
+          autoAlpha: 0,
+          ease: 'power1.inOut',
+          duration: 0.6
+        },
+        0
+      );
+    }
 
     if (charChuCuoi) {
       stageTimeline.fromTo(charChuCuoi,
         { xPercent: 0, yPercent: 0, autoAlpha: 1 },
         {
-          xPercent: isMobile ? 120 : 150,
-          yPercent: -12,
+          xPercent: isMobile ? 100 : 130,
+          yPercent: -10,
           autoAlpha: 0,
           ease: 'power1.inOut',
           duration: 0.65
@@ -641,7 +779,7 @@
     }
 
     // 3. Vầng sáng mây vàng và lớp sương mờ ở giữa mờ dần
-    stageTimeline.fromTo(['.stage-cloud-glow', '.cloud-dream-blur'],
+    stageTimeline.fromTo(['#stageCloudGlow', '#cloudDreamBlur'],
       { autoAlpha: 1 },
       {
         autoAlpha: 0,
@@ -830,10 +968,20 @@
     // Refresh lại ScrollTrigger để đo chuẩn kích thước trên mọi thiết bị
     window.addEventListener('load', () => {
       ScrollTrigger.refresh();
+      const scrollParam = new URLSearchParams(window.location.search).get('scroll');
+      if (scrollParam) {
+        window.scrollTo(0, parseInt(scrollParam, 10));
+        ScrollTrigger.update();
+      }
     });
     setTimeout(() => {
       ScrollTrigger.refresh();
-    }, 350);
+      const scrollParam = new URLSearchParams(window.location.search).get('scroll');
+      if (scrollParam) {
+        window.scrollTo(0, parseInt(scrollParam, 10));
+        ScrollTrigger.update();
+      }
+    }, 250);
   }
 
   console.log('🌕 Đêm Hội Trăng Rằm - Yamaha Town Nam Tiến loaded smoothly!');
