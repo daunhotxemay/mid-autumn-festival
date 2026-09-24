@@ -7,8 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=5.2">
-  <link rel="stylesheet" href="sky-lanterns.css?v=5.2">
+  <link rel="stylesheet" href="styles.css?v=5.3">
+  <link rel="stylesheet" href="sky-lanterns.css?v=5.3">
 </head>
 <body>
 
@@ -77,6 +77,13 @@
         <div class="layer-item cloud-left" id="cloudLeft">
           <img src="element/image-idea/may-left.png" alt="Mây vàng Chị Hằng" class="layer-img">
         </div>
+        <!-- Deep Corner Clouds for Desktop (Billowing in bottom-left corner) -->
+        <div class="layer-item cloud-corner-left" id="cloudCornerLeft" aria-hidden="true">
+          <picture>
+            <source srcset="element/image-idea/may6.avif" type="image/avif">
+            <img src="element/image-idea/may6.png" alt="Mây cuộn góc trái" class="layer-img">
+          </picture>
+        </div>
         <!-- Thỏ Ngọc sitting on top of the cloud in front of Chị Hằng -->
         <div class="layer-item layer-tho-ngoc" data-order="18" id="thoNgoc" title="Bấm vào Thỏ Ngọc để chào hỏi!">
           <picture>
@@ -109,6 +116,13 @@
         </div>
         <div class="layer-item cloud-right" id="cloudRight">
           <img src="element/image-idea/may-right.png" alt="Mây vàng Chú Cuội" class="layer-img">
+        </div>
+        <!-- Deep Corner Clouds for Desktop (Billowing in bottom-right corner) -->
+        <div class="layer-item cloud-corner-right" id="cloudCornerRight" aria-hidden="true">
+          <picture>
+            <source srcset="element/image-idea/may7.avif" type="image/avif">
+            <img src="element/image-idea/may7.png" alt="Mây cuộn góc phải" class="layer-img">
+          </picture>
         </div>
         <!-- Bánh 1 sitting on top of the golden cloud under Chú Cuội -->
         <div class="layer-item layer-cake cake-1" data-order="17" id="cake1" title="Click nhận quà đặc biệt!">
@@ -365,7 +379,7 @@
   <script src="vendor/lenis.min.js"></script>
   <script src="vendor/gsap.min.js"></script>
   <script src="vendor/ScrollTrigger.min.js"></script>
-  <script src="script.js?v=5.2"></script>
-  <script src="sky-lanterns.js?v=5.2" defer></script>
+  <script src="script.js?v=5.3"></script>
+  <script src="sky-lanterns.js?v=5.3" defer></script>
 </body>
 </html>

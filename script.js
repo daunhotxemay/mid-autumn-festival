@@ -725,9 +725,9 @@
       }
 
       // 9. Các tầng mây vàng bồng bềnh uốn lượn nâng bước (0.92s)
-      entranceTimeline.fromTo(['#stageCloudGlow', '#cloudLeft', '#cloudRight', '#cloudDreamBlur'],
+      entranceTimeline.fromTo(['#stageCloudGlow', '#cloudLeft', '#cloudRight', '#cloudCornerLeft', '#cloudCornerRight', '#cloudDreamBlur'],
         { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.55, stagger: 0.06 },
+        { y: 0, opacity: 1, duration: 0.55, stagger: 0.05 },
         0.92
       );
 
