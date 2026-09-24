@@ -140,11 +140,11 @@
 
   function scrollToRegister() {
     const isMobile = window.innerWidth <= 768;
-    const targetScroll = isMobile ? 780 : 1000;
+    const targetScroll = isMobile ? 1100 : 1350;
 
     if (window.lenisInstance) {
       window.lenisInstance.scrollTo(targetScroll, {
-        duration: 1.2,
+        duration: 1.5,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
       });
     } else {
@@ -157,7 +157,7 @@
     setTimeout(() => {
       const inp = document.getElementById('txtName');
       if (inp) inp.focus();
-    }, 900);
+    }, 1100);
   }
 
   window.scrollToRegister = scrollToRegister;
@@ -711,10 +711,10 @@
       scrollTrigger: {
         trigger: document.body,
         start: 'top top',
-        end: isMobile ? '+=750' : '+=950',
+        end: isMobile ? '+=1050' : '+=1300',
         pin: sectionRegister,
         pinSpacing: true,
-        scrub: isMobile ? 0.6 : 0.8,
+        scrub: isMobile ? 0.85 : 1.0,
         anticipatePin: 1,
         invalidateOnRefresh: true,
         onUpdate: (self) => {
@@ -747,7 +747,7 @@
         autoAlpha: 0,
         y: -30,
         ease: 'power1.out',
-        duration: 0.25
+        duration: 0.38
       }, 0);
     }
 
@@ -757,7 +757,7 @@
         xPercent: -105,
         autoAlpha: 0,
         ease: 'power2.inOut',
-        duration: 0.85
+        duration: 1.25
       }, 0);
     }
 
@@ -767,7 +767,7 @@
         xPercent: 105,
         autoAlpha: 0,
         ease: 'power2.inOut',
-        duration: 0.85
+        duration: 1.25
       }, 0);
     }
 
@@ -777,16 +777,16 @@
     if (registerHeader) {
       curtainTl.fromTo(registerHeader,
         { autoAlpha: 0.3, y: isMobile ? 45 : 65 },
-        { autoAlpha: 1, y: 0, ease: 'power2.out', duration: 0.45 },
-        0.08
+        { autoAlpha: 1, y: 0, ease: 'power2.out', duration: 0.55 },
+        0.15
       );
     }
 
     if (formWrapperCard) {
       curtainTl.fromTo(formWrapperCard,
         { autoAlpha: 0.4, scale: 0.95, y: isMobile ? 70 : 100 },
-        { autoAlpha: 1, scale: 1, y: 0, ease: 'power2.out', duration: 0.55 },
-        0.12
+        { autoAlpha: 1, scale: 1, y: 0, ease: 'power2.out', duration: 0.7 },
+        0.2
       );
     }
 
