@@ -2443,13 +2443,17 @@ button.action-btn {
 
   .cloud-left {
     bottom: 0;
-    left: max(-40px, calc(50% - 540px));
-    width: clamp(480px, 38vw, 680px);
-    max-width: 680px;
+    left: max(-80px, calc(50% - 580px));
+    width: clamp(520px, 42vw, 760px);
+    max-width: 760px;
     z-index: 35;
     filter: drop-shadow(0 -6px 22px rgba(255, 200, 30, 0.45));
-    -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 85%, rgba(0, 0, 0, 0) 100%);
-    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 85%, rgba(0, 0, 0, 0) 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 1) 100%),
+                        linear-gradient(to top, rgba(0, 0, 0, 1) 80%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 1) 100%),
+                linear-gradient(to top, rgba(0, 0, 0, 1) 80%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
   }
 
   .cloud-corner-left {
@@ -2457,12 +2461,18 @@ button.action-btn {
     position: absolute;
     bottom: -15px;
     left: 0;
-    width: clamp(380px, 32vw, 580px);
+    width: clamp(420px, 36vw, 680px);
     z-index: 24;
     pointer-events: none;
     filter: drop-shadow(0 0 25px rgba(255, 185, 20, 0.4));
     opacity: 0.95;
     animation: cloudCornerFloatLeft 7s ease-in-out infinite alternate;
+    -webkit-mask-image: linear-gradient(to right, rgba(0, 0, 0, 1) 60%, transparent 100%),
+                        linear-gradient(to top, rgba(0, 0, 0, 1) 75%, transparent 100%);
+    mask-image: linear-gradient(to right, rgba(0, 0, 0, 1) 60%, transparent 100%),
+                linear-gradient(to top, rgba(0, 0, 0, 1) 75%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
   }
 
   .layer-chu-cuoi {
@@ -2474,13 +2484,17 @@ button.action-btn {
 
   .cloud-right {
     bottom: 0;
-    right: max(-40px, calc(50% - 530px));
-    width: clamp(500px, 39vw, 700px);
-    max-width: 700px;
+    right: max(-80px, calc(50% - 570px));
+    width: clamp(540px, 43vw, 780px);
+    max-width: 780px;
     z-index: 35;
     filter: drop-shadow(0 -6px 22px rgba(255, 200, 30, 0.45));
-    -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 85%, rgba(0, 0, 0, 0) 100%);
-    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 85%, rgba(0, 0, 0, 0) 100%);
+    -webkit-mask-image: linear-gradient(to left, transparent 0%, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 1) 100%),
+                        linear-gradient(to top, rgba(0, 0, 0, 1) 80%, transparent 100%);
+    mask-image: linear-gradient(to left, transparent 0%, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 1) 100%),
+                linear-gradient(to top, rgba(0, 0, 0, 1) 80%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
   }
 
   .cloud-corner-right {
@@ -2488,12 +2502,18 @@ button.action-btn {
     position: absolute;
     bottom: -15px;
     right: 0;
-    width: clamp(400px, 34vw, 600px);
+    width: clamp(440px, 38vw, 700px);
     z-index: 24;
     pointer-events: none;
     filter: drop-shadow(0 0 25px rgba(255, 185, 20, 0.4));
     opacity: 0.95;
     animation: cloudCornerFloatRight 7s ease-in-out infinite alternate 1s;
+    -webkit-mask-image: linear-gradient(to left, rgba(0, 0, 0, 1) 60%, transparent 100%),
+                        linear-gradient(to top, rgba(0, 0, 0, 1) 75%, transparent 100%);
+    mask-image: linear-gradient(to left, rgba(0, 0, 0, 1) 60%, transparent 100%),
+                linear-gradient(to top, rgba(0, 0, 0, 1) 75%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
   }
 
   .stage-cloud-glow {
@@ -2564,6 +2584,28 @@ button.action-btn {
   .scroll-hint-icon {
     width: 11px;
     height: 11px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .cloud-left {
+    left: max(-60px, calc(50% - 660px));
+    width: clamp(620px, 45vw, 920px);
+    max-width: 920px;
+  }
+
+  .cloud-right {
+    right: max(-60px, calc(50% - 650px));
+    width: clamp(640px, 46vw, 940px);
+    max-width: 940px;
+  }
+
+  .cloud-corner-left {
+    width: clamp(520px, 38vw, 780px);
+  }
+
+  .cloud-corner-right {
+    width: clamp(540px, 40vw, 800px);
   }
 }
 
