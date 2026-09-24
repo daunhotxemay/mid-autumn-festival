@@ -627,85 +627,106 @@
     }
 
     // ------------------------------------------------------------------------
-    // ENTRANCE TIMELINE: HIỆU ỨNG XUẤT HIỆN ĐỒNG BỘ SIÊU MƯỢT (~0.95S)
-    // Tối ưu hóa đặc biệt cho thiết bị di động (Mobile GPU 60fps/120fps)
+    // ------------------------------------------------------------------------
+    // ENTRANCE TIMELINE: HIỆU ỨNG XUẤT HIỆN TỪNG TẦNG CỰC KỲ MƯỢT MÀ (~1.4S)
+    // Giữ nguyên 100% hiệu ứng GSAP nguyên bản đã được tinh chỉnh hoàn hảo
     // ------------------------------------------------------------------------
     let entranceTimeline = null;
 
     function initEntranceAnimation() {
       if (document.body.classList.contains('skip-animations')) return;
 
-      const isMobile = window.innerWidth <= 768;
-
       entranceTimeline = gsap.timeline({
-        defaults: { 
-          ease: 'power2.out',
-          force3D: true
-        }
+        defaults: { ease: 'power2.out' }
       });
 
-      // Lớp 1: Bầu trời đêm huyền ảo, ngàn sao lấp lánh & Vầng Trăng Rằm tháng 8 (0.0s)
+      // 1. Vũ trụ bầu trời & Ngôi sao nhấp nháy (0.0s)
       entranceTimeline.fromTo(['.door-inner-bg', '.star-sparkle'],
         { opacity: 0 },
-        { opacity: 1, duration: 0.42, stagger: 0.04 },
+        { opacity: 1, duration: 0.45, stagger: 0.05 },
         0
       );
 
+      // 2. Vầng Trăng Rằm tháng 8 mọc lên tỏa ánh hào quang (0.15s)
       const moonEl = document.getElementById('moonElement');
       if (moonEl) {
         entranceTimeline.fromTo(moonEl,
-          { y: isMobile ? -14 : -24, scale: 0.94, opacity: 0 },
-          { y: 0, scale: 1, opacity: 1, duration: 0.62, ease: 'power2.out' },
-          0.05
+          { x: 25, y: -20, scale: 0.82, opacity: 0 },
+          { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.55, ease: 'back.out(1.3)' },
+          0.15
         );
       }
 
-      // Lớp 2: Dấu ấn thương hiệu Yamaha Town Nam Tiến & Đại tự "ĐÊM HỘI TRĂNG RẰM" (0.12s)
+      // 3. Logo Yamaha Town Nam Tiến & Tiêu đề thương hiệu (0.28s)
       entranceTimeline.fromTo(['.layer-logo', '.layer-brand-title'],
-        { y: isMobile ? -10 : -18, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.45, stagger: 0.04 },
-        0.12
+        { y: -20, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.45, stagger: 0.06 },
+        0.28
       );
 
-      entranceTimeline.fromTo(['.layer-thu-moi', '#titleDemHoi', '.layer-ribbon-tagline'],
-        { y: isMobile ? 12 : 20, scale: 0.96, opacity: 0 },
-        { y: 0, scale: 1, opacity: 1, duration: 0.52, stagger: 0.05 },
-        0.18
+      // 4. Thư mời tham gia & Đại tự 3D "ĐÊM HỘI TRĂNG RẰM" (0.38s)
+      entranceTimeline.fromTo('.layer-thu-moi',
+        { y: -15, opacity: 0, rotate: -2.5 },
+        { y: 0, opacity: 1, rotate: 0, duration: 0.45, ease: 'back.out(1.2)' },
+        0.38
       );
 
-      // Lớp 3: Cung đường ngân hà, Thiệp mời trung tâm & Chị Hằng, Chú Cuội giáng trần (0.26s)
+      entranceTimeline.fromTo('#titleDemHoi',
+        { y: 22, scale: 0.85, opacity: 0 },
+        { y: 0, scale: 1, opacity: 1, duration: 0.55, ease: 'back.out(1.4)' },
+        0.44
+      );
+
+      // 5. Dải lụa Tagline "Vui Tết Trung Thu" (0.55s)
+      entranceTimeline.fromTo('.layer-ribbon-tagline',
+        { y: 15, scaleX: 0.85, opacity: 0 },
+        { y: 0, scaleX: 1, opacity: 1, duration: 0.45 },
+        0.55
+      );
+
+      // 6. Cung đường ngân hà & Chân viền (0.62s)
+      // Lưu ý: .layer-dia-chi đã chuyển ra ngoài heroCurtainWrapper, luôn hiển thị fixed, không cần animate
       entranceTimeline.fromTo(['.layer-cung-duong', '.layer-frame-strip'],
-        { y: isMobile ? 14 : 22, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.55 },
-        0.26
+        { y: 25, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.5, stagger: 0.05 },
+        0.62
       );
 
+      // 7. Thiệp mời trung tâm & Nút gợi ý cuộn (0.7s)
       const invitationCard = document.getElementById('invitationCard');
+      const scrollHintEl = document.getElementById('scrollHint');
       if (invitationCard) {
         entranceTimeline.fromTo(invitationCard,
-          { y: isMobile ? 15 : 24, scale: 0.94, opacity: 0 },
-          { y: 0, scale: 1, opacity: 1, duration: 0.55 },
-          0.28
+          { y: 25, scale: 0.88, opacity: 0 },
+          { y: 0, scale: 1, opacity: 1, duration: 0.55, ease: 'back.out(1.3)' },
+          0.7
+        );
+      }
+      if (scrollHintEl) {
+        entranceTimeline.fromTo(scrollHintEl,
+          { opacity: 0 },
+          { opacity: 1, duration: 0.5, ease: 'power2.out' },
+          0.85
         );
       }
 
+      // 8. Chị Hằng giáng trần từ mạn trái & Chú Cuội đón hội từ mạn phải (0.8s)
       if (charChiHang) {
         entranceTimeline.fromTo(charChiHang,
-          { x: isMobile ? -22 : -38, y: isMobile ? 8 : 12, scale: 0.96, opacity: 0 },
-          { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.62 },
-          0.30
+          { x: -45, y: 15, scale: 0.92, opacity: 0 },
+          { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.6 },
+          0.8
         );
       }
-
       if (charChuCuoi) {
         entranceTimeline.fromTo(charChuCuoi,
-          { x: isMobile ? 22 : 38, y: isMobile ? 8 : 12, scale: 0.96, opacity: 0 },
-          { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.62 },
-          0.32
+          { x: 45, y: 15, scale: 0.92, opacity: 0 },
+          { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.6 },
+          0.84
         );
       }
 
-      // Lớp 4: Biển Mây Vàng bồng bềnh uốn lượn nâng bước & Thỏ Ngọc, Mâm Bánh (0.36s)
+      // 9. Các tầng mây vàng bồng bềnh uốn lượn nâng bước (0.92s)
       const cloudTargets = ['#stageCloudGlow', '#cloudLeft', '#cloudRight', '#cloudDreamBlur'];
       const cornerLeft = document.getElementById('cloudCornerLeft');
       const cornerRight = document.getElementById('cloudCornerRight');
@@ -713,32 +734,24 @@
       if (cornerRight) cloudTargets.push('#cloudCornerRight');
 
       entranceTimeline.fromTo(cloudTargets,
-        { y: isMobile ? 18 : 28, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.65, stagger: 0.04 },
-        0.36
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.55, stagger: 0.05 },
+        0.92
       );
 
+      // 10. Các mâm bánh Trung Thu rải đều theo cung đường (1.02s)
       entranceTimeline.fromTo(['#cake3', '#cake2', '#cake1'],
-        { y: isMobile ? -10 : -16, scale: 0.92, opacity: 0 },
-        { y: 0, scale: 1, opacity: 1, duration: 0.45, stagger: 0.05 },
-        0.42
+        { y: -18, scale: 0.72, opacity: 0 },
+        { y: 0, scale: 1, opacity: 1, duration: 0.4, stagger: 0.06, ease: 'back.out(1.4)' },
+        1.02
       );
 
+      // 11. Chú Thỏ Ngọc nhảy lên chào đón (1.12s)
       if (thoNgoc) {
         entranceTimeline.fromTo(thoNgoc,
-          { y: isMobile ? 12 : 18, scale: 0.92, opacity: 0 },
-          { y: 0, scale: 1, opacity: 1, duration: 0.48 },
-          0.44
-        );
-      }
-
-      // Lớp 5: Gợi ý cuộn tối giản nhẹ nhàng xuất hiện (0.52s)
-      const scrollHintEl = document.getElementById('scrollHint');
-      if (scrollHintEl) {
-        entranceTimeline.fromTo(scrollHintEl,
-          { opacity: 0, y: isMobile ? 6 : 10 },
-          { opacity: 1, y: 0, duration: 0.42 },
-          0.52
+          { y: 20, scale: 0.75, opacity: 0 },
+          { y: 0, scale: 1, opacity: 1, duration: 0.45, ease: 'back.out(1.5)' },
+          1.12
         );
       }
     }
@@ -749,7 +762,14 @@
       }
     }
 
-    window.addEventListener('scroll', fastForwardEntrance, { passive: true, once: true });
+    // Chỉ tua nhanh khi người dùng thực sự cuộn trang xuống một đoạn (> 30px), tránh xung đột khi vừa tải trang
+    function onUserScrollDown() {
+      if (window.scrollY > 30) {
+        fastForwardEntrance();
+        window.removeEventListener('scroll', onUserScrollDown);
+      }
+    }
+    window.addEventListener('scroll', onUserScrollDown, { passive: true });
 
     // Khởi chạy hiệu ứng xuất hiện ngay khi DOM sẵn sàng
     initEntranceAnimation();
@@ -768,7 +788,7 @@
         anticipatePin: 1,
         invalidateOnRefresh: true,
         onUpdate: (self) => {
-          if (self.progress > 0) fastForwardEntrance();
+          if (self.progress > 0.03) fastForwardEntrance();
           if (self.progress >= 0.98) {
             heroCurtainWrapper.style.pointerEvents = 'none';
           } else {
