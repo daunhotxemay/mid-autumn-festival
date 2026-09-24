@@ -282,7 +282,7 @@
     }, { passive: true });
   });
 
-  window.submitForm = async function () {
+  window.submitForm = function () {
     const nameInput = document.getElementById('txtName');
     const phoneInput = document.getElementById('txtPhone');
     const name = nameInput ? nameInput.value.trim() : '';
@@ -306,7 +306,7 @@
     const submitBtn = registerForm ? registerForm.querySelector('button[type="submit"]') : null;
     if (submitBtn) {
       submitBtn.disabled = true;
-      submitBtn.innerHTML = '<span>⏳ Đang gửi thông tin đăng ký...</span>';
+      submitBtn.innerHTML = '<span>✨ Đang xác nhận mã quà...</span>';
     }
 
     const randomSuffix = Math.floor(1000 + Math.random() * 9000);
@@ -329,34 +329,52 @@
     };
 
     if (GOOGLE_SHEET_SCRIPT_URL && GOOGLE_SHEET_SCRIPT_URL.trim() !== '') {
-      try {
-        await fetch(GOOGLE_SHEET_SCRIPT_URL.trim(), {
-          method: 'POST',
-          mode: 'no-cors',
-          cache: 'no-cache',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(payload)
-        });
-      } catch (err) {
+      fetch(GOOGLE_SHEET_SCRIPT_URL.trim(), {
+        method: 'POST',
+        mode: 'no-cors',
+        cache: 'no-cache',
+        keepalive: true,
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8'
+        },
+        body: JSON.stringify(payload)
+      }).catch(function (err) {
         console.warn('Lưu ý kết nối Google Sheet:', err);
-      }
+      });
     }
 
-    if (registerForm) registerForm.style.display = 'none';
-    if (successBox) {
-      successBox.style.display = 'block';
-      if (window.lenisInstance) {
-        window.lenisInstance.scrollTo(successBox, { offset: -60, duration: 1.2 });
-      } else {
-        successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    function showSuccessUI() {
+      if (registerForm) registerForm.style.display = 'none';
+      if (successBox) {
+        successBox.style.display = 'block';
+        if (window.gsap) {
+          gsap.fromTo(successBox,
+            { opacity: 0, y: 16, scale: 0.96 },
+            { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: 'back.out(1.4)' }
+          );
+        }
+        if (window.lenisInstance) {
+          window.lenisInstance.scrollTo(successBox, { offset: -60, duration: 1 });
+        } else {
+          successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
       }
+      triggerConfetti();
+      playTone(880, 0.3, 'sine');
+      setTimeout(() => playTone(1046.5, 0.4, 'sine'), 150);
     }
 
-    triggerConfetti();
-    playTone(880, 0.3, 'sine');
-    setTimeout(() => playTone(1046.5, 0.4, 'sine'), 150);
+    if (window.gsap && registerForm) {
+      gsap.to(registerForm, {
+        opacity: 0,
+        y: -10,
+        duration: 0.22,
+        ease: 'power2.in',
+        onComplete: showSuccessUI
+      });
+    } else {
+      setTimeout(showSuccessUI, 200);
+    }
   };
 
   let audioCtx = null;
