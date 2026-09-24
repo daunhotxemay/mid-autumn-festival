@@ -1,15 +1,5 @@
-/* ==========================================================================
-   TẾT TRUNG THU - YAMAHA TOWN NAM TIẾN LANDING PAGE STYLES
-   Pixel-Accurate to flyer-mattruoc.pdf
-   Mobile Fullscreen Edge-to-Edge Experience
-   Silky Smooth Stretched-Out Gentle Animations
-   ========================================================================== */
-
-/* --------------------------------------------------------------------------
-   CSS VARIABLES & DESIGN TOKENS
-   -------------------------------------------------------------------------- */
 :root {
-  /* Brand & Festival Palette */
+
   --primary-gold: #ffcf24;
   --secondary-gold: #ffa800;
   --deep-purple: #130a2a;
@@ -19,21 +9,16 @@
   --hotline-red: #e11d48;
   --white: #ffffff;
 
-  /* Glassmorphism */
   --glass-bg: rgba(255, 255, 255, 0.12);
   --glass-border: rgba(255, 255, 255, 0.4);
   --glass-glow: 0 8px 32px 0 rgba(112, 0, 255, 0.35);
 
-  /* Silky Gentle Easing Curves */
   --ease-gentle: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
   --ease-float: cubic-bezier(0.45, 0.05, 0.55, 0.95);
 }
 
-/* --------------------------------------------------------------------------
-   RESET & FOUNDATIONS
-   -------------------------------------------------------------------------- */
 *, *::before, *::after {
   margin: 0;
   padding: 0;
@@ -65,9 +50,6 @@ input, textarea, select, button {
   touch-action: manipulation;
 }
 
-/* --------------------------------------------------------------------------
-   FLOATING TOP CONTROL BAR
-   -------------------------------------------------------------------------- */
 .top-controls {
   position: fixed;
   top: 14px;
@@ -151,9 +133,6 @@ input, textarea, select, button {
   50% { transform: scale(1.3); opacity: 1; }
 }
 
-/* --------------------------------------------------------------------------
-   CURTAIN HERO WRAPPER & SPLIT-DOOR STAGE (100DVH FULLSCREEN)
-   -------------------------------------------------------------------------- */
 .hero-curtain-wrapper {
   position: fixed;
   top: 0;
@@ -179,7 +158,6 @@ input, textarea, select, button {
   isolation: isolate;
 }
 
-/* Double Doors for Background (Left 50vw & Right 50vw) */
 .curtain-door-bg {
   position: absolute;
   top: 0;
@@ -213,7 +191,6 @@ input, textarea, select, button {
   left: -50vw;
 }
 
-/* Door Moving Groups */
 .door-moving-group {
   position: absolute;
   inset: 0;
@@ -244,7 +221,6 @@ input, textarea, select, button {
   z-index: 35;
 }
 
-/* Common Layer Element */
 .layer-item {
   position: absolute;
   pointer-events: none;
@@ -266,11 +242,6 @@ input, textarea, select, button {
   object-fit: cover;
 }
 
-/* --------------------------------------------------------------------------
-   INDIVIDUAL STAGE LAYERS (COORDINATES MATCHING FLYER)
-   -------------------------------------------------------------------------- */
-
-/* Layer 1: Background Universe (0.0s) */
 .layer-nen {
   inset: 0;
   width: 100%;
@@ -278,7 +249,6 @@ input, textarea, select, button {
   z-index: 1;
 }
 
-/* Twinkle Stars */
 .star-sparkle {
   position: absolute;
   width: 5.5%;
@@ -303,7 +273,6 @@ input, textarea, select, button {
   100% { transform: scale(0.8) rotate(90deg); opacity: 0.4; }
 }
 
-/* Layer 2: 3D Frames & Light Beam */
 .layer-khung-dai {
   inset: 0;
   width: 100%;
@@ -327,7 +296,6 @@ input, textarea, select, button {
   z-index: 4;
 }
 
-/* Layer 3: Golden Full Moon */
 .layer-trang {
   top: 3.5%;
   right: 2%;
@@ -346,7 +314,6 @@ input, textarea, select, button {
   100% { transform: scale(1.03) translateY(-4px); filter: drop-shadow(0 0 50px rgba(255, 225, 50, 0.85)); }
 }
 
-/* Layer 4: Brand Header */
 .layer-logo {
   top: max(12px, env(safe-area-inset-top));
   left: 4%;
@@ -365,7 +332,6 @@ input, textarea, select, button {
   filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.5));
 }
 
-/* Layer 5: "THƯ MỜI THAM GIA" */
 .layer-thu-moi {
   top: 7.2%;
   left: 14%;
@@ -375,7 +341,6 @@ input, textarea, select, button {
   filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
 }
 
-/* Layer 6: Grand 3D Festival Title "ĐÊM HỘI TRĂNG RẰM" */
 .layer-dem-hoi {
   top: 9.2%;
   left: 50%;
@@ -395,7 +360,6 @@ input, textarea, select, button {
   100% { transform: translateY(-5px); }
 }
 
-/* Layer 7: Tagline Ribbon */
 .layer-ribbon-tagline {
   top: 29.5%;
   left: 50%;
@@ -406,7 +370,6 @@ input, textarea, select, button {
   filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.5));
 }
 
-/* Layer 8: Celestial Road (Con đường ngân hà) */
 .layer-cung-duong {
   top: 36.0%;
   left: -22%;
@@ -428,7 +391,6 @@ input, textarea, select, button {
   100% { filter: drop-shadow(0 0 25px rgba(168, 85, 247, 0.55)); }
 }
 
-/* Atmospheric Fluffy Clouds & Desktop Corner Clouds (Hidden on mobile) */
 .cloud-m1,
 .cloud-m5,
 .cloud-m6,
@@ -437,7 +399,6 @@ input, textarea, select, button {
   display: none;
 }
 
-/* Layer 9: THE CENTRAL INVITATION CARD (KÍNH MỜI) */
 .layer-invitation-card {
   top: 37.5%;
   left: 50%;
@@ -484,9 +445,6 @@ input, textarea, select, button {
   display: block;
 }
 
-/* --------------------------------------------------------------------------
-   MINIMALIST BOTTOM CENTER SCROLL INDICATOR
-   -------------------------------------------------------------------------- */
 .scroll-hint-minimal {
   position: absolute;
   bottom: 76px;
@@ -533,7 +491,7 @@ input, textarea, select, button {
   letter-spacing: 1.5px;
   text-transform: uppercase;
   color: #ffffff;
-  text-shadow: 
+  text-shadow:
     0 1px 3px rgba(0, 0, 0, 0.95),
     0 0 8px rgba(0, 0, 0, 0.7);
   transition: color 0.2s ease;
@@ -570,7 +528,6 @@ input, textarea, select, button {
   }
 }
 
-/* Layer 10: CHỊ HẰNG & CHÚ CUỘI */
 .layer-chi-hang {
   top: auto;
   bottom: 8%;
@@ -606,7 +563,6 @@ input, textarea, select, button {
   transform: scale(1.03) translateY(-4px);
 }
 
-/* Idle Hover Animations for Characters */
 .layer-chi-hang .char-hover {
   animation: chiHangGentleSway 5.5s ease-in-out infinite alternate;
 }
@@ -627,7 +583,6 @@ input, textarea, select, button {
   100% { transform: translateY(-10px) rotate(1deg); }
 }
 
-/* Character Speech Bubbles */
 .char-bubble {
   position: absolute;
   top: -24px;
@@ -662,7 +617,6 @@ input, textarea, select, button {
   transform: translateY(-8px);
 }
 
-/* Layer 11: Mooncakes */
 .layer-cake {
   pointer-events: auto;
   cursor: pointer;
@@ -702,7 +656,6 @@ input, textarea, select, button {
   transform: translateX(-50%) translateY(-4px);
 }
 
-/* Individual Mooncake Coordinates */
 .cake-3 {
   top: auto;
   bottom: 35%;
@@ -730,7 +683,6 @@ input, textarea, select, button {
   z-index: 40;
 }
 
-/* Layer 12: Thỏ Ngọc */
 .layer-tho-ngoc {
   top: auto;
   bottom: 21%;
@@ -780,7 +732,6 @@ input, textarea, select, button {
   opacity: 1;
 }
 
-/* Layer 13: Golden Foreground Clouds & Hotline */
 .cloud-layer {
   -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 60%, rgba(0, 0, 0, 0.75) 75%, transparent 95%);
   mask-image: linear-gradient(to bottom, #000 0%, #000 60%, rgba(0, 0, 0, 0.75) 75%, transparent 95%);
@@ -826,10 +777,10 @@ input, textarea, select, button {
   width: 100%;
   height: 20%;
   background: radial-gradient(
-    ellipse 100% 80% at 50% 100%, 
-    rgba(255, 190, 35, 0.8) 0%, 
-    rgba(240, 145, 20, 0.5) 40%, 
-    rgba(220, 100, 15, 0.18) 70%, 
+    ellipse 100% 80% at 50% 100%,
+    rgba(255, 190, 35, 0.8) 0%,
+    rgba(240, 145, 20, 0.5) 40%,
+    rgba(220, 100, 15, 0.18) 70%,
     transparent 100%
   );
   backdrop-filter: blur(14px);
@@ -876,57 +827,42 @@ input, textarea, select, button {
   filter: brightness(1.1) drop-shadow(0 0 15px rgba(255, 207, 36, 0.6));
 }
 
-/* ==========================================================================
-   ENERGIZED & ELEGANT SEQUENTIAL ENTRANCE ANIMATIONS (~4.8 SECONDS)
-   Smooth, professional succession where each element unfolds seamlessly
-   ========================================================================== */
-
-/* Phase 1: Sky & Stars (0.0s) */
 .anim-phase-1 {
   animation: entranceFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.0s both;
 }
 
-/* Phase 2: 3D Perspective Geometry Frames & Laser Streak (0.25s) */
 .anim-phase-2 {
   animation: entranceScaleIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both;
 }
 
-/* Phase 3: Golden Full Moon Rise (0.55s) */
 .anim-phase-3 {
   animation: entranceMoonRise 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.55s both;
 }
 
-/* Phase 4: Yamaha Logo & Nam Tiến Brand Title (0.85s) */
 .anim-phase-4 {
   animation: entranceSlideDown 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.85s both;
 }
 
-/* Phase 5: "THƯ MỜI THAM GIA" Cursive Drop (1.15s) */
 .anim-phase-5 {
   animation: entranceTiltIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1.15s both;
 }
 
-/* Phase 6: Grand 3D "ĐÊM HỘI TRĂNG RẰM" Title (1.45s) */
 .anim-phase-6 {
   animation: entrancePopTitle 0.75s cubic-bezier(0.16, 1, 0.3, 1) 1.45s both;
 }
 
-/* Phase 7: Tagline Ribbon Banner (1.85s) */
 .anim-phase-7 {
   animation: entranceRibbon 0.65s cubic-bezier(0.16, 1, 0.3, 1) 1.85s both;
 }
 
-/* Phase 8: Celestial Pathway & Ambient Clouds (2.15s) */
 .anim-phase-8 {
   animation: entranceRoadUnroll 0.75s cubic-bezier(0.16, 1, 0.3, 1) 2.15s both;
 }
 
-/* Phase 9: Central "KÍNH MỜI" Invitation Card (2.45s) */
 .anim-phase-9 {
   animation: entranceCardFloat 0.75s cubic-bezier(0.16, 1, 0.3, 1) 2.45s both;
 }
 
-/* Phase 10: Chị Hằng & Chú Cuội Gentle Arrival (2.85s) */
 .layer-chi-hang.anim-phase-10 {
   animation: entranceChiHang 0.8s cubic-bezier(0.16, 1, 0.3, 1) 2.85s both;
 }
@@ -935,7 +871,6 @@ input, textarea, select, button {
   animation: entranceChuCuoi 0.8s cubic-bezier(0.16, 1, 0.3, 1) 2.85s both;
 }
 
-/* Phase 11: The Festive Mooncakes (3.25s) */
 .cake-3.anim-phase-11 {
   animation: entranceCakeDrop 0.55s cubic-bezier(0.16, 1, 0.3, 1) 3.25s both;
 }
@@ -946,19 +881,14 @@ input, textarea, select, button {
   animation: entranceCakeDrop 0.6s cubic-bezier(0.16, 1, 0.3, 1) 3.65s both;
 }
 
-/* Phase 12: Adorable Jade Rabbit Thỏ Ngọc (3.85s) */
 .anim-phase-12 {
   animation: entranceRabbitJump 0.65s cubic-bezier(0.16, 1, 0.3, 1) 3.85s both;
 }
 
-/* Phase 13: Golden Clouds, Dream Blur & Bottom Hotline Bar (4.15s) */
 .anim-phase-13 {
   animation: entranceSlideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 4.15s both;
 }
 
-/* --------------------------------------------------------------------------
-   KEYFRAMES FOR GENTLE ENTRANCES
-   -------------------------------------------------------------------------- */
 @keyframes entranceFadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -1107,11 +1037,6 @@ input, textarea, select, button {
   }
 }
 
-
-
-/* --------------------------------------------------------------------------
-   SECTION 2: INLINE REGISTRATION FORM & FESTIVAL DETAILS (SCROLL-DOWN)
-   -------------------------------------------------------------------------- */
 .section-register {
   position: relative;
   width: 100%;
@@ -1126,9 +1051,6 @@ input, textarea, select, button {
   overflow: hidden;
 }
 
-/* --------------------------------------------------------------------------
-   FORM COSMIC UNIVERSE (Bầu trời đêm sao nhấp nháy chill chill & Chiều sâu vũ trụ)
-   -------------------------------------------------------------------------- */
 .form-cosmic-universe {
   position: absolute;
   inset: 0;
@@ -1139,7 +1061,6 @@ input, textarea, select, button {
   z-index: 1;
 }
 
-/* Dải tinh vân mờ ảo tạo chiều sâu thăm thẳm cho bầu trời phía sau form */
 .cosmic-nebula {
   position: absolute;
   border-radius: 50%;
@@ -1172,7 +1093,6 @@ input, textarea, select, button {
   100% { transform: scale(1.08) translate(14px, -12px); opacity: 0.52; }
 }
 
-/* Đốm sáng ngôi sao nhỏ nhấp nháy êm đềm (Chill tempo) */
 .cosmic-star {
   position: absolute;
   border-radius: 50%;
@@ -1180,7 +1100,6 @@ input, textarea, select, button {
   will-change: opacity, transform;
 }
 
-/* Các cấp độ sao đa dạng tạo chiều sâu quang học tự nhiên */
 .cosmic-star.star-s1 {
   width: 2.5px;
   height: 2.5px;
@@ -1289,7 +1208,6 @@ input, textarea, select, button {
   animation-delay: 2.5s;
 }
 
-/* Nhịp thở êm đềm, không chói mắt, hòa hợp cùng đèn thiên đăng */
 @keyframes starChillTwinkle {
   0%, 100% {
     opacity: 0.15;
@@ -1311,10 +1229,25 @@ input, textarea, select, button {
   gap: 28px;
 }
 
-/* Section Decorative Header */
 .section-header {
+  position: relative;
   text-align: center;
 }
+
+.section-header-sparkles {
+  position: absolute;
+  inset: -15px -10px;
+  pointer-events: none;
+  overflow: visible;
+  z-index: 1;
+}
+
+.sec-star-1 { top: 6%; left: 8%; }
+.sec-star-2 { top: 12%; right: 10%; }
+.sec-star-3 { top: 48%; left: 3%; }
+.sec-star-4 { top: 50%; right: 4%; }
+.sec-star-5 { bottom: 6%; left: 14%; }
+.sec-star-6 { bottom: 4%; right: 12%; }
 
 .header-pill {
   display: inline-flex;
@@ -1334,7 +1267,7 @@ input, textarea, select, button {
 
 .section-title {
   font-family: 'Montserrat', sans-serif;
-  font-size: clamp(23px, 5vw, 32px);
+  font-size: clamp(24px, 5vw, 32px);
   font-weight: 900;
   background: linear-gradient(135deg, #ffffff 0%, #ffcf24 50%, #ffa800 100%);
   -webkit-background-clip: text;
@@ -1351,7 +1284,6 @@ input, textarea, select, button {
   margin: 0 auto;
 }
 
-/* Quick Event Highlights Grid */
 .event-info-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -1415,7 +1347,6 @@ input, textarea, select, button {
   text-decoration: underline;
 }
 
-/* Form Box */
 .form-wrapper {
   max-width: 680px;
   width: 100%;
@@ -1424,7 +1355,7 @@ input, textarea, select, button {
   border: 1.5px solid rgba(255, 207, 36, 0.4);
   border-radius: 24px;
   padding: 30px 26px;
-  box-shadow: 
+  box-shadow:
     0 25px 60px rgba(0, 0, 0, 0.75),
     0 0 50px rgba(168, 85, 247, 0.25),
     inset 0 0 0 1px rgba(255, 255, 255, 0.1);
@@ -1436,9 +1367,27 @@ input, textarea, select, button {
 }
 
 .form-card-header {
+  position: relative;
   text-align: center;
   margin-bottom: 22px;
 }
+
+.form-title-sparkles {
+  position: absolute;
+  inset: -12px -8px;
+  pointer-events: none;
+  overflow: visible;
+  z-index: 1;
+}
+
+.title-star-1 { top: 8px; left: 16%; }
+.title-star-2 { top: 14px; right: 18%; }
+.title-star-3 { top: 44%; left: 4%; }
+.title-star-4 { top: 40%; right: 5%; }
+.title-star-5 { top: 60%; left: 10%; }
+.title-star-6 { top: 58%; right: 9%; }
+.title-star-7 { bottom: 2px; left: 22%; }
+.title-star-8 { bottom: 0px; right: 20%; }
 
 .rabbit-avatar {
   font-size: 34px;
@@ -1574,7 +1523,7 @@ input, textarea, select, button {
   font-weight: 900;
   cursor: pointer;
   margin-top: 8px;
-  box-shadow: 
+  box-shadow:
     0 8px 25px rgba(255, 149, 0, 0.45),
     0 0 30px rgba(255, 207, 36, 0.3);
   transition: all 0.25s var(--ease-spring);
@@ -1583,7 +1532,7 @@ input, textarea, select, button {
 
 .submit-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 
+  box-shadow:
     0 12px 30px rgba(255, 149, 0, 0.6),
     0 0 40px rgba(255, 207, 36, 0.5);
 }
@@ -1592,7 +1541,6 @@ input, textarea, select, button {
   transform: translateY(0) scale(0.98);
 }
 
-/* Success State */
 .form-success-message {
   text-align: center;
   padding: 20px 10px;
@@ -1655,7 +1603,6 @@ input, textarea, select, button {
   transform: translateY(-2px);
 }
 
-/* Quick External Action Buttons: Google Maps & Facebook Fanpage */
 .form-quick-actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1756,7 +1703,6 @@ button.action-btn {
   line-height: 1.25;
 }
 
-/* Footer Signature */
 .register-footer {
   text-align: center;
   padding-top: 10px;
@@ -1776,9 +1722,6 @@ button.action-btn {
   margin-top: 4px;
 }
 
-/* --------------------------------------------------------------------------
-   GIFT TOAST NOTIFICATION
-   -------------------------------------------------------------------------- */
 .gift-toast {
   position: fixed;
   bottom: 24px;
@@ -1824,9 +1767,6 @@ button.action-btn {
   margin-top: 2px;
 }
 
-/* --------------------------------------------------------------------------
-   FANPAGE CHOOSER POPUP MODAL
-   -------------------------------------------------------------------------- */
 .fanpage-modal-overlay {
   position: fixed;
   inset: 0;
@@ -2145,10 +2085,6 @@ button.action-btn {
   }
 }
 
-/* ==========================================================================
-   MOBILE FULLSCREEN RESPONSIVE LAYOUT (@media max-width: 768px)
-   Matches flyer reference edge-to-edge (100dvh) on all mobile devices
-   ========================================================================== */
 @media (max-width: 768px) {
   html {
     overflow-x: hidden;
@@ -2220,7 +2156,6 @@ button.action-btn {
     overflow: hidden;
   }
 
-  /* Mobile Proportional Placement matching reference flyer */
   .layer-logo {
     top: max(12px, env(safe-area-inset-top));
     left: 4%;
@@ -2284,7 +2219,6 @@ button.action-btn {
     z-index: 26;
   }
 
-  /* Anchored Corners for Chị Hằng & Chú Cuội + Organic Curved Clouds */
   .cloud-left {
     bottom: 0;
     left: -4%;
@@ -2388,7 +2322,6 @@ button.action-btn {
     display: none;
   }
 
-  /* Mobile adjustments for Registration Section (Underneath curtain) */
   .section-register {
     position: relative;
     width: 100%;
@@ -2451,10 +2384,6 @@ button.action-btn {
   }
 }
 
-/* ==========================================================================
-   DESKTOP RESPONSIVE LAYOUT (@media min-width: 769px)
-   Balanced center poster with 100vw galaxy expanse
-   ========================================================================== */
 @media (min-width: 769px) {
   .layer-logo {
     top: 24px;
@@ -2490,7 +2419,6 @@ button.action-btn {
     width: 370px;
   }
 
-  /* Cung đường ngân hà trên Desktop: Dùng mặt nạ gradient làm mềm các cạnh cắt thẳng mà không làm mờ chi tiết */
   .layer-cung-duong {
     top: 350px;
     left: calc(50% - 460px);
@@ -2513,7 +2441,6 @@ button.action-btn {
     width: 285px;
   }
 
-  /* Mây vàng trải rộng phong phú qua góc trái trên Desktop - Sắc nét, giữ trọn vẹn chi tiết mỹ thuật */
   .cloud-left {
     bottom: 0;
     left: max(-40px, calc(50% - 540px));
@@ -2525,7 +2452,6 @@ button.action-btn {
     mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 85%, rgba(0, 0, 0, 0) 100%);
   }
 
-  /* Mây cuộn góc trái sâu trên Desktop - Sắc nét bồng bềnh che kín góc */
   .cloud-corner-left {
     display: block;
     position: absolute;
@@ -2546,7 +2472,6 @@ button.action-btn {
     width: 275px;
   }
 
-  /* Mây vàng trải rộng phong phú qua góc phải trên Desktop - Sắc nét, giữ trọn vẹn chi tiết mỹ thuật */
   .cloud-right {
     bottom: 0;
     right: max(-40px, calc(50% - 530px));
@@ -2558,7 +2483,6 @@ button.action-btn {
     mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 85%, rgba(0, 0, 0, 0) 100%);
   }
 
-  /* Mây cuộn góc phải sâu trên Desktop - Sắc nét bồng bềnh che kín góc */
   .cloud-corner-right {
     display: block;
     position: absolute;
@@ -2643,9 +2567,6 @@ button.action-btn {
   }
 }
 
-/* --------------------------------------------------------------------------
-   LENIS SMOOTH SCROLL STYLES
-   -------------------------------------------------------------------------- */
 html.lenis,
 html.lenis body {
   height: auto;
@@ -2663,7 +2584,6 @@ html.lenis body {
   overflow: hidden;
 }
 
-/* Developer & Instant Preview Helper */
 body.skip-animations *,
 body.skip-animations *::before,
 body.skip-animations *::after {

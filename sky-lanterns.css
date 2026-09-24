@@ -1,16 +1,10 @@
-/* ==========================================================================
-   HIỆU ỨNG THIÊN ĐĂNG DẠ HỘI (SKY LANTERNS) - YAMAHA TOWN NAM TIẾN
-   Isolated Module: High-Aesthetic 60fps Ambient & Interactive Lanterns
-   ========================================================================== */
-
-/* 1. VIEWPORT CONTAINER (Non-blocking, zero interference with page controls) */
 .sky-lanterns-viewport {
   position: fixed;
   inset: 0;
   width: 100vw;
   height: 100vh;
-  pointer-events: none; /* Crucial: Allows all clicks to pass straight through */
-  z-index: 100;         /* Above hero curtain wrapper so lanterns create depth in front of characters */
+  pointer-events: none;
+  z-index: 100;
   overflow: hidden;
   user-select: none;
   -webkit-user-select: none;
@@ -18,27 +12,25 @@
   will-change: opacity;
 }
 
-/* Khi cuộn trang: Làm mờ hẳn toàn bộ thiên đăng để người dùng tập trung nội dung và không có cảm giác đơ/lag */
 .sky-lanterns-viewport.is-scrolling {
   opacity: 0 !important;
   visibility: hidden !important;
   pointer-events: none !important;
 }
 
-/* Ẩn triệt để modal khi không active - tránh Safari iOS tạo phantom compositing layer từ backdrop-filter */
 .wish-modal-overlay:not(.is-active),
 .wish-modal-overlay[hidden] {
   display: none !important;
 }
 
-/* 2. BASE LANTERN STYLING & HITBOX */
 .sky-lantern {
   position: absolute;
-  pointer-events: auto; /* Only the lantern body itself receives click/hover events */
+  pointer-events: auto;
   touch-action: manipulation;
   cursor: pointer;
   will-change: transform;
-  contain: layout style paint; /* WebKit/Blink isolated rendering tree - 0% reflow cost */
+  contain: layout style;
+  overflow: visible;
   transform-origin: 50% 90%;
   display: inline-flex;
   flex-direction: column;
@@ -48,7 +40,6 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Mở rộng diện tích chạm (Hitbox) thêm 18px mỗi hướng để chạm trên điện thoại cực kỳ nhạy */
 .sky-lantern::before {
   content: '';
   position: absolute;
@@ -64,32 +55,26 @@
   transform: scale(0.96);
 }
 
-/* SVG Graphic inside lantern */
 .sky-lantern svg {
   display: block;
   width: 100%;
   height: 100%;
-  overflow: visible;
+  overflow: visible !important;
   transition: filter 0.3s ease, transform 0.3s ease;
 }
 
-/* 3. LANTERN DEPTH TIERS (Cinematic Depth of Field) */
-/* Lớp Xa: Nhỏ, trôi êm đềm */
 .sky-lantern.tier-far {
   z-index: 4;
 }
 
-/* Lớp Trung: Rõ vừa, lơ lửng quanh cung đường trăng */
 .sky-lantern.tier-mid {
   z-index: 12;
 }
 
-/* Lớp Gần: Sắc nét, rực rỡ, chi tiết tim lửa và vành nan tre */
 .sky-lantern.tier-near {
   z-index: 24;
 }
 
-/* 4. FLAME FLICKER & WIND SWAY ANIMATIONS (Tối ưu Compositor-only) */
 @keyframes lanternFlicker {
   0%, 100% { opacity: 0.92; transform: scale(1); }
   50% { opacity: 1; transform: scale(1.03); }
@@ -100,39 +85,60 @@
   transform-origin: 50% 85%;
 }
 
-/* 5. USER'S GOLDEN WISH LANTERN (ĐÈN ƯỚC NGUYỆN HOÀNG KIM) */
-/* Áp dụng hiệu ứng phát sáng và nhịp thở trực tiếp lên thẻ con SVG - KHÔNG đặt lên thẻ cha .sky-lantern để bảo toàn translate3d */
 .sky-lantern--focused {
   z-index: 250 !important;
+  contain: none !important;
+  overflow: visible !important;
 }
 
 .sky-lantern--focused svg {
-  filter: drop-shadow(0 0 16px rgba(255, 215, 0, 0.95)) drop-shadow(0 0 32px rgba(255, 140, 0, 0.8));
+  filter: drop-shadow(0 0 14px rgba(255, 215, 0, 0.9));
   animation: lanternFocusPulse 1.4s ease-in-out infinite alternate;
 }
 
 @keyframes lanternFocusPulse {
-  0% { transform: scale(1.08); }
-  100% { transform: scale(1.22); }
+  0% { transform: scale(1.06); }
+  100% { transform: scale(1.18); }
 }
 
 .sky-lantern--blessed,
 .sky-lantern--user {
   z-index: 260 !important;
+  contain: none !important;
+  overflow: visible !important;
+}
+
+.sky-lantern--blessed::after {
+  content: '';
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  width: 140px;
+  height: 140px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(255, 220, 50, 0.45) 0%, rgba(255, 140, 0, 0.22) 40%, rgba(230, 57, 70, 0.08) 60%, transparent 75%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1;
+  animation: blessedHaloPulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes blessedHaloPulse {
+  0% { transform: translate(-50%, -50%) scale(0.92); opacity: 0.75; }
+  100% { transform: translate(-50%, -50%) scale(1.18); opacity: 1; }
 }
 
 .sky-lantern--blessed svg,
 .sky-lantern--user svg {
-  filter: drop-shadow(0 0 24px rgba(255, 220, 50, 1)) drop-shadow(0 0 48px rgba(255, 120, 0, 0.95));
+  filter: drop-shadow(0 0 14px rgba(255, 220, 50, 0.85));
   animation: blessedLanternPulse 1.6s ease-in-out infinite alternate;
 }
 
 @keyframes blessedLanternPulse {
   0% { transform: scale(1.06); }
-  100% { transform: scale(1.20); }
+  100% { transform: scale(1.18); }
 }
 
-/* Dải sớ ước nguyện rủ xuống dưới đáy đèn */
 .user-wish-ribbon {
   margin-top: -4px;
   background: linear-gradient(180deg, rgba(234, 67, 53, 0.95) 0%, rgba(186, 24, 27, 0.9) 100%);
@@ -159,7 +165,6 @@
   100% { transform: rotate(4deg); }
 }
 
-/* 6. AMBIENT WISH TOOLTIP (Hé lộ lời chúc khi hover vào đèn) */
 .lantern-wish-tooltip {
   position: absolute;
   bottom: calc(100% + 8px);
@@ -201,11 +206,10 @@
   transform: translateX(-50%) translateY(0);
 }
 
-/* 7. WISH SCROLL MODAL (SỚ ƯỚC NGUYỆN HOÀNG KIM) */
 .wish-modal-overlay {
   position: fixed;
   inset: 0;
-  z-index: 4000; /* Highest priority dialog */
+  z-index: 4000;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -231,7 +235,6 @@
   cursor: pointer;
 }
 
-/* 8. WISH PARCHMENT MODAL (TÂM THƯ GIẤY DÓ CỔ PHONG - ĐƯỜNG CONG MỸ THUẬT) */
 .wish-parchment-container {
   position: relative;
   width: 100%;
@@ -384,7 +387,6 @@
   transform: translateY(0);
 }
 
-/* Responsive adjustments for Mobile screens */
 @media (max-width: 480px) {
   .wish-parchment-container {
     padding: 40px 24px 30px;

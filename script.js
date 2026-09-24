@@ -1,23 +1,11 @@
-/**
- * TẾT TRUNG THU - YAMAHA TOWN NAM TIẾN LANDING PAGE
- * Interactive Features, Sequence Replay, Ambient Synthesizer & Canvas Particles
- */
-
 (function () {
   'use strict';
   if (new URLSearchParams(window.location.search).has('settled')) {
     document.body.classList.add('skip-animations');
   }
 
-
-  /* ==========================================================================
-     CẤU HÌNH GOOGLE APPS SCRIPT / GOOGLE SHEETS
-     Sau khi deploy Web App từ file google-apps-script.js, hãy dán URL vào đây:
-     Ví dụ: const GOOGLE_SHEET_SCRIPT_URL = 'https://script.google.com/macros/s/.../exec';
-     ========================================================================== */
   const GOOGLE_SHEET_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwb3cQ5Bes9YR9Nlg4Cm5xHAO8xen8qOkTgt58xzsWs5U7-PinfgPaXzijcUyV4hfP9AA/exec';
 
-  // DOM Elements
   const festivalStage = document.getElementById('festivalStage');
   const btnMusic = document.getElementById('btnMusic');
   const musicText = document.getElementById('musicText');
@@ -37,34 +25,20 @@
   const toastDesc = document.getElementById('toastDesc');
   const particleCanvas = document.getElementById('particleCanvas');
 
-  // Fanpage Chooser Modal Elements
   const btnOpenFanpageModal = document.getElementById('btnOpenFanpageModal');
   const fanpageModal = document.getElementById('fanpageModal');
   const btnCloseFanpageModal = document.getElementById('btnCloseFanpageModal');
   const fanpageModalBackdrop = document.getElementById('fanpageModalBackdrop');
 
-  // Mooncakes
   const cake1 = document.getElementById('cake1');
   const cake2 = document.getElementById('cake2');
   const cake3 = document.getElementById('cake3');
 
-  // Countdown Elements
   const cdDays = document.getElementById('cdDays');
   const cdHours = document.getElementById('cdHours');
   const cdMins = document.getElementById('cdMins');
   const cdSecs = document.getElementById('cdSecs');
 
-  /* ==========================================================================
-     1. STAGE READY NOTIFICATION & SETUP
-     ========================================================================== */
-  // Hero stage is immediately ready on page load with 100% visibility
-
-
-
-  /* ==========================================================================
-     2. COUNTDOWN TIMER TO TẾT TRUNG THU
-     ========================================================================== */
-  // Target: Set to Mid-Autumn Festival night
   let targetDate = new Date();
   targetDate.setDate(targetDate.getDate() + 5);
   targetDate.setHours(18, 0, 0, 0);
@@ -95,9 +69,6 @@
   setInterval(updateCountdown, 1000);
   updateCountdown();
 
-  /* ==========================================================================
-     3. INTERACTIVE MOONCAKES & RABBIT DELIGHTS
-     ========================================================================== */
   let toastTimeout = null;
 
   function showToast(title, message, icon = '🥮') {
@@ -108,7 +79,7 @@
     if (toastDesc) toastDesc.textContent = message;
 
     giftToast.classList.add('active');
-    playTone(523.25, 0.15, 'triangle'); // C5 chime
+    playTone(523.25, 0.15, 'triangle');
 
     if (toastTimeout) clearTimeout(toastTimeout);
     toastTimeout = setTimeout(() => {
@@ -134,7 +105,6 @@
     });
   }
 
-  // Rabbit dialogue click
   const rabbitPhrases = [
     '🐰 Thỏ Ngọc chào bạn! Chúc một mùa Trung Thu tràn đầy phúc lộc!',
     '🌙 Trăng rằm tháng Tám sáng nhất, ghé Yamaha Nam Tiến rước lộc to nha!',
@@ -150,7 +120,7 @@
         const textSpan = rabbitDialogue.querySelector('span');
         if (textSpan) textSpan.textContent = rabbitPhrases[phraseIdx];
         rabbitDialogue.classList.add('show-bubble');
-        playTone(659.25, 0.2, 'sine'); // E5 chime
+        playTone(659.25, 0.2, 'sine');
         setTimeout(() => {
           rabbitDialogue.classList.remove('show-bubble');
         }, 3500);
@@ -158,9 +128,6 @@
     });
   }
 
-  /* ==========================================================================
-     4. CHARACTERS TOGGLE
-     ========================================================================== */
   if (btnToggleChars) {
     let charsVisible = true;
     btnToggleChars.addEventListener('click', () => {
@@ -171,9 +138,6 @@
     });
   }
 
-  /* ==========================================================================
-     5. SMOOTH SCROLL TO REGISTRATION FORM & SUBMISSION
-     ========================================================================== */
   function scrollToRegister() {
     const isMobile = window.innerWidth <= 768;
     const targetScroll = isMobile ? 800 : 1000;
@@ -226,9 +190,6 @@
     giftToast.addEventListener('click', scrollToRegister);
   }
 
-  /* ==========================================================================
-     3.5. FANPAGE CHOOSER POPUP MODAL
-     ========================================================================== */
   const fanpageModalCard = fanpageModal ? fanpageModal.querySelector('.fanpage-modal-card') : null;
 
   function openFanpageModal() {
@@ -236,8 +197,7 @@
     fanpageModal.removeAttribute('hidden');
     fanpageModal.classList.add('is-active');
 
-    // Chime sound effect
-    playTone(659.25, 0.12, 'sine'); // E5 chime
+    playTone(659.25, 0.12, 'sine');
 
     if (window.gsap && fanpageModalCard) {
       gsap.killTweensOf([fanpageModal, fanpageModalCard]);
@@ -296,14 +256,12 @@
     fanpageModalBackdrop.addEventListener('click', closeFanpageModal);
   }
 
-  // Keyboard accessibility: ESC key to close
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && fanpageModal && fanpageModal.classList.contains('is-active')) {
       closeFanpageModal();
     }
   });
 
-  // Open modal if URL query has modal or hash #fanpage
   if (new URLSearchParams(window.location.search).has('modal') || window.location.hash === '#fanpage') {
     setTimeout(openFanpageModal, 350);
   }
@@ -316,7 +274,6 @@
 
     if (!name || !phone) return;
 
-    // Validate phone number format (10-11 digits)
     const cleanPhone = phone.replace(/[\s.-]/g, '');
     if (!/^[0-9]{10,11}$/.test(cleanPhone)) {
       alert('Vui lòng nhập đúng định dạng số điện thoại (10 hoặc 11 chữ số)');
@@ -324,7 +281,6 @@
       return;
     }
 
-    // Dismiss virtual keyboard on successful validation
     if (nameInput) nameInput.blur();
     if (phoneInput) phoneInput.blur();
     if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) {
@@ -337,7 +293,6 @@
       submitBtn.innerHTML = '<span>⏳ Đang gửi thông tin đăng ký...</span>';
     }
 
-    // Dynamic unique gift code for attendee
     const randomSuffix = Math.floor(1000 + Math.random() * 9000);
     const uniqueGiftCode = `YAMAHA-TT-${randomSuffix}`;
     const codeEl = document.querySelector('.gift-code');
@@ -357,7 +312,6 @@
       note: 'Đăng ký nhận quà Đêm Hội Trăng Rằm'
     };
 
-    // Send data to Google Sheets Web App if URL is provided
     if (GOOGLE_SHEET_SCRIPT_URL && GOOGLE_SHEET_SCRIPT_URL.trim() !== '') {
       try {
         await fetch(GOOGLE_SHEET_SCRIPT_URL.trim(), {
@@ -385,14 +339,10 @@
     }
 
     triggerConfetti();
-    playTone(880, 0.3, 'sine'); // A5 fanfare
-    setTimeout(() => playTone(1046.5, 0.4, 'sine'), 150); // C6 fanfare
+    playTone(880, 0.3, 'sine');
+    setTimeout(() => playTone(1046.5, 0.4, 'sine'), 150);
   };
 
-  /* ==========================================================================
-     6. AMBIENT MID-AUTUMN MUSIC SYNTHESIZER (WEB AUDIO API)
-     Zero-latency, royalty-free pentatonic chime melody
-     ========================================================================== */
   let audioCtx = null;
   let isPlayingMusic = false;
   let musicTimer = null;
@@ -425,11 +375,10 @@
       osc.start();
       osc.stop(audioCtx.currentTime + duration);
     } catch (e) {
-      // Audio context policy
+
     }
   }
 
-  // Traditional Pentatonic Scale Frequencies (C4, D4, E4, G4, A4, C5, D5, E5, G5)
   const pentatonicScale = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 587.33, 659.25, 783.99];
 
   function playAmbientNote() {
@@ -458,9 +407,6 @@
     });
   }
 
-  /* ==========================================================================
-     7. CONFETTI CELEBRATION EFFECT
-     ========================================================================== */
   function triggerConfetti() {
     const canvas = document.createElement('canvas');
     canvas.style.position = 'fixed';
@@ -501,7 +447,7 @@
       particles.forEach((p) => {
         p.x += p.vx;
         p.y += p.vy;
-        p.vy += 0.35; // gravity
+        p.vy += 0.35;
         p.rotation += p.vr;
         p.opacity = Math.max(0, 1 - frames / 120);
 
@@ -523,9 +469,6 @@
     requestAnimationFrame(animate);
   }
 
-  /* ==========================================================================
-     8. AMBIENT STARRY CANVAS PARTICLES
-     ========================================================================== */
   if (particleCanvas) {
     const ctx = particleCanvas.getContext('2d');
     let width = (particleCanvas.width = window.innerWidth);
@@ -579,17 +522,6 @@
     requestAnimationFrame(renderParticles);
   }
 
-  /* ==========================================================================
-     9. GSAP SCROLL-DRIVEN CURTAIN SPLIT REVEAL CHOREOGRAPHY
-     - Form Đăng ký (#sectionRegister) nằm ở tầng dưới (z-index: 10)
-     - Sân khấu Hero (#heroCurtainWrapper) nằm ở tầng trên (z-index: 30)
-     - Khi người dùng cuộn:
-       + Nhóm trái: doorBgLeft + doorLeftGroup (Chị Hằng + Mây trái + Logo) trượt sang TRÁI (xPercent: -105)
-       + Nhóm phải: doorBgRight + doorRightGroup (Chú Cuội + Mây phải + Trăng) trượt sang PHẢI (xPercent: 105)
-       + Cụm trung tâm: doorCenterGroup (Đêm hội, Ribbon, Thiệp mời, Bánh, Thỏ, Hotline) mờ dần (autoAlpha: 0)
-       + Section Form nằm tĩnh ở tầng dưới được hé lộ (reveal) hoàn hảo qua khe mở
-       + Khi mở hết: pointerEvents = 'none' để người dùng thao tác form, cuộn ngược lại thì rèm đóng kín
-     ========================================================================== */
   if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
 
@@ -610,9 +542,6 @@
 
     const isMobile = window.innerWidth <= 768;
 
-    // ------------------------------------------------------------------------
-    // LENIS SMOOTH SCROLL INITIALIZATION
-    // ------------------------------------------------------------------------
     let lenis = null;
     if (typeof Lenis !== 'undefined') {
       lenis = new Lenis({
@@ -633,11 +562,6 @@
       gsap.ticker.lagSmoothing(0);
     }
 
-    // ------------------------------------------------------------------------
-    // ------------------------------------------------------------------------
-    // ENTRANCE TIMELINE: HIỆU ỨNG XUẤT HIỆN TỪNG TẦNG CỰC KỲ MƯỢT MÀ (~1.4S)
-    // Giữ nguyên 100% hiệu ứng GSAP nguyên bản đã được tinh chỉnh hoàn hảo
-    // ------------------------------------------------------------------------
     let entranceTimeline = null;
 
     function initEntranceAnimation() {
@@ -647,93 +571,83 @@
         defaults: { ease: 'power2.out' }
       });
 
-      // 1. Vũ trụ bầu trời & Ngôi sao nhấp nháy (0.0s)
       entranceTimeline.fromTo(['.door-inner-bg', '.star-sparkle'],
         { opacity: 0 },
-        { opacity: 1, duration: 0.45, stagger: 0.05 },
+        { opacity: 1, duration: 0.65, stagger: 0.07 },
         0
       );
 
-      // 2. Vầng Trăng Rằm tháng 8 mọc lên tỏa ánh hào quang (0.15s)
       const moonEl = document.getElementById('moonElement');
       if (moonEl) {
         entranceTimeline.fromTo(moonEl,
           { x: 25, y: -20, scale: 0.82, opacity: 0 },
-          { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.55, ease: 'back.out(1.3)' },
-          0.15
+          { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.85, ease: 'back.out(1.2)' },
+          0.18
         );
       }
 
-      // 3. Logo Yamaha Town Nam Tiến & Tiêu đề thương hiệu (0.28s)
       entranceTimeline.fromTo(['.layer-logo', '.layer-brand-title'],
         { y: -20, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.45, stagger: 0.06 },
-        0.28
+        { y: 0, opacity: 1, duration: 0.65, stagger: 0.08 },
+        0.35
       );
 
-      // 4. Thư mời tham gia & Đại tự 3D "ĐÊM HỘI TRĂNG RẰM" (0.38s)
       entranceTimeline.fromTo('.layer-thu-moi',
         { y: -15, opacity: 0, rotate: -2.5 },
-        { y: 0, opacity: 1, rotate: 0, duration: 0.45, ease: 'back.out(1.2)' },
-        0.38
+        { y: 0, opacity: 1, rotate: 0, duration: 0.65, ease: 'back.out(1.2)' },
+        0.5
       );
 
       entranceTimeline.fromTo('#titleDemHoi',
         { y: 22, scale: 0.85, opacity: 0 },
-        { y: 0, scale: 1, opacity: 1, duration: 0.55, ease: 'back.out(1.4)' },
-        0.44
+        { y: 0, scale: 1, opacity: 1, duration: 0.75, ease: 'back.out(1.3)' },
+        0.6
       );
 
-      // 5. Dải lụa Tagline "Vui Tết Trung Thu" (0.55s)
       entranceTimeline.fromTo('.layer-ribbon-tagline',
         { y: 15, scaleX: 0.85, opacity: 0 },
-        { y: 0, scaleX: 1, opacity: 1, duration: 0.45 },
-        0.55
+        { y: 0, scaleX: 1, opacity: 1, duration: 0.65 },
+        0.75
       );
 
-      // 6. Cung đường ngân hà & Chân viền (0.62s)
-      // Lưu ý: .layer-dia-chi đã chuyển ra ngoài heroCurtainWrapper, luôn hiển thị fixed, không cần animate
       entranceTimeline.fromTo(['.layer-cung-duong', '.layer-frame-strip'],
         { y: 25, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.5, stagger: 0.05 },
-        0.62
+        { y: 0, opacity: 1, duration: 0.7, stagger: 0.07 },
+        0.88
       );
 
-      // 7. Thiệp mời trung tâm & Nút gợi ý cuộn (0.7s)
       const invitationCard = document.getElementById('invitationCard');
       const scrollHintEl = document.getElementById('scrollHint');
       if (invitationCard) {
         entranceTimeline.fromTo(invitationCard,
           { y: 25, scale: 0.88, opacity: 0 },
-          { y: 0, scale: 1, opacity: 1, duration: 0.55, ease: 'back.out(1.3)' },
-          0.7
+          { y: 0, scale: 1, opacity: 1, duration: 0.75, ease: 'back.out(1.2)' },
+          1.02
         );
       }
       if (scrollHintEl) {
         entranceTimeline.fromTo(scrollHintEl,
           { opacity: 0 },
-          { opacity: 1, duration: 0.5, ease: 'power2.out' },
-          0.85
+          { opacity: 1, duration: 0.7, ease: 'power2.out' },
+          1.25
         );
       }
 
-      // 8. Chị Hằng giáng trần từ mạn trái & Chú Cuội đón hội từ mạn phải (0.8s)
       if (charChiHang) {
         entranceTimeline.fromTo(charChiHang,
           { x: -45, y: 15, scale: 0.92, opacity: 0 },
-          { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.6 },
-          0.8
+          { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.8 },
+          1.15
         );
       }
       if (charChuCuoi) {
         entranceTimeline.fromTo(charChuCuoi,
           { x: 45, y: 15, scale: 0.92, opacity: 0 },
-          { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.6 },
-          0.84
+          { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.8 },
+          1.22
         );
       }
 
-      // 9. Các tầng mây vàng bồng bềnh uốn lượn nâng bước (0.92s)
       const cloudTargets = ['#stageCloudGlow', '#cloudLeft', '#cloudRight', '#cloudDreamBlur'];
       const cornerLeft = document.getElementById('cloudCornerLeft');
       const cornerRight = document.getElementById('cloudCornerRight');
@@ -742,23 +656,21 @@
 
       entranceTimeline.fromTo(cloudTargets,
         { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.55, stagger: 0.05 },
-        0.92
+        { y: 0, opacity: 1, duration: 0.8, stagger: 0.08 },
+        1.35
       );
 
-      // 10. Các mâm bánh Trung Thu rải đều theo cung đường (1.02s)
       entranceTimeline.fromTo(['#cake3', '#cake2', '#cake1'],
         { y: -18, scale: 0.72, opacity: 0 },
-        { y: 0, scale: 1, opacity: 1, duration: 0.4, stagger: 0.06, ease: 'back.out(1.4)' },
-        1.02
+        { y: 0, scale: 1, opacity: 1, duration: 0.6, stagger: 0.08, ease: 'back.out(1.3)' },
+        1.55
       );
 
-      // 11. Chú Thỏ Ngọc nhảy lên chào đón (1.12s)
       if (thoNgoc) {
         entranceTimeline.fromTo(thoNgoc,
           { y: 20, scale: 0.75, opacity: 0 },
-          { y: 0, scale: 1, opacity: 1, duration: 0.45, ease: 'back.out(1.5)' },
-          1.12
+          { y: 0, scale: 1, opacity: 1, duration: 0.7, ease: 'back.out(1.4)' },
+          1.72
         );
       }
     }
@@ -769,7 +681,6 @@
       }
     }
 
-    // Chỉ tua nhanh khi người dùng thực sự cuộn trang xuống một đoạn (> 30px), tránh xung đột khi vừa tải trang
     function onUserScrollDown() {
       if (window.scrollY > 30) {
         fastForwardEntrance();
@@ -778,20 +689,16 @@
     }
     window.addEventListener('scroll', onUserScrollDown, { passive: true });
 
-    // Khởi chạy hiệu ứng xuất hiện ngay khi DOM sẵn sàng
     initEntranceAnimation();
 
-    // ------------------------------------------------------------------------
-    // CURTAIN SPLIT REVEAL TIMELINE: TÁCH ĐÔI MỞ RÈM HÉ LỘ FORM NẰM DƯỚI
-    // ------------------------------------------------------------------------
     const curtainTl = gsap.timeline({
       scrollTrigger: {
         trigger: document.body,
         start: 'top top',
-        end: isMobile ? '+=800' : '+=1000',
+        end: isMobile ? '+=1050' : '+=1300',
         pin: sectionRegister,
         pinSpacing: true,
-        scrub: isMobile ? 0.65 : 0.8,
+        scrub: isMobile ? 0.85 : 1.0,
         anticipatePin: 1,
         invalidateOnRefresh: true,
         onUpdate: (self) => {
@@ -805,7 +712,6 @@
       }
     });
 
-    // 1. Cụm trung tâm, nút cuộn & Chân viền Hotline mờ dần nhanh chóng khi rèm bắt đầu rẽ
     const heroDiaChi = document.getElementById('heroDiaChi');
     const scrollHintEl = document.getElementById('scrollHint');
     const centerElements = [doorCenterGroup, heroDiaChi, scrollHintEl].filter(Boolean);
@@ -813,51 +719,47 @@
       curtainTl.to(centerElements, {
         autoAlpha: 0,
         ease: 'power1.out',
-        duration: 0.32
+        duration: 0.38
       }, 0);
     }
 
-    // 2. Nhóm Cánh Trái (Nền Trái + Chị Hằng + Mây Trái + Logo) trượt sang TRÁI
     const leftElements = [doorBgLeft, doorLeftGroup].filter(Boolean);
     if (leftElements.length > 0) {
       curtainTl.to(leftElements, {
         xPercent: -105,
         ease: 'power2.inOut',
-        duration: 1.0
+        duration: 1.25
       }, 0);
     }
 
-    // 3. Nhóm Cánh Phải (Nền Phải + Chú Cuội + Mây Phải + Trăng) trượt sang PHẢI
     const rightElements = [doorBgRight, doorRightGroup].filter(Boolean);
     if (rightElements.length > 0) {
       curtainTl.to(rightElements, {
         xPercent: 105,
         ease: 'power2.inOut',
-        duration: 1.0
+        duration: 1.25
       }, 0);
     }
 
-    // 4. Form ở tầng dưới dần rõ nét khi rèm mở ra
     const registerHeader = sectionRegister.querySelector('.section-header');
     const formWrapperCard = sectionRegister.querySelector('.form-wrapper');
 
     if (registerHeader) {
       curtainTl.fromTo(registerHeader,
         { autoAlpha: 0.5, y: 15 },
-        { autoAlpha: 1, y: 0, ease: 'power2.out', duration: 0.4 },
-        0.15
+        { autoAlpha: 1, y: 0, ease: 'power2.out', duration: 0.55 },
+        0.18
       );
     }
 
     if (formWrapperCard) {
       curtainTl.fromTo(formWrapperCard,
         { autoAlpha: 0.65, scale: 0.97, y: 25 },
-        { autoAlpha: 1, scale: 1, y: 0, ease: 'power2.out', duration: 0.55 },
-        0.2
+        { autoAlpha: 1, scale: 1, y: 0, ease: 'power2.out', duration: 0.7 },
+        0.24
       );
     }
 
-    // URL debug / test support
     const urlParams = new URLSearchParams(window.location.search);
     const progressParam = urlParams.get('progress');
     if (progressParam) {
@@ -871,7 +773,6 @@
       ScrollTrigger.update();
     }
 
-    // Refresh lại ScrollTrigger để đo chuẩn kích thước trên mọi thiết bị
     window.addEventListener('load', () => {
       ScrollTrigger.refresh();
       const scrollParam = new URLSearchParams(window.location.search).get('scroll');
@@ -890,14 +791,10 @@
     }, 250);
   }
 
-  /* ==========================================================================
-     iOS SAFARI KEYBOARD & VIEWPORT RESTORATION
-     Ngăn chặn hoàn toàn hiện tượng lệch layout / méo trang khi đóng bàn phím iOS
-     ========================================================================== */
   document.addEventListener('focusout', function (e) {
     if (e.target && ['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) {
       setTimeout(function () {
-        // Đưa viewport trở lại vị trí chuẩn xác
+
         window.scrollTo(window.scrollX, window.scrollY);
         if (typeof ScrollTrigger !== 'undefined' && ScrollTrigger.refresh) {
           ScrollTrigger.refresh();

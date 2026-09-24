@@ -7,16 +7,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=5.7">
-  <link rel="stylesheet" href="sky-lanterns.css?v=5.7">
+  <link rel="stylesheet" href="styles.css?v=5.8">
+  <link rel="stylesheet" href="sky-lanterns.css?v=5.8">
 </head>
 <body>
-
-  <!-- Floating Control Bar -->
   <header class="top-controls">
     <div class="control-group">
-
-
       <button id="btnMusic" class="ctrl-btn" title="Bật/Tắt âm thanh Trung Thu">
         <svg class="ctrl-icon" id="iconMusic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M9 18V5l12-2v13"/>
@@ -26,18 +22,13 @@
         <span id="musicText" class="btn-text">Nhạc: Tắt</span>
       </button>
     </div>
-
     <div class="brand-badge-pill">
       <span class="pulse-dot"></span>
       <span>Đêm Hội Trăng Rằm • Yamaha Town Nam Tiến</span>
     </div>
   </header>
-
-  <!-- LAYER 2: THE UPPER STAGE CURTAIN (Z-INDEX: 30) -->
   <div class="hero-curtain-wrapper" id="heroCurtainWrapper">
     <div class="festival-stage-curtain" id="festivalStage">
-
-      <!-- DOOR BG LEFT (50VW) -->
       <div class="curtain-door-bg door-left" id="doorBgLeft">
         <div class="door-inner-bg">
           <img src="element/image-idea/nen.avif" alt="Bầu trời đêm Trung Thu" class="layer-img full-fit">
@@ -46,8 +37,6 @@
           <img src="element/image-idea/anh%20sang.avif" alt="Tia sáng neon" class="layer-img" style="position: absolute; top: -5%; left: -10%; width: 120%;">
         </div>
       </div>
-
-      <!-- DOOR BG RIGHT (50VW) -->
       <div class="curtain-door-bg door-right" id="doorBgRight">
         <div class="door-inner-bg">
           <img src="element/image-idea/nen.avif" alt="Bầu trời đêm Trung Thu" class="layer-img full-fit">
@@ -56,8 +45,6 @@
           <img src="element/image-idea/anh%20sang.avif" alt="Tia sáng neon" class="layer-img" style="position: absolute; top: -5%; left: -10%; width: 120%;">
         </div>
       </div>
-
-      <!-- LEFT MOVING GROUP (CHỊ HẰNG + MÂY TRÁI + LOGO) -->
       <div class="door-moving-group group-left" id="doorLeftGroup">
         <div class="layer-item layer-logo" data-order="6">
           <img src="element/image-idea/LOGO%20yamaha%20town%20NT.avif" alt="Logo Yamaha Town Nam Tiến" class="layer-img">
@@ -77,14 +64,12 @@
         <div class="layer-item cloud-left" id="cloudLeft">
           <img src="element/image-idea/may-left.png" alt="Mây vàng Chị Hằng" class="layer-img">
         </div>
-        <!-- Deep Corner Clouds for Desktop (Billowing in bottom-left corner) -->
         <div class="layer-item cloud-corner-left" id="cloudCornerLeft" aria-hidden="true">
           <picture>
             <source srcset="element/image-idea/may6.avif" type="image/avif">
             <img src="element/image-idea/may6.png" alt="Mây cuộn góc trái" class="layer-img">
           </picture>
         </div>
-        <!-- Thỏ Ngọc sitting on top of the cloud in front of Chị Hằng -->
         <div class="layer-item layer-tho-ngoc" data-order="18" id="thoNgoc" title="Bấm vào Thỏ Ngọc để chào hỏi!">
           <picture>
             <source srcset="element/image-idea/tho%20ngoc.avif" type="image/avif">
@@ -95,8 +80,6 @@
           </div>
         </div>
       </div>
-
-      <!-- RIGHT MOVING GROUP (CHÚ CUỘI + MÂY PHẢI + TRĂNG) -->
       <div class="door-moving-group group-right" id="doorRightGroup">
         <div class="layer-item layer-trang" data-order="5" id="moonElement">
           <img src="element/image-idea/trang.avif" alt="Mặt trăng rằm tháng 8" class="layer-img moon-spin-glow">
@@ -117,14 +100,12 @@
         <div class="layer-item cloud-right" id="cloudRight">
           <img src="element/image-idea/may-right.png" alt="Mây vàng Chú Cuội" class="layer-img">
         </div>
-        <!-- Deep Corner Clouds for Desktop (Billowing in bottom-right corner) -->
         <div class="layer-item cloud-corner-right" id="cloudCornerRight" aria-hidden="true">
           <picture>
             <source srcset="element/image-idea/may5.avif" type="image/avif">
             <img src="element/image-idea/may5.png" alt="Mây cuộn góc phải" class="layer-img">
           </picture>
         </div>
-        <!-- Bánh 1 sitting on top of the golden cloud under Chú Cuội -->
         <div class="layer-item layer-cake cake-1" data-order="17" id="cake1" title="Click nhận quà đặc biệt!">
           <picture>
             <source srcset="element/image-idea/banh%201.avif" type="image/avif">
@@ -133,8 +114,6 @@
           <span class="cake-hint">Bánh Trăng Vàng</span>
         </div>
       </div>
-
-      <!-- CENTER CONTENT GROUP (FADES OUT) -->
       <div class="door-center-group" id="doorCenterGroup">
         <div class="layer-item layer-brand-title" data-order="7">
           <img src="element/image-idea/yamaha%20town%20NT.avif" alt="YAMAHA TOWN NAM TIẾN" class="layer-img">
@@ -156,8 +135,8 @@
             <img src="element/image-idea/the-card-bg-pill.png" alt="Khung thiệp mời" class="invitation-bg-img">
             <picture class="invitation-text-picture">
               <source srcset="element/image-idea/vui%20tet%20trung%20thu%20nguoi%20lon%20cung%20co%20qua.avif" type="image/avif">
-              <img src="element/image-idea/vui%20tet%20trung%20thu%20nguoi%20lon%20cung%20co%20qua.png" 
-                   alt="Vui Tết Thiếu Nhi - Người Lớn Cũng Có Quà" 
+              <img src="element/image-idea/vui%20tet%20trung%20thu%20nguoi%20lon%20cung%20co%20qua.png"
+                   alt="Vui Tết Thiếu Nhi - Người Lớn Cũng Có Quà"
                    class="invitation-text-img">
             </picture>
           </div>
@@ -182,19 +161,14 @@
           <img src="element/image-idea/frame.avif" alt="Chân viền" class="layer-img full-fit">
         </div>
       </div>
-
-      <!-- Minimalist Bottom Center Scroll Indicator -->
       <div class="scroll-hint-minimal" id="scrollHint" role="button" tabindex="0" title="Cuộn xuống để mở hội">
         <span class="scroll-hint-text">Cuộn xuống</span>
         <svg class="scroll-hint-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <polyline points="6 9 12 15 18 9"></polyline>
         </svg>
       </div>
-
     </div>
   </div>
-
-  <!-- BOTTOM HOTLINE BAR - Nằm ngoài heroCurtainWrapper để z-index không bị giới hạn bởi stacking context cha -->
   <footer class="layer-dia-chi" data-order="19" id="heroDiaChi">
     <a href="tel:0989704370" class="hotline-link" title="Gọi Hotline Yamaha Nam Tiến">
       <picture>
@@ -203,12 +177,7 @@
       </picture>
     </a>
   </footer>
-
-  <!-- =======================================================
-       REGISTRATION SECTION (INLINE SCROLL-DOWN FORM)
-       ======================================================= -->
   <section class="section-register" id="sectionRegister">
-    <!-- Starry Cosmic Background for Form (Chill Stars & Depth Behind Registration Form) -->
     <div class="form-cosmic-universe" aria-hidden="true">
       <div class="cosmic-nebula nebula-1"></div>
       <div class="cosmic-nebula nebula-2"></div>
@@ -225,11 +194,16 @@
       <span class="cosmic-star star-s11" style="top: 91%; left: 11%;"></span>
       <span class="cosmic-star star-s12" style="top: 95%; left: 85%;"></span>
     </div>
-
     <div class="register-container">
-      
-      <!-- Section Decorative Header -->
       <div class="section-header">
+        <div class="section-header-sparkles" aria-hidden="true">
+          <span class="cosmic-star star-s8 sec-star-1"></span>
+          <span class="cosmic-star star-s2 sec-star-2"></span>
+          <span class="cosmic-star star-s5 sec-star-3"></span>
+          <span class="cosmic-star star-s1 sec-star-4"></span>
+          <span class="cosmic-star star-s6 sec-star-5"></span>
+          <span class="cosmic-star star-s3 sec-star-6"></span>
+        </div>
         <div class="header-pill">
           <span class="pill-sparkle"></span>
           <span>ĐĂNG KÝ THAM DỰ & NHẬN QUÀ</span>
@@ -238,33 +212,37 @@
         <h2 class="section-title">VUI TẾT TRUNG THU CÙNG NAM TIẾN</h2>
         <p class="section-desc">Đến tham gia "Đêm Hội Trăng Rằm" để rước đèn, phá cỗ và nhận ngay quà tặng đặc biệt!</p>
       </div>
-
-      <!-- Registration Form Box -->
       <div class="form-wrapper frosted-glass-deep" id="formWrapperCard">
         <div class="form-card-header">
+          <div class="form-title-sparkles" aria-hidden="true">
+            <span class="cosmic-star star-s2 title-star-1"></span>
+            <span class="cosmic-star star-s1 title-star-2"></span>
+            <span class="cosmic-star star-s5 title-star-3"></span>
+            <span class="cosmic-star star-s8 title-star-4"></span>
+            <span class="cosmic-star star-s6 title-star-5"></span>
+            <span class="cosmic-star star-s3 title-star-6"></span>
+            <span class="cosmic-star star-s10 title-star-7"></span>
+            <span class="cosmic-star star-s4 title-star-8"></span>
+          </div>
           <div class="rabbit-avatar"></div>
           <h3>ĐĂNG KÝ CHECK-IN NHẬN QUÀ</h3>
           <p>Điền thông tin bên dưới để nhận mã quà tặng ưu tiên tại quầy đón khách</p>
         </div>
-
         <form class="register-form" id="registerForm" onsubmit="event.preventDefault(); submitForm();">
           <div class="form-row">
             <div class="form-group">
               <label for="txtName">Họ và tên của bạn *</label>
               <input type="text" id="txtName" placeholder="Ví dụ: Nguyễn Văn A" required autocomplete="name">
             </div>
-
             <div class="form-group">
               <label for="txtPhone">Số điện thoại nhận mã quà *</label>
               <input type="tel" id="txtPhone" placeholder="Ví dụ: 0989 704 370" required pattern="[0-9]{10,11}" autocomplete="tel">
             </div>
           </div>
-
           <button type="submit" class="submit-btn shimmer-fx">
             <span>XÁC NHẬN ĐĂNG KÝ NHẬN QUÀ NGAY</span>
           </button>
         </form>
-
         <div class="form-success-message" id="successBox" style="display: none;">
           <div class="success-icon"></div>
           <h4>ĐĂNG KÝ THÀNH CÔNG!</h4>
@@ -277,8 +255,6 @@
             ↑ Quay lại đầu trang
           </button>
         </div>
-
-        <!-- 2 Side-by-Side Action Buttons: Google Maps & Facebook Fanpage -->
         <div class="form-quick-actions">
           <a href="https://maps.app.goo.gl/VFrR3ZFQc4GeNnWLA" target="_blank" rel="noopener noreferrer" class="action-btn btn-map" title="Xem chỉ đường trên Google Maps">
             <span class="btn-icon">
@@ -304,17 +280,12 @@
           </button>
         </div>
       </div>
-
-      <!-- Bottom Brand Signature -->
       <div class="register-footer">
         <p class="copyright-text">© 2026 YAMAHA TOWN NAM TIẾN • ĐÊM HỘI TRĂNG RẰM</p>
         <p class="slogan-text">Vui Tết Trung Thu - Người Lớn Cũng Có Quà</p>
       </div>
-
     </div>
   </section>
-
-  <!-- Lucky Gift Popup when clicking mooncakes -->
   <div class="gift-toast" id="giftToast">
     <div class="gift-toast-icon"></div>
     <div class="gift-toast-content">
@@ -322,8 +293,6 @@
       <p id="toastDesc">Hộp bánh Kinh Đô Trăng Vàng cao cấp đang chờ bạn tại quầy check-in!</p>
     </div>
   </div>
-
-  <!-- Modal Fanpage Chính Thức (Chọn Yamaha Nam Tiến hoặc Nam Tiến Motor) -->
   <div class="fanpage-modal-overlay" id="fanpageModal" role="dialog" aria-modal="true" aria-labelledby="fanpageModalTitle" hidden>
     <div class="fanpage-modal-backdrop" id="fanpageModalBackdrop"></div>
     <div class="fanpage-modal-card frosted-glass-deep">
@@ -333,7 +302,6 @@
           <line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
       </button>
-
       <div class="fanpage-modal-header">
         <div class="fanpage-modal-badge">
           <svg class="fb-badge-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
@@ -344,9 +312,7 @@
         <h3 class="fanpage-modal-title" id="fanpageModalTitle">FANPAGE CHÍNH THỨC</h3>
         <p class="fanpage-modal-desc">Kết nối với hệ thống Nam Tiến trên Facebook để nhận thông tin ưu đãi & quà tặng nhanh nhất:</p>
       </div>
-
       <div class="fanpage-modal-list">
-        <!-- Fanpage 1: Yamaha Town Nam Tiến -->
         <a href="https://www.facebook.com/yamahatownnamtien.official?locale=vi_VN" target="_blank" rel="noopener noreferrer" class="fanpage-option-card opt-yamaha" title="Truy cập Fanpage Yamaha Town Nam Tiến">
           <div class="option-icon-box">
             <svg class="option-fb-icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
@@ -365,8 +331,6 @@
             </svg>
           </div>
         </a>
-
-        <!-- Fanpage 2: Nam Tiến Motor -->
         <a href="https://www.facebook.com/namtienmotor/" target="_blank" rel="noopener noreferrer" class="fanpage-option-card opt-namtien" title="Truy cập Fanpage Nam Tiến Motor">
           <div class="option-icon-box">
             <svg class="option-fb-icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
@@ -386,18 +350,15 @@
           </div>
         </a>
       </div>
-
       <div class="fanpage-modal-footer">
         <p>✨ Bấm theo dõi Fanpage để nhận thông báo trúng thưởng mới nhất!</p>
       </div>
     </div>
   </div>
-
-  <!-- Lenis Smooth Scroll, GSAP 3 & ScrollTrigger for Silky Smooth Choreography -->
   <script src="vendor/lenis.min.js"></script>
   <script src="vendor/gsap.min.js"></script>
   <script src="vendor/ScrollTrigger.min.js"></script>
-  <script src="script.js?v=5.7"></script>
-  <script src="sky-lanterns.js?v=5.7" defer></script>
+  <script src="script.js?v=5.8"></script>
+  <script src="sky-lanterns.js?v=5.8" defer></script>
 </body>
 </html>
