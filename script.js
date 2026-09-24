@@ -140,7 +140,7 @@
 
   function scrollToRegister() {
     const isMobile = window.innerWidth <= 768;
-    const targetScroll = isMobile ? 800 : 1000;
+    const targetScroll = isMobile ? 1100 : 1350;
 
     if (window.lenisInstance) {
       window.lenisInstance.scrollTo(targetScroll, {
@@ -153,6 +153,11 @@
         behavior: 'smooth'
       });
     }
+
+    setTimeout(() => {
+      const inp = document.getElementById('txtName');
+      if (inp) inp.focus();
+    }, 1100);
   }
 
   window.scrollToRegister = scrollToRegister;
@@ -265,6 +270,17 @@
   if (new URLSearchParams(window.location.search).has('modal') || window.location.hash === '#fanpage') {
     setTimeout(openFanpageModal, 350);
   }
+
+  const inputNameEl = document.getElementById('txtName');
+  const inputPhoneEl = document.getElementById('txtPhone');
+  [inputNameEl, inputPhoneEl].forEach(function (inp) {
+    if (!inp) return;
+    inp.addEventListener('touchend', function () {
+      if (document.activeElement !== inp) {
+        inp.focus();
+      }
+    }, { passive: true });
+  });
 
   window.submitForm = async function () {
     const nameInput = document.getElementById('txtName');
@@ -703,10 +719,14 @@
         invalidateOnRefresh: true,
         onUpdate: (self) => {
           if (self.progress > 0.03) fastForwardEntrance();
-          if (self.progress >= 0.98) {
+          if (self.progress >= 0.85) {
+            sectionRegister.style.zIndex = '200';
+            heroCurtainWrapper.style.visibility = 'hidden';
             heroCurtainWrapper.style.pointerEvents = 'none';
           } else {
-            heroCurtainWrapper.style.pointerEvents = 'auto';
+            sectionRegister.style.zIndex = '10';
+            heroCurtainWrapper.style.visibility = 'visible';
+            heroCurtainWrapper.style.pointerEvents = 'none';
           }
         }
       }
@@ -794,11 +814,7 @@
   document.addEventListener('focusout', function (e) {
     if (e.target && ['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) {
       setTimeout(function () {
-
         window.scrollTo(window.scrollX, window.scrollY);
-        if (typeof ScrollTrigger !== 'undefined' && ScrollTrigger.refresh) {
-          ScrollTrigger.refresh();
-        }
       }, 60);
     }
   });

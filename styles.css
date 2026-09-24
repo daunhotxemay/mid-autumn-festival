@@ -46,8 +46,14 @@ body {
   text-size-adjust: 100%;
 }
 
-input, textarea, select, button {
+button, .btn, .ctrl-btn, .action-btn {
   touch-action: manipulation;
+}
+
+input, textarea, select {
+  touch-action: auto;
+  -webkit-user-select: text;
+  user-select: text;
 }
 
 .top-controls {
@@ -143,7 +149,7 @@ input, textarea, select, button {
   height: 100dvh;
   z-index: 30;
   overflow: hidden;
-  pointer-events: auto;
+  pointer-events: none;
   contain: layout paint;
 }
 
@@ -1362,7 +1368,8 @@ input, textarea, select, button {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   position: relative;
-  z-index: 51;
+  z-index: 210;
+  pointer-events: auto;
   will-change: transform, opacity;
 }
 
@@ -1433,6 +1440,9 @@ input, textarea, select, button {
   font-size: 12px;
   font-weight: 700;
   color: rgba(255, 255, 255, 0.92);
+  cursor: pointer;
+  pointer-events: auto;
+  touch-action: manipulation;
 }
 
 .form-group input,
@@ -1447,7 +1457,14 @@ input, textarea, select, button {
   font-family: inherit;
   outline: none;
   transition: all 0.2s;
-  touch-action: manipulation;
+  touch-action: auto !important;
+  -webkit-user-select: text !important;
+  user-select: text !important;
+  pointer-events: auto !important;
+  cursor: text;
+  position: relative;
+  z-index: 220;
+  -webkit-tap-highlight-color: rgba(255, 207, 36, 0.25);
 }
 
 .form-group input:focus,
@@ -2140,7 +2157,7 @@ button.action-btn {
     height: 100dvh;
     z-index: 30;
     overflow: hidden;
-    pointer-events: auto;
+    pointer-events: none;
   }
 
   .festival-stage-curtain,
@@ -2345,6 +2362,10 @@ button.action-btn {
   .form-group input,
   .form-group select {
     font-size: 16px !important;
+    touch-action: auto !important;
+    -webkit-user-select: text !important;
+    user-select: text !important;
+    pointer-events: auto !important;
   }
 
   .submit-btn {
