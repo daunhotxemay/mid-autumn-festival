@@ -588,7 +588,21 @@
 
   function closeWishModal() {
     if (!wishModal || !wishModal.classList.contains('is-active')) return;
+
+    // Explicitly blur any input to dismiss virtual keyboard cleanly on iOS
+    if (wishTextarea) wishTextarea.blur();
+    if (wishNameInput) wishNameInput.blur();
+    if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) {
+      document.activeElement.blur();
+    }
+
     wishModal.classList.remove('is-active');
+
+    // Reset viewport scroll to prevent iOS layout offset
+    window.scrollTo(window.scrollX, window.scrollY);
+    if (window.ScrollTrigger) {
+      setTimeout(() => window.ScrollTrigger.refresh(), 100);
+    }
 
     // Nếu đóng mà chưa thả, tiếp tục cho ngọn đèn bay bình thường
     if (activeTargetLantern && !activeTargetLantern.isBlessed) {
@@ -607,6 +621,13 @@
   }
 
   function handleSendWish() {
+    // Explicitly blur any input to dismiss virtual keyboard cleanly on iOS
+    if (wishTextarea) wishTextarea.blur();
+    if (wishNameInput) wishNameInput.blur();
+    if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) {
+      document.activeElement.blur();
+    }
+
     let wishText = wishTextarea ? wishTextarea.value.trim() : '';
     if (!wishText) {
       wishText = 'Vạn sự bình an, vạn dặm hanh thông';

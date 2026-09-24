@@ -324,6 +324,13 @@
       return;
     }
 
+    // Dismiss virtual keyboard on successful validation
+    if (nameInput) nameInput.blur();
+    if (phoneInput) phoneInput.blur();
+    if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) {
+      document.activeElement.blur();
+    }
+
     const submitBtn = registerForm ? registerForm.querySelector('button[type="submit"]') : null;
     if (submitBtn) {
       submitBtn.disabled = true;
@@ -882,6 +889,22 @@
       }
     }, 250);
   }
+
+  /* ==========================================================================
+     iOS SAFARI KEYBOARD & VIEWPORT RESTORATION
+     Ngăn chặn hoàn toàn hiện tượng lệch layout / méo trang khi đóng bàn phím iOS
+     ========================================================================== */
+  document.addEventListener('focusout', function (e) {
+    if (e.target && ['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) {
+      setTimeout(function () {
+        // Đưa viewport trở lại vị trí chuẩn xác
+        window.scrollTo(window.scrollX, window.scrollY);
+        if (typeof ScrollTrigger !== 'undefined' && ScrollTrigger.refresh) {
+          ScrollTrigger.refresh();
+        }
+      }, 60);
+    }
+  });
 
   console.log('🌕 Đêm Hội Trăng Rằm - Yamaha Town Nam Tiến loaded smoothly!');
 })();

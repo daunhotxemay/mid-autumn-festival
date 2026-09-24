@@ -44,6 +44,8 @@
 html {
   overflow-x: hidden;
   touch-action: pan-y;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
@@ -55,6 +57,12 @@ body {
   min-height: 100vh;
   min-height: 100dvh;
   touch-action: pan-y;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+input, textarea, select, button {
+  touch-action: manipulation;
 }
 
 /* --------------------------------------------------------------------------
@@ -1486,10 +1494,11 @@ body {
   border-radius: 12px;
   padding: 12px 14px;
   color: #fff;
-  font-size: 13.5px;
+  font-size: 16px;
   font-family: inherit;
   outline: none;
   transition: all 0.2s;
+  touch-action: manipulation;
 }
 
 .form-group input:focus,
@@ -2398,6 +2407,11 @@ button.action-btn {
   .form-row {
     flex-direction: column;
     gap: 12px;
+  }
+
+  .form-group input,
+  .form-group select {
+    font-size: 16px !important;
   }
 
   .submit-btn {
