@@ -156,7 +156,9 @@ input, textarea, select {
 .hero-curtain-wrapper.is-opening,
 .hero-curtain-wrapper.is-opening *,
 .layer-dia-chi.is-opening,
-.layer-dia-chi.is-opening * {
+.layer-dia-chi.is-opening *,
+.scroll-hint-minimal.is-opening,
+.scroll-hint-minimal.is-opening * {
   pointer-events: none !important;
 }
 
@@ -459,9 +461,9 @@ input, textarea, select {
 }
 
 .scroll-hint-minimal {
-  position: absolute;
-  bottom: 76px;
-  bottom: max(76px, calc(env(safe-area-inset-bottom, 0px) + 70px));
+  position: fixed;
+  bottom: 84px;
+  bottom: max(84px, calc(env(safe-area-inset-bottom, 0px) + 78px));
   left: 50%;
   transform: translateX(-50%);
   display: inline-flex;
@@ -475,7 +477,7 @@ input, textarea, select {
   box-shadow: none;
   padding: 4px 10px;
   color: #ffffff;
-  z-index: 55;
+  z-index: 140;
   pointer-events: auto;
   cursor: pointer;
   user-select: none;
@@ -2599,7 +2601,7 @@ button.action-btn {
   }
 
   .scroll-hint-minimal {
-    bottom: 46px;
+    bottom: 74px;
     padding: 4px 10px;
     gap: 2.5px;
   }

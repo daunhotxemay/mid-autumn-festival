@@ -643,9 +643,9 @@
       }
       if (scrollHintEl) {
         entranceTimeline.fromTo(scrollHintEl,
-          { opacity: 0 },
-          { opacity: 1, duration: 0.7, ease: 'power2.out' },
-          1.25
+          { autoAlpha: 0, y: 15 },
+          { autoAlpha: 1, y: 0, duration: 0.6, ease: 'power2.out' },
+          1.0
         );
       }
 
@@ -722,9 +722,11 @@
           if (self.progress > 0.02) {
             heroCurtainWrapper.classList.add('is-opening');
             if (heroDiaChi) heroDiaChi.classList.add('is-opening');
+            if (scrollHintEl) scrollHintEl.classList.add('is-opening');
           } else {
             heroCurtainWrapper.classList.remove('is-opening');
             if (heroDiaChi) heroDiaChi.classList.remove('is-opening');
+            if (scrollHintEl) scrollHintEl.classList.remove('is-opening');
           }
           if (self.progress >= 0.5) {
             sectionRegister.style.zIndex = '200';
