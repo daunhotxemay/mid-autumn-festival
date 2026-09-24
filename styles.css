@@ -153,6 +153,13 @@ input, textarea, select {
   contain: layout paint;
 }
 
+.hero-curtain-wrapper.is-opening,
+.hero-curtain-wrapper.is-opening *,
+.layer-dia-chi.is-opening,
+.layer-dia-chi.is-opening * {
+  pointer-events: none !important;
+}
+
 .festival-stage-curtain,
 .festival-stage {
   position: absolute;

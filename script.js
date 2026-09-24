@@ -140,11 +140,11 @@
 
   function scrollToRegister() {
     const isMobile = window.innerWidth <= 768;
-    const targetScroll = isMobile ? 1100 : 1350;
+    const targetScroll = isMobile ? 780 : 1000;
 
     if (window.lenisInstance) {
       window.lenisInstance.scrollTo(targetScroll, {
-        duration: 1.5,
+        duration: 1.2,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
       });
     } else {
@@ -157,7 +157,7 @@
     setTimeout(() => {
       const inp = document.getElementById('txtName');
       if (inp) inp.focus();
-    }, 1100);
+    }, 900);
   }
 
   window.scrollToRegister = scrollToRegister;
@@ -711,15 +711,22 @@
       scrollTrigger: {
         trigger: document.body,
         start: 'top top',
-        end: isMobile ? '+=1050' : '+=1300',
+        end: isMobile ? '+=750' : '+=950',
         pin: sectionRegister,
         pinSpacing: true,
-        scrub: isMobile ? 0.85 : 1.0,
+        scrub: isMobile ? 0.6 : 0.8,
         anticipatePin: 1,
         invalidateOnRefresh: true,
         onUpdate: (self) => {
           if (self.progress > 0.03) fastForwardEntrance();
-          if (self.progress >= 0.85) {
+          if (self.progress > 0.02) {
+            heroCurtainWrapper.classList.add('is-opening');
+            if (heroDiaChi) heroDiaChi.classList.add('is-opening');
+          } else {
+            heroCurtainWrapper.classList.remove('is-opening');
+            if (heroDiaChi) heroDiaChi.classList.remove('is-opening');
+          }
+          if (self.progress >= 0.5) {
             sectionRegister.style.zIndex = '200';
             heroCurtainWrapper.style.visibility = 'hidden';
             heroCurtainWrapper.style.pointerEvents = 'none';
@@ -738,8 +745,9 @@
     if (centerElements.length > 0) {
       curtainTl.to(centerElements, {
         autoAlpha: 0,
+        y: -30,
         ease: 'power1.out',
-        duration: 0.38
+        duration: 0.25
       }, 0);
     }
 
@@ -747,8 +755,9 @@
     if (leftElements.length > 0) {
       curtainTl.to(leftElements, {
         xPercent: -105,
+        autoAlpha: 0,
         ease: 'power2.inOut',
-        duration: 1.25
+        duration: 0.85
       }, 0);
     }
 
@@ -756,8 +765,9 @@
     if (rightElements.length > 0) {
       curtainTl.to(rightElements, {
         xPercent: 105,
+        autoAlpha: 0,
         ease: 'power2.inOut',
-        duration: 1.25
+        duration: 0.85
       }, 0);
     }
 
@@ -766,17 +776,17 @@
 
     if (registerHeader) {
       curtainTl.fromTo(registerHeader,
-        { autoAlpha: 0.5, y: 15 },
-        { autoAlpha: 1, y: 0, ease: 'power2.out', duration: 0.55 },
-        0.18
+        { autoAlpha: 0.3, y: isMobile ? 45 : 65 },
+        { autoAlpha: 1, y: 0, ease: 'power2.out', duration: 0.45 },
+        0.08
       );
     }
 
     if (formWrapperCard) {
       curtainTl.fromTo(formWrapperCard,
-        { autoAlpha: 0.65, scale: 0.97, y: 25 },
-        { autoAlpha: 1, scale: 1, y: 0, ease: 'power2.out', duration: 0.7 },
-        0.24
+        { autoAlpha: 0.4, scale: 0.95, y: isMobile ? 70 : 100 },
+        { autoAlpha: 1, scale: 1, y: 0, ease: 'power2.out', duration: 0.55 },
+        0.12
       );
     }
 
